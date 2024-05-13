@@ -1,4 +1,7 @@
 package com.example.farmcollector.repository;
 
-public interface HarvestRepository {
+import com.example.farmcollector.model.Harvest;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface HarvestRepository extends JpaRepository<Harvest,Long> {
 }
