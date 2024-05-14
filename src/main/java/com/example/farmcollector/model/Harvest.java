@@ -11,17 +11,19 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+
 @Table(name = "harvest")
 public class Harvest {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "harvest_id")
+    private long harvestId;
 
     @Column(name = "farm_name")
-    private String farm;
+    private String farmName;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "season")
     private Season season;
 
@@ -30,6 +32,4 @@ public class Harvest {
 
     @Column(name = "actual_amount")
     private double actualAmount;
-
-
 }

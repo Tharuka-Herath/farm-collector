@@ -7,8 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.lang.reflect.Type;
-
 @Entity
 @Data
 @NoArgsConstructor
@@ -16,9 +14,9 @@ import java.lang.reflect.Type;
 @Table(name = "plantation")
 public class Plantation {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "farm_id")
+    private long farmId;
 
     @Column(name = "farm_name")
     private String farm;
@@ -35,6 +33,5 @@ public class Plantation {
 
     @Column(name = "expected_amount")
     private double expectedAmount;
-
 
 }

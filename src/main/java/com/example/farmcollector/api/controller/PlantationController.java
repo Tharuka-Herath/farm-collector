@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/plantation")
+@RequestMapping("/details")
 public class PlantationController {
     private final PlantationService plantationService;
 
@@ -27,7 +27,7 @@ public class PlantationController {
         if (savedPlantation != null) {
             return new ResponseEntity<>("Plantation saved successfully", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("Failed to save plantation", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Failed to save plantation", HttpStatus.BAD_REQUEST);
         }
     }
 }
