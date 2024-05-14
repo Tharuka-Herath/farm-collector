@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/details")
+@RequestMapping("/plantation")
 public class PlantationController {
     private final PlantationService plantationService;
 
