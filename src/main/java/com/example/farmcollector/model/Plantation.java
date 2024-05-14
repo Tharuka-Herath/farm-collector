@@ -15,14 +15,14 @@ import lombok.NoArgsConstructor;
 public class Plantation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "farm_id")
-    private long farmId;
+    @Column(name = "plantation_id")
+    private long plantationId;
 
     @Column(name = "farm_name")
     private String farm;
 
-    @Column(name = "planted_area")
-    private String plantedArea;
+    @Column(name = "planted_area(acres)")
+    private double plantedArea;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "season")
@@ -31,7 +31,7 @@ public class Plantation {
     @Column(name = "crop_name")
     private  String cropName;
 
-    @Column(name = "expected_amount")
+    @Column(name = "expected_amount(Tons)")
     private double expectedAmount;
 
 }

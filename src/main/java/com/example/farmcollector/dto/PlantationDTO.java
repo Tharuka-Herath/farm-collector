@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PlantationDTO {
     private String farm;
-    private String plantedArea;
+    private double plantedArea;
     private Season season;
     private String cropName;
     private double expectedAmount;
