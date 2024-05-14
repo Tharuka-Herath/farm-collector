@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/harvest")
 public class HarvestController {
     private final HarvestService harvestService;
 
@@ -25,5 +26,7 @@ public class HarvestController {
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
+
+
     }
 }
