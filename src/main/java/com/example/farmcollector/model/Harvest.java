@@ -16,6 +16,7 @@ public class Harvest {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private long id;
 
     @Column(name = "farm_name")
@@ -25,11 +26,10 @@ public class Harvest {
     private Season season;
 
     @Column(name = "crop_name")
-    private  String cropName;
+    private String cropName;
 
     @Column(name = "actual_amount")
     private double actualAmount;
-
 
 
 }

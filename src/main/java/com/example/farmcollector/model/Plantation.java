@@ -17,6 +17,7 @@ import java.lang.reflect.Type;
 public class Plantation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private long id;
 
     @Column(name = "farm_name")
