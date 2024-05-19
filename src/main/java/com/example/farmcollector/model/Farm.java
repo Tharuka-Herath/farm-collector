@@ -26,10 +26,10 @@ public class Farm {
     private Double farmArea;
 
     @Enumerated(EnumType.STRING)
-    @Column(name="season_name")
+    @Column(name = "season_name")
     private Season season;
 
-    @Column(name = "year")
+    @Column(name = "yield_year")
     private Integer yieldYear;
 
     @ManyToOne
