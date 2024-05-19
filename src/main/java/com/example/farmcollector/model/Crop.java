@@ -22,4 +22,8 @@ public class Crop {
 
     @Column(name = "actual_amount")
     private Double actualAmount;
+
+    @ManyToOne
+    @JoinColumn(name = "farm_id")
+    private Farm farm;
 }
