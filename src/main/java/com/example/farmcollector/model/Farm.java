@@ -23,6 +23,8 @@ public class Farm {
     @Column(name = "farm_area(in_acres)")
     private Double farmArea;
 
+
+    @Enumerated(EnumType.STRING)
     @Column(name="season_name")
     private Season season;
 
