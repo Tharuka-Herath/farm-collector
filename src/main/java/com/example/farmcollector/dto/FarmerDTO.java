@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FarmerDTO {
-    private Long farmerId;
     private String farmerName;
 
 }

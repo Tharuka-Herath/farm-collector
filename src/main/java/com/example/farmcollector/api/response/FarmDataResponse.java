@@ -1,4 +1,4 @@
-package com.example.farmcollector.api;
+package com.example.farmcollector.api.response;
 
 import com.example.farmcollector.dto.CropDTO;
 import com.example.farmcollector.dto.FarmDTO;
@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class FarmDataRequest {
+@NoArgsConstructor
+public class FarmDataResponse {
     private FarmerDTO farmer;
     private List<FarmDTO> farms;
     private List<CropDTO> crops;

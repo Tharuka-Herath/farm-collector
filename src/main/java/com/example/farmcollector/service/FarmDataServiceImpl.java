@@ -74,16 +74,14 @@ public class FarmDataServiceImpl implements FarmDataService {
 
     }
 
-    public Farmer convertFarmerDTOToEntity(FarmerDTO farmerDTO) {
+    private Farmer convertFarmerDTOToEntity(FarmerDTO farmerDTO) {
         Farmer farmer = new Farmer();
-        farmer.setFarmerId(farmerDTO.getFarmerId());
         farmer.setFarmerName(farmerDTO.getFarmerName());
         return farmer;
     }
 
     private Farm convertFarmDTOToEntity(FarmDTO farmDTO) {
         Farm farm = new Farm();
-        farm.setFarmId(farmDTO.getFarmId());
         farm.setFarmName(farmDTO.getFarmName());
         farm.setFarmArea(farmDTO.getFarmArea());
         farm.setSeason(farmDTO.getSeason());
@@ -93,23 +91,20 @@ public class FarmDataServiceImpl implements FarmDataService {
 
     private Crop convertCropDTOToEntity(CropDTO cropDTO) {
         Crop crop = new Crop();
-        crop.setCropId(cropDTO.getCropId());
         crop.setCropName(cropDTO.getCropName());
         crop.setActualAmount(cropDTO.getActualAmount());
         crop.setExpectedAmount(cropDTO.getExpectedAmount());
         return crop;
     }
 
-    public FarmerDTO convertFarmerEntityToDTO(Farmer farmer) {
+    private FarmerDTO convertFarmerEntityToDTO(Farmer farmer) {
         FarmerDTO farmerDTO = new FarmerDTO();
-        farmerDTO.setFarmerId(farmer.getFarmerId());
         farmerDTO.setFarmerName(farmer.getFarmerName());
         return farmerDTO;
     }
 
     private FarmDTO convertFarmEntityToDTO(Farm farm) {
         FarmDTO farmDTO = new FarmDTO();
-        farmDTO.setFarmId(farm.getFarmId());
         farmDTO.setFarmName(farm.getFarmName());
         farmDTO.setFarmArea(farm.getFarmArea());
         farmDTO.setSeason(farm.getSeason());
@@ -119,7 +114,6 @@ public class FarmDataServiceImpl implements FarmDataService {
 
     private CropDTO convertCropEntityToDTO(Crop crop) {
         CropDTO cropDTO = new CropDTO();
-        cropDTO.setCropId(crop.getCropId());
         cropDTO.setCropName(crop.getCropName());
         cropDTO.setActualAmount(crop.getActualAmount());
         cropDTO.setExpectedAmount(crop.getExpectedAmount());

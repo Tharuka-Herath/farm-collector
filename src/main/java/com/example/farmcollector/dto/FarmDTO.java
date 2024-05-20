@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FarmDTO {
-    private Long farmId;
     private String farmName;
     private Double farmArea;
     private Season season;
