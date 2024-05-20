@@ -10,7 +10,15 @@ import com.example.farmcollector.model.Farmer;
 import com.example.farmcollector.repository.CropRepository;
 import com.example.farmcollector.repository.FarmRepository;
 import com.example.farmcollector.repository.FarmerRepository;
+import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+
+
+@Service
 public class FarmDataServiceImpl implements FarmDataService {
 
 
@@ -25,9 +33,47 @@ public class FarmDataServiceImpl implements FarmDataService {
     }
 
     @Override
+    @Transactional
     public FarmDataDTO saveFarmData(FarmDataDTO farmDataDTO) {
+        // Convert and save Farmer
+        Farmer farmer = convertFarmerDTOToEntity(farmDataDTO.getFarmer());
+        farmerRepository.save(farmer);
 
-        return null;
+        // Convert and save Farms
+        List<Farm> farms = farmDataDTO.getFarms().stream()
+                .map(farmDTO -> {
+                    Farm farm = convertFarmDTOToEntity(farmDTO);
+                    farm.setFarmer(farmer); // Link farm to the farmer
+                    return farmRepository.save(farm); // Save farm and get the entity back
+                })
+                .collect(Collectors.toList());
+
+        // Convert and save Crops
+        List<Crop> crops = farmDataDTO.getCrops().stream()
+                .map(cropDTO -> {
+                    Crop crop = convertCropDTOToEntity(cropDTO);
+                    crop.setFarm(farms.get(0)); // Assuming all crops belong to the same farm
+                    return cropRepository.save(crop); // Save crop and get the entity back
+                })
+                .collect(Collectors.toList());
+
+        // Convert saved entities back to DTOs
+        FarmerDTO savedFarmerDTO = convertFarmerEntityToDTO(farmer);
+        List<FarmDTO> savedFarmDTOs = farms.stream()
+                .map(this::convertFarmEntityToDTO)
+                .collect(Collectors.toList());
+        List<CropDTO> savedCropDTOs = crops.stream()
+                .map(this::convertCropEntityToDTO)
+                .collect(Collectors.toList());
+
+        // Create and return the response DTO
+        FarmDataDTO responseDTO = new FarmDataDTO();
+        responseDTO.setFarmer(savedFarmerDTO);
+        responseDTO.setFarms(savedFarmDTOs);
+        responseDTO.setCrops(savedCropDTOs);
+
+        return responseDTO;
+
     }
 
     public Farmer convertFarmerDTOToEntity(FarmerDTO farmerDTO) {
