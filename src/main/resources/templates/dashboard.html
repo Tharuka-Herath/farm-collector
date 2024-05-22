@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1>Dashboard</h1>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Farm</th>
+            <th>Farmer</th>
+            <th>Crop</th>
+            <th>Expected Yield</th>
+            <th>Actual Yield</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="farm, iterStat : ${farms}">
+            <td th:text="${iterStat.index + 1}"></td>
+            <td th:text="${farm.farmName}"></td>
+            <td th:each="farmer : ${farm.farmers}" th:text="${farmer.farmerName}"></td>
+            <td th:each="crop : ${farm.crops}" th:text="${crop.cropType}"></td>
+            <td th:each="crop : ${farm.crops}" th:text="${crop.expectedAmount}"></td>
+            <td th:each="crop : ${farm.crops}" th:text="${crop.actualAmount}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

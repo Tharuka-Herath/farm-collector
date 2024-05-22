@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Crops</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1>Crops</h1>
+    <button type="button" class="btn btn-secondary mb-3" data-bs-toggle="modal" data-bs-target="#addCropModal">Add Crop</button>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Crop Type</th>
+            <th>Season</th>
+            <th>Yield Year</th>
+            <th>Expected Amount</th>
+            <th>Actual Amount</th>
+            <th>Created At</th>
+            <th>Updated At</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="crop, iterStat : ${crops}">
+            <td th:text="${iterStat.index + 1}"></td>
+            <td th:text="${crop.cropType}"></td>
+            <td th:text="${crop.season}"></td>
+            <td th:text="${crop.yieldYear

@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "farmer")
@@ -16,12 +18,24 @@ public class Farmer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-    private Long farmerId;
+    @Column(name = "farmer_id")
+    private String farmerId;
 
     @Column(name = "farmer_name")
     private String farmerName;
 
-    @OneToMany(mappedBy = "farmer", cascade = CascadeType.ALL)
-    private List<Farm> farms;
+    @Column(name = "created_at")
+    private LocalDate createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDate updatedAt;
+
+    @ManyToMany(mappedBy = "farmers")
+    private Set<Farm> farms = new HashSet<>();
+
+    @OneToOne(mappedBy = "farmer")
+    private Crop crop;
+
 }

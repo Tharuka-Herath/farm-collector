@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Farmers</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1>Farmers</h1>
+    <button type="button" class="btn btn-secondary mb-3" data-bs-toggle="modal" data-bs-target="#addFarmerModal">Add Farmer</button>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Farmer Name</th>
+            <th>Created At</th>
+            <th>Updated At</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="farmer, iterStat : ${farmers}">
+            <td th:text="${iterStat.index + 1}"></td>
+            <td th:text="${farmer.farmerName}"></td>
+            <td th:text="${farmer.createdAt}"></td>
+            <td th:text="${farmer.updatedAt}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<!-- Modal for adding a new farmer -->
+<div class="modal fade" id="addFarmerModal" tabindex="-1" aria-labelledby="addFarmerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addFarmerModalLabel">Add New Farmer</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/farmers}" th:object="${newFarmer}" method="post">
+                    <div class="mb-3">
+                        <label for="farmerName" class="form-label">Farmer Name</label>
+                        <input type="text" class="form-control" id="farmerName" th:field="*{farmerName}" placeholder="Enter farmer name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="contact" class="form-label">Contact</label>
+                        <input type="text" class="form-control" id="contact" th:field="*{contact}" placeholder="Enter contact">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

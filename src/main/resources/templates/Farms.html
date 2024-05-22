@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Farms</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1>Farms</h1>
+    <button type="button" class="btn btn-secondary mb-3" data-bs-toggle="modal" data-bs-target="#addFarmModal">Add Farm</button>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Farm Name</th>
+            <th>Location</th>
+            <th>Area (in acres)</th>
+            <th>Created At</th>
+            <th>Updated At</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="farm, iterStat : ${farms}">
+            <td th:text="${iterStat.index + 1}"></td>
+            <td th:text="${farm.farmName}"></td>
+            <td th:text="${farm.location}"></td>
+            <td th:text="${farm.farmArea}"></td>
+            <td th:text="${farm.createdAt}"></td>
+            <td th:text="${farm.updatedAt}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<!-- Modal for adding a new farm -->
+<div class="modal fade" id="addFarmModal" tabindex="-1" aria-labelledby="addFarmModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addFarmModalLabel">Add New Farm</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/farms}" th:object="${newFarm}" method="post">
+                    <div class="mb-3">
+                        <label for="farmName" class="form-label">Farm Name</label>
+                        <input type="text" class="form-control" id="farmName" th:field="*{farmName}" placeholder="Enter farm name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="location" class="form-label">Location</label>
+                        <input type="text" class="form-control" id="location" th:field="*{location}" placeholder="Enter location">
+                    </div>
+                    <div class="mb-3">
+                        <label for="farmArea" class="form-label">Area (in acres)</label>
+                        <input type="number" class="form-control" id="farmArea" th:field="*{farmArea}" placeholder="Enter area">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
