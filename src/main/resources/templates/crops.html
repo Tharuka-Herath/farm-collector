@@ -27,4 +27,52 @@
             <td th:text="${iterStat.index + 1}"></td>
             <td th:text="${crop.cropType}"></td>
             <td th:text="${crop.season}"></td>
-            <td th:text="${crop.yieldYear
+            <td th:text="${crop.yieldYear}"></td>
+            <td th:text="${crop.expectedAmount}"></td>
+            <td th:text="${crop.actualAmount}"></td>
+            <td th:text="${crop.createdAt}"></td>
+            <td th:text="${crop.updatedAt}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<!-- Modal for adding a new crop -->
+<div class="modal fade" id="addCropModal" tabindex="-1" aria-labelledby="addCropModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addCropModalLabel">Add New Crop</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/crops}" th:object="${newCrop}" method="post">
+                    <div class="mb-3">
+                        <label for="cropType" class="form-label">Crop Type</label>
+                        <input type="text" class="form-control" id="cropType" th:field="*{cropType}" placeholder="Enter crop type">
+                    </div>
+                    <div class="mb-3">
+                        <label for="season" class="form-label">Season</label>
+                        <select class="form-select" id="season" th:field="*{season}">
+                            <option th:text="${season}" th:each="season : ${#arrays.array('SPRING', 'SUMMER', 'FALL', 'WINTER')}"></option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="yieldYear" class="form-label">Yield Year</label>
+                        <input type="number" class="form-control" id="yieldYear" th:field="*{yieldYear}" placeholder="Enter yield year">
+                    </div>
+                    <div class="mb-3">
+                        <label for="expectedAmount" class="form-label">Expected Amount (tons)</label>
+                        <input type="number" class="form-control" id="expectedAmount" th:field="*{expectedAmount}" placeholder="Enter expected amount">
+                    </div>
+                    <div class="mb-3">
+                        <label for="actualAmount" class="form-label">Actual Amount (tons)</label>
+                        <input type="number" class="form-control" id="actualAmount" th:field="*{actualAmount}" placeholder="Enter actual amount">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,17 +1,18 @@
 package com.example.farmcollector.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "farmer")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Farmer {
@@ -26,11 +27,13 @@ public class Farmer {
     @Column(name = "farmer_name")
     private String farmerName;
 
+    @CreationTimestamp
     @Column(name = "created_at")
-    private LocalDate createdAt;
+    private Instant createdAt;
 
+    @UpdateTimestamp
     @Column(name = "updated_at")
-    private LocalDate updatedAt;
+    private Instant updatedAt;
 
     @ManyToMany(mappedBy = "farmers")
     private Set<Farm> farms = new HashSet<>();

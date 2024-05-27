@@ -1,17 +1,17 @@
 package com.example.farmcollector.dto;
 
-import com.example.farmcollector.enums.Season;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class FarmDTO {
+    private String farmId;
     private String farmName;
+    private String location;
     private Double farmArea;
-    private Season season;
-    private Integer yieldYear;
-
 }

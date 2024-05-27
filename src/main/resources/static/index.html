@@ -40,10 +40,12 @@
         </button>
     </li>
 </ul>
+
+<!--Inner content-->
 <div class="tab-content" id="pills-tabContent">
     <div class="tab-pane fade show active" id="pills-dashboard" role="tabpanel" aria-labelledby="pills-dashboard-tab"
          tabindex="0">
-        <div>
+        <div class="container">
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -69,9 +71,33 @@
         </div>
     </div>
     <div class="tab-pane fade" id="pills-farms" role="tabpanel" aria-labelledby="pills-farms-tab" tabindex="0">
-        <button type="button" class="btn btn-secondary mb-3" data-bs-toggle="modal" data-bs-target="#addFarmModal">
-            Add Farm
-        </button>
+        <div class="container">
+            <button type="button" class="btn btn-secondary mb-3" data-bs-toggle="modal" data-bs-target="#addFarmModal">
+                Add Farm
+            </button>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Farm Name</th>
+                    <th>Location</th>
+                    <th>Area (in acres)</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="farm, iterStat : ${farms}">
+                    <td th:text="${iterStat.index + 1}"></td>
+                    <td th:text="${farm.farmName}"></td>
+                    <td th:text="${farm.location}"></td>
+                    <td th:text="${farm.farmArea}"></td>
+                    <td th:text="${farm.createdAt}"></td>
+                    <td th:text="${farm.updatedAt}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
         <!-- Modal for adding a new farm -->
         <div class="modal fade" id="addFarmModal" tabindex="-1" aria-labelledby="addFarmModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -102,11 +128,33 @@
         </div>
     </div>
     <div class="tab-pane fade" id="pills-farmers" role="tabpanel" aria-labelledby="pills-farmers-tab" tabindex="0">
-        <button type="button" class="btn btn-secondary mb-3" data-bs-toggle="modal" data-bs-target="#addFarmerModal">
-            Add Farmer
-        </button>
+        <div class="container">
+            <button type="button" class="btn btn-secondary mb-3" data-bs-toggle="modal"
+                    data-bs-target="#addFarmerModal">Add Farmer
+            </button>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Farmer Name</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="farmer, iterStat : ${farmers}">
+                    <td th:text="${iterStat.index + 1}"></td>
+                    <td th:text="${farmer.farmerName}"></td>
+                    <td th:text="${farmer.createdAt}"></td>
+                    <td th:text="${farmer.updatedAt}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
         <!-- Modal for adding a new farmer -->
-        <div class="modal fade" id="addFarmerModal" tabindex="-1" aria-labelledby="addFarmerModalLabel" aria-hidden="true">
+        <div class="modal fade" id="addFarmerModal" tabindex="-1" aria-labelledby="addFarmerModalLabel"
+             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -131,9 +179,37 @@
         </div>
     </div>
     <div class="tab-pane fade" id="pills-crops" role="tabpanel" aria-labelledby="pills-crops-tab" tabindex="0">
-        <button type="button" class="btn btn-secondary mb-3" data-bs-toggle="modal" data-bs-target="#addCropModal">
-            Add Crop
-        </button>
+        <div class="container">
+            <button type="button" class="btn btn-secondary mb-3" data-bs-toggle="modal" data-bs-target="#addCropModal">
+                Add Crop
+            </button>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Crop Type</th>
+                    <th>Season</th>
+                    <th>Yield Year</th>
+                    <th>Expected Amount</th>
+                    <th>Actual Amount</th>
+                    <th>Created At</th>
+                    <th>Updated At</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="crop, iterStat : ${crops}">
+                    <td th:text="${iterStat.index + 1}"></td>
+                    <td th:text="${crop.cropType}"></td>
+                    <td th:text="${crop.season}"></td>
+                    <td th:text="${crop.yieldYear}"></td>
+                    <td th:text="${crop.expectedAmount}"></td>
+                    <td th:text="${crop.actualAmount}"></td>
+                    <td th:text="${crop.createdAt}"></td>
+                    <td th:text="${crop.updatedAt}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
         <!-- Modal for adding a new crop -->
         <div class="modal fade" id="addCropModal" tabindex="-1" aria-labelledby="addCropModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -163,11 +239,13 @@
                             </div>
                             <div class="mb-3">
                                 <label for="expectedAmount" class="form-label">Expected Amount (tons)</label>
-                                <input type="number" class="form-control" id="expectedAmount" placeholder="Enter expected amount">
+                                <input type="number" class="form-control" id="expectedAmount"
+                                       placeholder="Enter expected amount">
                             </div>
                             <div class="mb-3">
                                 <label for="actualAmount" class="form-label">Actual Amount (tons)</label>
-                                <input type="number" class="form-control" id="actualAmount" placeholder="Enter actual amount">
+                                <input type="number" class="form-control" id="actualAmount"
+                                       placeholder="Enter actual amount">
                             </div>
                             <button type="submit" class="btn btn-primary">Save</button>
                         </form>
@@ -177,9 +255,36 @@
         </div>
     </div>
     <div class="tab-pane fade" id="pills-reports" role="tabpanel" aria-labelledby="pills-reports-tab" tabindex="0">
-        <div class="container mt-3">
-            <h4>
-
+        <div class="container">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Farm Name</th>
+                    <th>Crop Type</th>
+                    <th>Expected Yield</th>
+                    <th>Actual Yield</th>
+                    <th>Amount Difference</th>
+                    <th>Season</th>
+                    <th>Yield Year</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="farm, iterStat : ${farms}">
+                    <td th:text="${iterStat.index + 1}"></td>
+                    <td th:text="${farm.farmName}"></td>
+                    <td th:each="crop : ${farm.crops}" th:text="${crop.cropType}"></td>
+                    <td th:each="crop : ${farm.crops}" th:text="${crop.expectedAmount}"></td>
+                    <td th:each="crop : ${farm.crops}" th:text="${crop.actualAmount}"></td>
+                    <td th:each="crop : ${farm.crops}" th:text="${crop.actualAmount - crop.expectedAmount}"></td>
+                    <td th:each="crop: ${farm.crops}" th:text="${crop.season}"></td>
+                    <td th:each="crop : ${farm.crops}" th:text="${crop.yieldYear}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
