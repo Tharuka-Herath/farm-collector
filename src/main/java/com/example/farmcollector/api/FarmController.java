@@ -62,12 +62,8 @@ public class FarmController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteFarm(@PathVariable Long id) {
-        try {
+    public ResponseEntity<String> deleteFarm(@PathVariable Long id) {
             farmService.deleteFarm(id);
-            return ResponseEntity.noContent().build(); // Returning 204 No Content for successful deletion
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+            return new ResponseEntity<>(HttpStatus.OK);
     }
 }

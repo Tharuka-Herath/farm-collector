@@ -104,10 +104,6 @@ public class FarmServiceImpl implements FarmService {
      */
     @Override
     public void deleteFarm(Long id)  {
-        if (!existsById(id)) {
-            throw new FarmDataNotFoundException("No farm with "+id);
-        } else {
             farmRepository.deleteById(id);
-        }
     }
 }
