@@ -6,6 +6,7 @@ import com.example.farmcollector.dto.FarmDTO;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
 import com.example.farmcollector.service.farm.FarmService;
 import com.example.farmcollector.util.FarmMapper;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -61,8 +62,12 @@ public class FarmController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteFarm(@PathVariable Long id) {
-        farmService.deleteFarm(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Void> deleteFarm(@PathVariable Long id) {
+        try {
+            farmService.deleteFarm(id);
+            return ResponseEntity.noContent().build(); // Returning 204 No Content for successful deletion
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 }

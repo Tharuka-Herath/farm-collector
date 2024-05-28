@@ -20,6 +20,10 @@ public class FarmServiceImpl implements FarmService {
         this.farmMapper = farmMapper;
     }
 
+    public boolean existsById(Long id) {
+        return farmRepository.existsById(id);
+    }
+
     /**
      * Saves a new farm in the database.
      *
@@ -99,7 +103,11 @@ public class FarmServiceImpl implements FarmService {
      * @param id The ID of the farm to delete.
      */
     @Override
-    public void deleteFarm(Long id) {
-        farmRepository.deleteById(id);
+    public void deleteFarm(Long id)  {
+        if (!existsById(id)) {
+            throw new FarmDataNotFoundException("No farm with "+id);
+        } else {
+            farmRepository.deleteById(id);
+        }
     }
 }
