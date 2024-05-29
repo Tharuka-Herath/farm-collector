@@ -58,7 +58,11 @@ public class FarmerServiceImpl implements FarmerService {
 
     @Override
     public void deleteFarmer(Long id) {
-        farmerRepository.deleteById(id);
+        if(farmerRepository.existsById(id)) {
+            farmerRepository.deleteById(id);
+        } else {
+            throw new FarmDataNotFoundException("No farmer with id " + id + " found.");
+        }
     }
 
 
