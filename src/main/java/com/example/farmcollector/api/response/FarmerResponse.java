@@ -10,11 +10,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FarmerResponse {
-    private Long id;
     private String farmerId;
     private String farmerName;
-    private LocalDate createdAt;
-    private LocalDate updatedAt;
-    private Set<FarmResponse> farms;
-    private CropResponse crop;
+
 }

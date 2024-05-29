@@ -34,7 +34,7 @@ public class Farm {
     private Double farmArea;
 
     @CreationTimestamp
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     private Instant createdAt;
 
     @UpdateTimestamp

@@ -8,7 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 public class FarmerDTO {
     private String farmerId;
-
     private String farmerName;
 
 }
