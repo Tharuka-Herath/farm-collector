@@ -11,8 +11,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FarmerRequest {
-    @NotBlank(message = "Farmer ID id required")
-    private String farmerId;
     @NotBlank(message = "Farmer Name is required")
     private String farmerName;
 }

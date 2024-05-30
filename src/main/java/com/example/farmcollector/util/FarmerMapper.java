@@ -12,7 +12,6 @@ public class FarmerMapper {
     public FarmerDTO convertFarmerEntityToDto(Farmer entity) {
         FarmerDTO dto = new FarmerDTO();
 
-        dto.setFarmerId(entity.getFarmerId());
         dto.setFarmerName(entity.getFarmerName());
 
         return dto;
@@ -21,7 +20,6 @@ public class FarmerMapper {
     public Farmer convertFarmerDtoToEntity(FarmerDTO dto) {
         Farmer entity = new Farmer();
 
-        entity.setFarmerId(dto.getFarmerId());
         entity.setFarmerName(dto.getFarmerName());
 
         return entity;
@@ -30,7 +28,6 @@ public class FarmerMapper {
     public FarmerDTO convertFarmerRequestToDto(FarmerRequest request) {
         FarmerDTO dto = new FarmerDTO();
 
-        dto.setFarmerId(request.getFarmerId());
         dto.setFarmerName(request.getFarmerName());
 
         return dto;
@@ -39,7 +36,6 @@ public class FarmerMapper {
     public FarmerResponse convertFarmerDtoToResponse(FarmerDTO dto) {
         FarmerResponse response = new FarmerResponse();
 
-        response.setFarmerId(dto.getFarmerId());
         response.setFarmerName(dto.getFarmerName());
 
         return response;

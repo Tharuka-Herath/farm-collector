@@ -7,7 +7,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FarmerDTO {
-    private String farmerId;
     private String farmerName;
 
 }

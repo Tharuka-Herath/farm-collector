@@ -1,5 +1,6 @@
 package com.example.farmcollector.model;
 
+import com.example.farmcollector.util.IdGenerator;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -22,7 +23,7 @@ public class Farmer {
     private Long id;
 
     @Column(name = "farmer_id")
-    private String farmerId;
+    private String farmerId = IdGenerator.generateFarmerId();
 
     @Column(name = "farmer_name")
     private String farmerName;
