@@ -48,6 +48,7 @@ public class FarmerServiceImpl implements FarmerService {
 
         if (farmerToUpdate.isPresent()) {
             Farmer farmer = farmerMapper.convertFarmerDtoToEntity(farmerDTO);
+            farmer.setId(id);
             return farmerMapper.convertFarmerEntityToDto(farmerRepository.save(farmer));
 
         } else {

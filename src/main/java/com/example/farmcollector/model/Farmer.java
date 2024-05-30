@@ -28,7 +28,7 @@ public class Farmer {
     private String farmerName;
 
     @CreationTimestamp
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     private Instant createdAt;
 
     @UpdateTimestamp
