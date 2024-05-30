@@ -12,7 +12,6 @@ import java.util.List;
 public class FarmMapper {
 
 
-
     public FarmDTO convertFarmEntityToDto(Farm entity) {
         FarmDTO dto = new FarmDTO();
         dto.setFarmName(entity.getFarmName());
