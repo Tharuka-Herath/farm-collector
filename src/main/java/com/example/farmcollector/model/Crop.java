@@ -1,6 +1,7 @@
 package com.example.farmcollector.model;
 
 import com.example.farmcollector.enums.Season;
+import com.example.farmcollector.util.IdGenerator;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -21,7 +22,7 @@ public class Crop {
     private Long id;
 
     @Column(name = "crop_id")
-    private String cropId;
+    private String cropId= IdGenerator.generateCropId();
 
     @Column(name = "crop_type")
     private String cropType;

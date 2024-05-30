@@ -16,7 +16,6 @@ public class CropMapper {
 
     public CropDTO convertCropEntityToDto(Crop entity){
         CropDTO dto = new CropDTO();
-        dto.setCropId(entity.getCropId());
         dto.setCropType(entity.getCropType());
         dto.setSeason(entity.getSeason());
         dto.setYieldYear(entity.getYieldYear());
@@ -27,11 +26,11 @@ public class CropMapper {
 
     public Crop convertCropDtoToEntity(CropDTO dto){
         Crop crop = new Crop();
-        crop.setCropId(dto.getCropId());
         crop.setCropType(dto.getCropType());
         crop.setSeason(dto.getSeason());
         crop.setYieldYear(dto.getYieldYear());
         crop.setExpectedAmount(dto.getExpectedAmount());
+        crop.setActualAmount(dto.getActualAmount());
         return crop;
     }
 
