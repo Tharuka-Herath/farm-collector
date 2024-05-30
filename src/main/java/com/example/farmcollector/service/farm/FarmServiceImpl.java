@@ -21,7 +21,6 @@ public class FarmServiceImpl implements FarmService {
         this.farmMapper = farmMapper;
     }
 
-
     /**
      * Saves a new farm in the database.
      *
@@ -32,6 +31,35 @@ public class FarmServiceImpl implements FarmService {
     public FarmDTO saveFarm(FarmDTO farmDTO) {
         Farm savedFarm = farmMapper.convertFarmDtoToEntity(farmDTO);
         return farmMapper.convertFarmEntityToDto(farmRepository.save(savedFarm));
+    }
+
+    /**
+     * Updates a farm with the given ID.
+     *
+     * @param id      The ID of the farm to update.
+     * @param farmDTO The DTO containing the updated farm data.
+     * @return An Optional containing the updated farm as a DTO, or an empty Optional if the farm was not found.
+     */
+    @Transactional
+    @Override
+    public Optional<FarmDTO> updateFarm(Long id, FarmDTO farmDTO) {
+        Optional<Farm> optionalFarm = farmRepository.findById(id);
+
+        if (optionalFarm.isPresent()) {
+            // Convert DTO to entity and set the ID to ensure the correct entity is updated
+            Farm farmToUpdate = farmMapper.convertFarmDtoToEntity(farmDTO);
+            farmToUpdate.setId(id);
+
+            // Save the updated entity
+            Farm savedFarm = farmRepository.save(farmToUpdate);
+
+            // Convert the saved entity back to DTO
+            FarmDTO updatedFarmDTO = farmMapper.convertFarmEntityToDto(savedFarm);
+
+            return Optional.of(updatedFarmDTO);
+        } else {
+            return Optional.empty(); // Handle the case where the farm with the given ID does not exist
+        }
     }
 
     /**
@@ -64,35 +92,6 @@ public class FarmServiceImpl implements FarmService {
         } else {
             // Handle the case when the farm with the given ID is not found
             throw new FarmDataNotFoundException("Farm not found with id: " + id);
-        }
-    }
-
-    /**
-     * Updates a farm with the given ID.
-     *
-     * @param id      The ID of the farm to update.
-     * @param farmDTO The DTO containing the updated farm data.
-     * @return An Optional containing the updated farm as a DTO, or an empty Optional if the farm was not found.
-     */
-    @Transactional
-    @Override
-    public Optional<FarmDTO> updateFarm(Long id, FarmDTO farmDTO) {
-        Optional<Farm> optionalFarm = farmRepository.findById(id);
-
-        if (optionalFarm.isPresent()) {
-            // Convert DTO to entity and set the ID to ensure the correct entity is updated
-            Farm farmToUpdate = farmMapper.convertFarmDtoToEntity(farmDTO);
-            farmToUpdate.setId(id);
-
-            // Save the updated entity
-            Farm savedFarm = farmRepository.save(farmToUpdate);
-
-            // Convert the saved entity back to DTO
-            FarmDTO updatedFarmDTO = farmMapper.convertFarmEntityToDto(savedFarm);
-
-            return Optional.of(updatedFarmDTO);
-        } else {
-            return Optional.empty(); // Handle the case where the farm with the given ID does not exist
         }
     }
 
