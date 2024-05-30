@@ -25,9 +25,10 @@ public class FarmerController {
     }
 
     @PostMapping
-    public ResponseEntity<FarmerResponse> savedFarmer(@RequestBody FarmerRequest request) {
-        FarmerDTO savedFarmer = farmerMapper.convertFarmerRequestToDto(request);
-        FarmerResponse farmerResponse = farmerMapper.convertFarmerDtoToResponse(farmerService.saveFarmer(savedFarmer));
+    public ResponseEntity<FarmerResponse> saveFarmer(@RequestBody FarmerRequest request) {
+        FarmerDTO farmerDTO = farmerMapper.convertFarmerRequestToDto(request);
+        FarmerResponse farmerResponse = farmerMapper.convertFarmerDtoToResponse(farmerService.saveFarmer(farmerDTO));
+
         return ResponseEntity.status(HttpStatus.CREATED).body(farmerResponse);
     }
 
@@ -38,7 +39,7 @@ public class FarmerController {
                 .map(farmerMapper::convertFarmerDtoToResponse)
                 .toList();
 
-        return ResponseEntity.ok(farmerList);
+        return ResponseEntity.status(HttpStatus.OK).body(farmerList);
     }
 
     @GetMapping("/{id}")
@@ -57,19 +58,20 @@ public class FarmerController {
             FarmerDTO farmerUpdate = farmerMapper.convertFarmerRequestToDto(request);
             FarmerDTO updatedFarmer = farmerService.updateFarmerById(id, farmerUpdate);
             FarmerResponse response = farmerMapper.convertFarmerDtoToResponse(updatedFarmer);
-            return new ResponseEntity<>(response, HttpStatus.OK);
+            return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (FarmDataNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        }
-        @DeleteMapping("/{id}")
-        public ResponseEntity<Void> deleteFarmer (@PathVariable Long id){
-            try {
-                farmerService.deleteFarmer(id);
-                return ResponseEntity.noContent().build();
-            } catch (FarmDataNotFoundException e) {
-                return ResponseEntity.notFound().build();
-            }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteFarmer(@PathVariable Long id) {
+        try {
+            farmerService.deleteFarmer(id);
+            return ResponseEntity.noContent().build();
+        } catch (FarmDataNotFoundException e) {
+            return ResponseEntity.notFound().build();
         }
     }
+}

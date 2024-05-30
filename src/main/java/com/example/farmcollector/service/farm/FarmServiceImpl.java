@@ -5,6 +5,7 @@ import com.example.farmcollector.exception.FarmDataNotFoundException;
 import com.example.farmcollector.model.Farm;
 import com.example.farmcollector.repository.FarmRepository;
 import com.example.farmcollector.util.FarmMapper;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,9 +21,6 @@ public class FarmServiceImpl implements FarmService {
         this.farmMapper = farmMapper;
     }
 
-    public boolean existsById(Long id) {
-        return farmRepository.existsById(id);
-    }
 
     /**
      * Saves a new farm in the database.
@@ -72,10 +70,11 @@ public class FarmServiceImpl implements FarmService {
     /**
      * Updates a farm with the given ID.
      *
-     * @param id The ID of the farm to update.
+     * @param id      The ID of the farm to update.
      * @param farmDTO The DTO containing the updated farm data.
      * @return An Optional containing the updated farm as a DTO, or an empty Optional if the farm was not found.
      */
+    @Transactional
     @Override
     public Optional<FarmDTO> updateFarm(Long id, FarmDTO farmDTO) {
         Optional<Farm> optionalFarm = farmRepository.findById(id);
@@ -103,7 +102,11 @@ public class FarmServiceImpl implements FarmService {
      * @param id The ID of the farm to delete.
      */
     @Override
-    public void deleteFarm(Long id)  {
+    public void deleteFarm(Long id) {
+        if (farmRepository.existsById(id)) {
             farmRepository.deleteById(id);
+        } else {
+            throw new FarmDataNotFoundException("No farm with id " + id + " found.");
+        }
     }
 }

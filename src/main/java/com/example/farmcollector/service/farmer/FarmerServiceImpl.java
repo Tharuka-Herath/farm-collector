@@ -46,11 +46,11 @@ public class FarmerServiceImpl implements FarmerService {
     public FarmerDTO updateFarmerById(Long id, FarmerDTO farmerDTO) {
         Optional<FarmerDTO> farmerToUpdate = Optional.ofNullable(getFarmerById(id));
 
-        if(farmerToUpdate.isPresent()) {
-           Farmer farmer = farmerMapper.convertFarmerDtoToEntity(farmerDTO);
-           return farmerMapper.convertFarmerEntityToDto(farmerRepository.save(farmer));
+        if (farmerToUpdate.isPresent()) {
+            Farmer farmer = farmerMapper.convertFarmerDtoToEntity(farmerDTO);
+            return farmerMapper.convertFarmerEntityToDto(farmerRepository.save(farmer));
 
-        }  else {
+        } else {
             throw new FarmDataNotFoundException("No farmer with id " + id + " found.");
         }
 
@@ -58,7 +58,7 @@ public class FarmerServiceImpl implements FarmerService {
 
     @Override
     public void deleteFarmer(Long id) {
-        if(farmerRepository.existsById(id)) {
+        if (farmerRepository.existsById(id)) {
             farmerRepository.deleteById(id);
         } else {
             throw new FarmDataNotFoundException("No farmer with id " + id + " found.");
