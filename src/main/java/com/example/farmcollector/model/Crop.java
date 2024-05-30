@@ -40,7 +40,7 @@ public class Crop {
     private Double actualAmount;
 
     @CreationTimestamp
-    @Column(name = "created_at")
+    @Column(name = "created_at",updatable = false)
     private Instant createdAt;
 
     @UpdateTimestamp

@@ -11,16 +11,11 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CropResponse {
-    private Long id;
-    private String cropId;
     private String cropType;
     private Season season;
     private Integer yieldYear;
     private Double expectedAmount;
     private Double actualAmount;
-    private LocalDate createdAt;
-    private LocalDate updatedAt;
-    private Set<FarmResponse> farms;
-    private FarmerResponse farmer;
+
 }
 
