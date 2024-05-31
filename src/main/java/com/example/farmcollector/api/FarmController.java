@@ -4,7 +4,6 @@ import com.example.farmcollector.api.request.FarmRequest;
 import com.example.farmcollector.api.response.FarmResponse;
 import com.example.farmcollector.dto.FarmDTO;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
-import com.example.farmcollector.model.Farm;
 import com.example.farmcollector.service.farm.FarmService;
 import com.example.farmcollector.util.FarmMapper;
 import org.springframework.http.HttpStatus;
