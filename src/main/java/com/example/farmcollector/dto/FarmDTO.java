@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -14,4 +16,6 @@ public class FarmDTO {
     private String farmName;
     private String location;
     private Double farmArea;
+    private Set<FarmerDTO> farmers;
+    private Set<CropDTO> crops;
 }

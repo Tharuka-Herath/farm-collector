@@ -66,4 +66,10 @@ public class FarmController {
             return ResponseEntity.status((HttpStatus.NOT_FOUND)).build();
         }
     }
+
+    @PostMapping("/{farmId}/addFarmer/{farmerId}")
+    public ResponseEntity<FarmResponse> addFarmerToFarm(@PathVariable Long farmId, @PathVariable Long farmerId) {
+        FarmResponse farmResponse = farmMapper.convertDtoToResponse(farmService.addFarmerToFarm(farmId, farmerId));
+        return ResponseEntity.status(HttpStatus.OK).body(farmResponse);
+    }
 }

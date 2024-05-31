@@ -3,7 +3,10 @@ package com.example.farmcollector.service.farm;
 import com.example.farmcollector.dto.FarmDTO;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
 import com.example.farmcollector.model.Farm;
+import com.example.farmcollector.model.Farmer;
+import com.example.farmcollector.repository.CropRepository;
 import com.example.farmcollector.repository.FarmRepository;
+import com.example.farmcollector.repository.FarmerRepository;
 import com.example.farmcollector.util.FarmMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -14,10 +17,14 @@ import java.util.Optional;
 @Service
 public class FarmServiceImpl implements FarmService {
     private final FarmRepository farmRepository;
+    private final FarmerRepository farmerRepository;
+    private final CropRepository cropRepository;
     private final FarmMapper farmMapper;
 
-    public FarmServiceImpl(FarmRepository farmRepository, FarmMapper farmMapper) {
-        this.farmRepository = farmRepository;
+    public FarmServiceImpl(FarmRepository farmRepository, FarmerRepository farmerRepository, CropRepository cropRepository, FarmMapper farmMapper) {
+        this.farmRepository = farmRepository;cropRepository
+        this.farmerRepository = farmerRepository;
+        this.cropRepository = cropRepository;
         this.farmMapper = farmMapper;
     }
 
@@ -107,5 +114,25 @@ public class FarmServiceImpl implements FarmService {
         } else {
             throw new FarmDataNotFoundException("No farm with id " + id + " found.");
         }
+    }
+
+    /**
+     * Adds a farmer to an existing farm.
+     *
+     * @param farmId the ID of the farm to which the farmer will be added
+     * @param farmerId the ID of the farmer to be added to the farm
+     * @return the updated FarmDTO after the farmer has been added
+     * @throws FarmDataNotFoundException if the farm or farmer with the specified IDs are not found
+     */
+    @Override
+    public FarmDTO addFarmerToFarm(Long farmId, Long farmerId) {
+        Farm farm = farmRepository.findById(farmId).orElseThrow(() -> new FarmDataNotFoundException("Farm not found with ths id"));
+        Farmer farmer = farmerRepository.findById(farmerId).orElseThrow(() -> new FarmDataNotFoundException("Farmer not found with this id"));
+
+        farm.getFarmers().add(farmer);
+        farm.setId(farmId);
+
+        Farm savedFarm = farmRepository.save(farm);
+        return farmMapper.convertFarmEntityToDto(savedFarm);
     }
 }
