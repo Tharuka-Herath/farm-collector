@@ -2,6 +2,7 @@ package com.example.farmcollector.model;
 
 import com.example.farmcollector.enums.Season;
 import com.example.farmcollector.util.IdGenerator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -48,6 +49,7 @@ public class Crop {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "crops")
     private Set<Farm> farms = new HashSet<>();
 
