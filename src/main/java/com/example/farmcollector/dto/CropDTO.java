@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -16,4 +18,6 @@ public class CropDTO {
     private Integer yieldYear;
     private Double expectedAmount;
     private Double actualAmount;
+    private Set<FarmDTO> farms;
+    private FarmerDTO farmer;
 }
