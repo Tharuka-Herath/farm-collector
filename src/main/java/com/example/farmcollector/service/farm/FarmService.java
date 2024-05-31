@@ -1,6 +1,7 @@
 package com.example.farmcollector.service.farm;
 
 
+import com.example.farmcollector.dto.CropDTO;
 import com.example.farmcollector.dto.FarmDTO;
 
 import java.util.List;
@@ -13,4 +14,5 @@ public interface FarmService {
     FarmDTO getFarmById(Long id);
     void deleteFarm(Long id);
     FarmDTO addFarmerToFarm(Long farmId, Long farmerId);
+    FarmDTO addCropToFarm(Long farmId,Long CropId);
 }
