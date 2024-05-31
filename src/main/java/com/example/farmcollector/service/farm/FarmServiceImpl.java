@@ -22,7 +22,7 @@ public class FarmServiceImpl implements FarmService {
     private final FarmMapper farmMapper;
 
     public FarmServiceImpl(FarmRepository farmRepository, FarmerRepository farmerRepository, CropRepository cropRepository, FarmMapper farmMapper) {
-        this.farmRepository = farmRepository;cropRepository
+        this.farmRepository = farmRepository;
         this.farmerRepository = farmerRepository;
         this.cropRepository = cropRepository;
         this.farmMapper = farmMapper;

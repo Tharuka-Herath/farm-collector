@@ -17,6 +17,8 @@ public class FarmMapper {
         dto.setFarmName(entity.getFarmName());
         dto.setLocation(entity.getLocation());
         dto.setFarmArea(entity.getFarmArea());
+        dto.setFarmers(entity.getFarmers());
+        dto.setCrops(entity.getCrops());
         return dto;
     }
 
@@ -44,6 +46,8 @@ public class FarmMapper {
         response.setFarmName(dto.getFarmName());
         response.setLocation(dto.getLocation());
         response.setFarmArea(dto.getFarmArea());
+        response.setFarmers(dto.getFarmers());
+        response.setCrops(dto.getCrops());
 
         return response;
     }
@@ -60,5 +64,4 @@ public class FarmMapper {
                 .map(this::convertDtoToResponse)
                 .toList();
     }
-
 }

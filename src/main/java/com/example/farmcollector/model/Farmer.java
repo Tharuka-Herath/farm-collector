@@ -1,6 +1,7 @@
 package com.example.farmcollector.model;
 
 import com.example.farmcollector.util.IdGenerator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -36,6 +37,7 @@ public class Farmer {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "farmers")
     private Set<Farm> farms = new HashSet<>();
 

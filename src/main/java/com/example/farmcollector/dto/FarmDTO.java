@@ -1,5 +1,7 @@
 package com.example.farmcollector.dto;
 
+import com.example.farmcollector.model.Crop;
+import com.example.farmcollector.model.Farmer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +18,6 @@ public class FarmDTO {
     private String farmName;
     private String location;
     private Double farmArea;
-    private Set<FarmerDTO> farmers;
-    private Set<CropDTO> crops;
+    private Set<Farmer> farmers;
+    private Set<Crop> crops;
 }

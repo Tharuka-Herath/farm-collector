@@ -1,7 +1,11 @@
 package com.example.farmcollector.api.response;
 
-import com.example.farmcollector.dto.FarmerDTO;
-import lombok.*;
+import com.example.farmcollector.model.Crop;
+import com.example.farmcollector.model.Farmer;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Set;
 
@@ -13,5 +17,6 @@ public class FarmResponse {
     private String farmName;
     private String location;
     private Double farmArea;
-    private Set<FarmerDTO> farmers;
+    private Set<Farmer> farmers;
+    private Set<Crop> crops;
 }
