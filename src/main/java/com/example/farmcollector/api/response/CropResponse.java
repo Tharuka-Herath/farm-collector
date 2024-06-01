@@ -1,10 +1,10 @@
 package com.example.farmcollector.api.response;
 
 import com.example.farmcollector.enums.Season;
-import lombok.*;
-
-import java.time.LocalDate;
-import java.util.Set;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @Setter

@@ -38,7 +38,7 @@ public class FarmerServiceImpl implements FarmerService {
     /**
      * Updates a farmer with the given ID.
      *
-     * @param id       The ID of the farmer to update.
+     * @param id        The ID of the farmer to update.
      * @param farmerDTO The DTO containing the updated farmer data.
      * @return The updated farmer as a DTO.
      * @throws FarmDataNotFoundException if no farmer is found with the given ID.

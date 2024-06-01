@@ -14,6 +14,7 @@ public class FarmMapper {
 
     public FarmDTO convertFarmEntityToDto(Farm entity) {
         FarmDTO dto = new FarmDTO();
+
         dto.setFarmName(entity.getFarmName());
         dto.setLocation(entity.getLocation());
         dto.setFarmArea(entity.getFarmArea());
@@ -24,6 +25,7 @@ public class FarmMapper {
 
     public Farm convertFarmDtoToEntity(FarmDTO dto) {
         Farm entity = new Farm();
+
         entity.setFarmName(dto.getFarmName());
         entity.setLocation(dto.getLocation());
         entity.setFarmArea(dto.getFarmArea());
@@ -36,7 +38,6 @@ public class FarmMapper {
         dto.setFarmName(request.getFarmName());
         dto.setLocation(request.getLocation());
         dto.setFarmArea(request.getFarmArea());
-
         return dto;
     }
 
@@ -46,9 +47,6 @@ public class FarmMapper {
         response.setFarmName(dto.getFarmName());
         response.setLocation(dto.getLocation());
         response.setFarmArea(dto.getFarmArea());
-        response.setFarmers(dto.getFarmers());
-        response.setCrops(dto.getCrops());
-
         return response;
     }
 

@@ -4,7 +4,10 @@ import com.example.farmcollector.enums.Season;
 import com.example.farmcollector.util.IdGenerator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -23,7 +26,7 @@ public class Crop {
     private Long id;
 
     @Column(name = "crop_id")
-    private String cropId= IdGenerator.generateCropId();
+    private String cropId = IdGenerator.generateCropId();
 
     @Column(name = "crop_type")
     private String cropType;
@@ -42,7 +45,7 @@ public class Crop {
     private Double actualAmount;
 
     @CreationTimestamp
-    @Column(name = "created_at",updatable = false)
+    @Column(name = "created_at", updatable = false)
     private Instant createdAt;
 
     @UpdateTimestamp

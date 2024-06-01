@@ -3,7 +3,10 @@ package com.example.farmcollector.model;
 import com.example.farmcollector.util.IdGenerator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -42,7 +45,7 @@ public class Farmer {
     private Set<Farm> farms = new HashSet<>();
 
     @JsonIgnore
-    @OneToOne(mappedBy = "farmer")
+    @OneToOne(mappedBy = "farmer", cascade = CascadeType.ALL)
     private Crop crop;
 
 }

@@ -17,6 +17,4 @@ public class FarmResponse {
     private String farmName;
     private String location;
     private Double farmArea;
-    private Set<Farmer> farmers;
-    private Set<Crop> crops;
 }

@@ -114,9 +114,6 @@ public class CropServiceImpl implements CropService {
         }
     }
 
-<<<<<<< Updated upstream
-
-=======
     /**
      * Adds a farmer to a crop by updating the crop's farmer association in the database.
      *
@@ -126,7 +123,7 @@ public class CropServiceImpl implements CropService {
      * @throws FarmDataNotFoundException if either the farmer with the specified ID or the crop with the specified ID is not found in the database.
      */
     @Override
-    public CropDTO addFarmerToCrop(Long farmerId, Long cropId) {
+    public CropDTO addFarmerToCrop(Long cropId, Long farmerId) {
         Farmer farmer = farmerRepository.findById(farmerId).orElseThrow(() -> new FarmDataNotFoundException("No farmer with the id"));
         Crop crop = cropRepository.findById(cropId).orElseThrow(() -> new FarmDataNotFoundException("No crop with this id"));
         crop.setFarmer(farmer);
@@ -134,5 +131,4 @@ public class CropServiceImpl implements CropService {
         Crop addCrop = cropRepository.save(crop);
         return cropMapper.convertCropEntityToDto(addCrop);
     }
->>>>>>> Stashed changes
 }

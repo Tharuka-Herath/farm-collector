@@ -7,14 +7,13 @@ import com.example.farmcollector.dto.CropDTO;
 import com.example.farmcollector.model.Crop;
 import org.springframework.stereotype.Component;
 
-
 import java.util.List;
 
 @Component
 
 public class CropMapper {
 
-    public CropDTO convertCropEntityToDto(Crop entity){
+    public CropDTO convertCropEntityToDto(Crop entity) {
         CropDTO dto = new CropDTO();
         dto.setCropType(entity.getCropType());
         dto.setSeason(entity.getSeason());
@@ -24,7 +23,7 @@ public class CropMapper {
         return dto;
     }
 
-    public Crop convertCropDtoToEntity(CropDTO dto){
+    public Crop convertCropDtoToEntity(CropDTO dto) {
         Crop crop = new Crop();
         crop.setCropType(dto.getCropType());
         crop.setSeason(dto.getSeason());
@@ -34,7 +33,7 @@ public class CropMapper {
         return crop;
     }
 
-    public CropDTO convertCropRequestToDto(CropRequest request){
+    public CropDTO convertCropRequestToDto(CropRequest request) {
         CropDTO dto = new CropDTO();
         dto.setCropType(request.getCropType());
         dto.setSeason(request.getSeason());
@@ -45,7 +44,7 @@ public class CropMapper {
 
     }
 
-    public CropResponse convertDtoToResponse(CropDTO dto){
+    public CropResponse convertDtoToResponse(CropDTO dto) {
         CropResponse response = new CropResponse();
         response.setCropType(dto.getCropType());
         response.setSeason(dto.getSeason());
@@ -55,11 +54,9 @@ public class CropMapper {
         return response;
     }
 
-    public List<CropResponse> convertDtoListToResponseList(List<CropDTO> cropDTOList){
-        return  cropDTOList.stream().map(this::convertDtoToResponse).toList();
+    public List<CropResponse> convertDtoListToResponseList(List<CropDTO> cropDTOList) {
+        return cropDTOList.stream().map(this::convertDtoToResponse).toList();
     }
-
-
 
 
 }

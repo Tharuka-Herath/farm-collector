@@ -1,6 +1,5 @@
 package com.example.farmcollector.service.farm;
 
-import com.example.farmcollector.dto.CropDTO;
 import com.example.farmcollector.dto.FarmDTO;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
 import com.example.farmcollector.model.Crop;
@@ -9,7 +8,6 @@ import com.example.farmcollector.model.Farmer;
 import com.example.farmcollector.repository.CropRepository;
 import com.example.farmcollector.repository.FarmRepository;
 import com.example.farmcollector.repository.FarmerRepository;
-import com.example.farmcollector.util.CropMapper;
 import com.example.farmcollector.util.FarmMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -124,7 +122,7 @@ public class FarmServiceImpl implements FarmService {
     /**
      * Adds a farmer to an existing farm.
      *
-     * @param farmId the ID of the farm to which the farmer will be added
+     * @param farmId   the ID of the farm to which the farmer will be added
      * @param farmerId the ID of the farmer to be added to the farm
      * @return the updated FarmDTO after the farmer has been added
      * @throws FarmDataNotFoundException if the farm or farmer with the specified IDs are not found
@@ -142,17 +140,14 @@ public class FarmServiceImpl implements FarmService {
     }
 
     @Override
-    public FarmDTO addCropToFarm(Long farmId,Long cropId){
+    public FarmDTO addCropToFarm(Long farmId, Long cropId) {
         Farm farm = farmRepository.findById(farmId).orElseThrow(() -> new RuntimeException("Farm not found"));
         Crop crop = cropRepository.findById(cropId).orElseThrow(() -> new RuntimeException("Crop not found"));
         farm.getCrops().add(crop);
         farm.setId(farmId);
-        Farm cropSavedFarm= farmRepository.save(farm);
+        Farm cropSavedFarm = farmRepository.save(farm);
         return farmMapper.convertFarmEntityToDto(cropSavedFarm);
     }
-
-
-
 
 
 }

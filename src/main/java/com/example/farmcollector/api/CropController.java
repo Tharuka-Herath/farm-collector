@@ -6,7 +6,6 @@ import com.example.farmcollector.dto.CropDTO;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
 import com.example.farmcollector.service.crop.CropService;
 import com.example.farmcollector.util.CropMapper;
-import com.example.farmcollector.util.FarmerMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +17,10 @@ import java.util.List;
 public class CropController {
     private final CropService cropService;
     private final CropMapper cropMapper;
-    private final FarmerMapper farmerMapper;
 
-    public CropController(CropService cropService, CropMapper cropMapper, FarmerMapper farmerMapper) {
+    public CropController(CropService cropService, CropMapper cropMapper) {
         this.cropService = cropService;
         this.cropMapper = cropMapper;
-        this.farmerMapper = farmerMapper;
     }
 
     @PostMapping
