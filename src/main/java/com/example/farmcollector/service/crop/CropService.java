@@ -6,11 +6,16 @@ import java.util.List;
 
 public interface CropService {
     CropDTO saveCrop(CropDTO cropDTO);
+
     List<CropDTO> getAllCrops();
+
     CropDTO getCropById(Long id);
 
-    CropDTO updateCropById(Long id,CropDTO cropDTO);
+    CropDTO updateCropById(Long id, CropDTO cropDTO);
+
     void deleteCrop(Long id);
+
+    CropDTO addFarmerToCrop(Long cropId, Long farmerId);
 
 
 }

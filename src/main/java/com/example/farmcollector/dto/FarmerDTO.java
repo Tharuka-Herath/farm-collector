@@ -1,9 +1,7 @@
 package com.example.farmcollector.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.example.farmcollector.model.Crop;
+import lombok.*;
 
 @Getter
 @Setter
@@ -11,5 +9,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class FarmerDTO {
     private String farmerName;
-
+    private Crop crop;
 }

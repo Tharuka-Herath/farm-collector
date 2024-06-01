@@ -142,7 +142,6 @@ public class FarmServiceImpl implements FarmService {
     }
 
     @Override
-
     public FarmDTO addCropToFarm(Long farmId,Long cropId){
         Farm farm = farmRepository.findById(farmId).orElseThrow(() -> new RuntimeException("Farm not found"));
         Crop crop = cropRepository.findById(cropId).orElseThrow(() -> new RuntimeException("Crop not found"));

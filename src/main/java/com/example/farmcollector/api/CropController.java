@@ -6,6 +6,7 @@ import com.example.farmcollector.dto.CropDTO;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
 import com.example.farmcollector.service.crop.CropService;
 import com.example.farmcollector.util.CropMapper;
+import com.example.farmcollector.util.FarmerMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +18,12 @@ import java.util.List;
 public class CropController {
     private final CropService cropService;
     private final CropMapper cropMapper;
+    private final FarmerMapper farmerMapper;
 
-    public CropController(CropService cropService, CropMapper cropMapper) {
+    public CropController(CropService cropService, CropMapper cropMapper, FarmerMapper farmerMapper) {
         this.cropService = cropService;
         this.cropMapper = cropMapper;
+        this.farmerMapper = farmerMapper;
     }
 
     @PostMapping
@@ -31,36 +34,36 @@ public class CropController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CropResponse>> getAllCrops(){
-        List<CropDTO> crops= cropService.getAllCrops();
+    public ResponseEntity<List<CropResponse>> getAllCrops() {
+        List<CropDTO> crops = cropService.getAllCrops();
         List<CropResponse> responseList = cropMapper.convertDtoListToResponseList(crops);
-        return new ResponseEntity<>(responseList,HttpStatus.OK);
+        return new ResponseEntity<>(responseList, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CropResponse> getCropById(@PathVariable Long id){
+    public ResponseEntity<CropResponse> getCropById(@PathVariable Long id) {
         try {
             CropDTO cropDTO = cropService.getCropById(id);
-            CropResponse response= cropMapper.convertDtoToResponse(cropDTO);
-            return new ResponseEntity<>(response,HttpStatus.OK);
-        }catch (FarmDataNotFoundException e){
+            CropResponse response = cropMapper.convertDtoToResponse(cropDTO);
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (FarmDataNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CropResponse> updateCropById(@PathVariable Long id, @RequestBody CropRequest request){
+    public ResponseEntity<CropResponse> updateCropById(@PathVariable Long id, @RequestBody CropRequest request) {
         try {
             CropDTO cropDTO = cropMapper.convertCropRequestToDto(request);
-            CropResponse cropResponse = cropMapper.convertDtoToResponse(cropService.updateCropById(id,cropDTO));
-            return new ResponseEntity<>(cropResponse,HttpStatus.OK);
-        }catch (FarmDataNotFoundException e){
+            CropResponse cropResponse = cropMapper.convertDtoToResponse(cropService.updateCropById(id, cropDTO));
+            return new ResponseEntity<>(cropResponse, HttpStatus.OK);
+        } catch (FarmDataNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> deleteCropById(@PathVariable Long id){
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteCropById(@PathVariable Long id) {
         try {
             cropService.deleteCrop(id);
             return ResponseEntity.noContent().build();
@@ -69,6 +72,10 @@ public class CropController {
         }
     }
 
+    @PostMapping("/{cropId}/addFarmer/{farmerId}")
+    public ResponseEntity<CropResponse> addFarmerToCrop(@PathVariable Long cropId, @PathVariable Long farmerId) {
+        CropResponse responseEntity = cropMapper.convertDtoToResponse(cropService.addFarmerToCrop(cropId, farmerId));
 
-
+        return ResponseEntity.status(HttpStatus.OK).body(responseEntity);
+    }
 }

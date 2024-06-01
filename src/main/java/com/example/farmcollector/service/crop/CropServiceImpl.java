@@ -3,7 +3,9 @@ package com.example.farmcollector.service.crop;
 import com.example.farmcollector.dto.CropDTO;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
 import com.example.farmcollector.model.Crop;
+import com.example.farmcollector.model.Farmer;
 import com.example.farmcollector.repository.CropRepository;
+import com.example.farmcollector.repository.FarmerRepository;
 import com.example.farmcollector.util.CropMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ import java.util.Optional;
 public class CropServiceImpl implements CropService {
     private final CropRepository cropRepository;
     private final CropMapper cropMapper;
+    private final FarmerRepository farmerRepository;
 
     /**
      * Constructs a new CropServiceImpl.
@@ -25,9 +28,10 @@ public class CropServiceImpl implements CropService {
      * @param cropRepository the repository used for CRUD operations on crops
      * @param cropMapper     the mapper used to convert between Crop entities and CropDTOs
      */
-    public CropServiceImpl(CropRepository cropRepository, CropMapper cropMapper) {
+    public CropServiceImpl(CropRepository cropRepository, CropMapper cropMapper, FarmerRepository farmerRepository) {
         this.cropRepository = cropRepository;
         this.cropMapper = cropMapper;
+        this.farmerRepository = farmerRepository;
     }
 
     /**
@@ -110,5 +114,25 @@ public class CropServiceImpl implements CropService {
         }
     }
 
+<<<<<<< Updated upstream
 
+=======
+    /**
+     * Adds a farmer to a crop by updating the crop's farmer association in the database.
+     *
+     * @param farmerId The unique identifier of the farmer to be associated with the crop.
+     * @param cropId   The unique identifier of the crop.
+     * @return A CropDTO object representing the updated crop with the associated farmer.
+     * @throws FarmDataNotFoundException if either the farmer with the specified ID or the crop with the specified ID is not found in the database.
+     */
+    @Override
+    public CropDTO addFarmerToCrop(Long farmerId, Long cropId) {
+        Farmer farmer = farmerRepository.findById(farmerId).orElseThrow(() -> new FarmDataNotFoundException("No farmer with the id"));
+        Crop crop = cropRepository.findById(cropId).orElseThrow(() -> new FarmDataNotFoundException("No crop with this id"));
+        crop.setFarmer(farmer);
+        crop.setId(cropId);
+        Crop addCrop = cropRepository.save(crop);
+        return cropMapper.convertCropEntityToDto(addCrop);
+    }
+>>>>>>> Stashed changes
 }

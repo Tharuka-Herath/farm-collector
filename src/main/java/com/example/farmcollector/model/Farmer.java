@@ -41,6 +41,7 @@ public class Farmer {
     @ManyToMany(mappedBy = "farmers")
     private Set<Farm> farms = new HashSet<>();
 
+    @JsonIgnore
     @OneToOne(mappedBy = "farmer")
     private Crop crop;
 

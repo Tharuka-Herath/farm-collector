@@ -1,6 +1,7 @@
 package com.example.farmcollector.dto;
 
 import com.example.farmcollector.enums.Season;
+import com.example.farmcollector.model.Farmer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,5 +20,5 @@ public class CropDTO {
     private Double expectedAmount;
     private Double actualAmount;
     private Set<FarmDTO> farms;
-    private FarmerDTO farmer;
+    private Farmer farmer;
 }
