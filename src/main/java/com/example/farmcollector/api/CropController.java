@@ -4,7 +4,7 @@ import com.example.farmcollector.api.request.CropRequest;
 import com.example.farmcollector.api.response.CropResponse;
 import com.example.farmcollector.dto.CropDTO;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
-import com.example.farmcollector.service.crop.CropService;
+import com.example.farmcollector.service.CropService;
 import com.example.farmcollector.util.CropMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

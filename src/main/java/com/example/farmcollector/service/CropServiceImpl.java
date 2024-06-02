@@ -1,4 +1,4 @@
-package com.example.farmcollector.service.crop;
+package com.example.farmcollector.service;
 
 import com.example.farmcollector.dto.CropDTO;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
