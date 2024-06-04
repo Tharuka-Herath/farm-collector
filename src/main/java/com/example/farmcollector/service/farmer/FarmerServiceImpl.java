@@ -56,7 +56,6 @@ public class FarmerServiceImpl implements FarmerService {
         } else {
             throw new FarmDataNotFoundException("No farmer with id " + id + " found.");
         }
-
     }
 
     /**

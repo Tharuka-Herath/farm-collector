@@ -63,12 +63,12 @@ class FarmerServiceTest {
 
     @Test
     void shouldUpdateFarmerWhenExists() {
+        //Arrange
         Long id = 1L;
         FarmerDTO newFarmerDetailsDto = new FarmerDTO("namal", null);
         Optional<Farmer> farmerToUpdate = Optional.of(new Farmer(id, "F-0001", "Mithila", null, null, null, null));
         Farmer newFarmerDetailsEntity = new Farmer(id, "F-0001", "namal", null, null, null, null);
         Farmer updatedFarmerEntity = new Farmer(id, "F-0001", "namal", null, null, null, null);
-
         FarmerDTO updatedFarmerDto = new FarmerDTO("namal", null);
 
         when(farmerRepository.findById(id)).thenReturn(farmerToUpdate);
@@ -76,11 +76,14 @@ class FarmerServiceTest {
         when(farmerRepository.save(newFarmerDetailsEntity)).thenReturn(updatedFarmerEntity);
         when(farmerMapper.convertFarmerEntityToDto(updatedFarmerEntity)).thenReturn(updatedFarmerDto);
 
+        //Act
         FarmerDTO result = farmerService.updateFarmerById(id, newFarmerDetailsDto);
 
+        //Assert
         assertEquals(updatedFarmerDto, result);
         assertEquals(newFarmerDetailsDto.getFarmerName(), result.getFarmerName());
 
+        //Verifyx
         verify(farmerRepository, times(1)).findById(id);
         verify(farmerMapper, times(1)).convertFarmerDtoToEntity(newFarmerDetailsDto);
         verify(farmerRepository, times(1)).save(newFarmerDetailsEntity);

@@ -4,6 +4,7 @@ import com.example.farmcollector.api.request.FarmRequest;
 import com.example.farmcollector.api.response.FarmResponse;
 import com.example.farmcollector.dto.FarmDTO;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
+import com.example.farmcollector.model.Farm;
 import com.example.farmcollector.service.farm.FarmService;
 import com.example.farmcollector.util.FarmMapper;
 import org.springframework.http.HttpStatus;
@@ -34,10 +35,14 @@ public class FarmController {
 
     @PutMapping("/{id}")
     public ResponseEntity<FarmResponse> updateFarm(@PathVariable Long id, @RequestBody FarmRequest farmRequest) {
-        FarmDTO farmDTO = farmMapper.convertFarmRequestToDto(farmRequest);
-        Optional<FarmDTO> updatedFarm = farmService.updateFarm(id, farmDTO);
-
-        return updatedFarm.map(dto -> new ResponseEntity<>(farmMapper.convertDtoToResponse(dto), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+       try {
+           FarmDTO farmUpdate = farmMapper.convertFarmRequestToDto(farmRequest);
+           FarmDTO updatedFarm = farmService.updateFarm(id, farmUpdate);
+           FarmResponse response = farmMapper.convertDtoToResponse(updatedFarm);
+           return ResponseEntity.status(HttpStatus.OK).body(response);
+       } catch (FarmDataNotFoundException e) {
+           return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+       }
     }
 
     @GetMapping
@@ -76,8 +81,8 @@ public class FarmController {
     @PostMapping("/{farmId}/addCrop/{cropId}")
 
     public ResponseEntity<FarmResponse> addCropToFarm(@PathVariable Long farmId, @PathVariable Long cropId) {
-        FarmResponse farmResponse = farmMapper.convertDtoToResponse(farmService.addCropToFarm(farmId,cropId));
-        return  ResponseEntity.status(HttpStatus.OK).body(farmResponse);
+        FarmResponse farmResponse = farmMapper.convertDtoToResponse(farmService.addCropToFarm(farmId, cropId));
+        return ResponseEntity.status(HttpStatus.OK).body(farmResponse);
     }
 
 }

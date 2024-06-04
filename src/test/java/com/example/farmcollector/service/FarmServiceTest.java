@@ -77,16 +77,12 @@ class FarmServiceTest {
 
     @Test
     void shouldUpdateFarmWhenPresent() {
+        //Arrange
         Long id = 1L;
-
         FarmDTO newFarmDetailsDto = new FarmDTO("L-0001", "Farm B", "Matara", 150.0, null, null);
-
         Optional<Farm> oldFarmDetailsOptional = Optional.of(new Farm(id, "L-0001", "Farm A", "Galle", 80.0, null, null, null, null));
-
         Farm farmToUpdateEntity = new Farm(id, "L-0001", "Farm A", "Galle", 80.0, null, null, null, null);
-
         Farm updatedFarmEntity = new Farm(id, "L-0001", "Farm B", "Matara", 150.0, null, null, null, null);
-
         FarmDTO updatedFarmDto = new FarmDTO("L-0001", "Farm B", "Matara", 150.0, null, null);
 
         when(farmRepository.findById(id)).thenReturn(oldFarmDetailsOptional);
@@ -94,15 +90,18 @@ class FarmServiceTest {
         when(farmRepository.save(farmToUpdateEntity)).thenReturn(updatedFarmEntity);
         when(farmMapper.convertFarmEntityToDto(updatedFarmEntity)).thenReturn(updatedFarmDto);
 
-        Optional<FarmDTO> result = farmService.updateFarm(id, newFarmDetailsDto);
+        //Act
+        FarmDTO result = farmService.updateFarm(id, newFarmDetailsDto);
 
-        assertTrue(result.isPresent());
-        assertEquals(updatedFarmDto, result.get());
-        assertEquals(updatedFarmDto.getFarmId(), result.get().getFarmId());
-        assertEquals(updatedFarmDto.getFarmName(), result.get().getFarmName());
-        assertEquals(updatedFarmDto.getLocation(), result.get().getLocation());
-        assertEquals(updatedFarmDto.getFarmArea(), result.get().getFarmArea());
+        //Assert
+        assertNotNull(result);
+        assertEquals(updatedFarmDto, result);
+        assertEquals(updatedFarmDto.getFarmId(), result.getFarmId());
+        assertEquals(updatedFarmDto.getFarmName(), result.getFarmName());
+        assertEquals(updatedFarmDto.getLocation(), result.getLocation());
+        assertEquals(updatedFarmDto.getFarmArea(), result.getFarmArea());
 
+        //Verify
         verify(farmRepository, times(1)).findById(id);
         verify(farmMapper, times(1)).convertFarmDtoToEntity(newFarmDetailsDto);
         verify(farmRepository, times(1)).save(farmToUpdateEntity);
@@ -112,19 +111,18 @@ class FarmServiceTest {
     @Test
     void shouldReturnEmptyWhenFarmNotFound() {
         //Arrange
-        Long farmId = 1L;
+        Long id = 1L;
         FarmDTO farmDTO = new FarmDTO("L-0001", "Farm B", "Matara", 150.0, null, null);
 
-        when(farmRepository.findById(farmId)).thenReturn(Optional.empty());
+        when(farmRepository.findById(id)).thenReturn(Optional.empty());
 
-        // Act
-        Optional<FarmDTO> result = farmService.updateFarm(farmId, farmDTO);
+        // Act & Assert
+        FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, ()->farmService.updateFarm(id, farmDTO));
 
-        // Assert
-        assertFalse(result.isPresent());
+        assertEquals("No farm with id " + id + " found.", exception.getMessage());
 
         //verify
-        verify(farmRepository, times(1)).findById(farmId);
+        verify(farmRepository, times(1)).findById(id);
         verify(farmMapper, never()).convertFarmDtoToEntity(any());
         verify(farmRepository, never()).save(any());
         verify(farmMapper, never()).convertFarmEntityToDto(any());

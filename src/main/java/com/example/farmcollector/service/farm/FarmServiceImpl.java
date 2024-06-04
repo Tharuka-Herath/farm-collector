@@ -28,7 +28,6 @@ public class FarmServiceImpl implements FarmService {
         this.farmerRepository = farmerRepository;
         this.cropRepository = cropRepository;
         this.farmMapper = farmMapper;
-
     }
 
     /**
@@ -46,13 +45,14 @@ public class FarmServiceImpl implements FarmService {
     /**
      * Updates a farm with the given ID.
      *
-     * @param id      The ID of the farm to update.
-     * @param farmDTO The DTO containing the updated farm data.
-     * @return An Optional containing the updated farm as a DTO, or an empty Optional if the farm was not found.
+     * @param id the ID of the farm to update
+     * @param farmDTO the farm data to update with
+     * @return the updated farm data
+     * @throws FarmDataNotFoundException if no farm with the given ID is found
      */
     @Transactional
     @Override
-    public Optional<FarmDTO> updateFarm(Long id, FarmDTO farmDTO) {
+    public FarmDTO updateFarm(Long id, FarmDTO farmDTO) {
         Optional<Farm> optionalFarm = farmRepository.findById(id);
 
         if (optionalFarm.isPresent()) {
@@ -64,11 +64,9 @@ public class FarmServiceImpl implements FarmService {
             Farm updatedFarm = farmRepository.save(farmToUpdate);
 
             // Convert the saved entity back to DTO
-            FarmDTO updatedFarmDTO = farmMapper.convertFarmEntityToDto(updatedFarm);
-
-            return Optional.of(updatedFarmDTO);
+            return farmMapper.convertFarmEntityToDto(updatedFarm);
         } else {
-            return Optional.empty(); // Handle the case where the farm with the given ID does not exist
+            throw new FarmDataNotFoundException("No farm with id " + id + " found.");
         }
     }
 

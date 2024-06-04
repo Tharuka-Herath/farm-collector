@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface FarmService {
     FarmDTO saveFarm(FarmDTO farmDTO);
-    Optional<FarmDTO> updateFarm(Long id, FarmDTO farmDTO);
+    FarmDTO updateFarm(Long id, FarmDTO farmDTO);
     List<FarmDTO> getAllFarms();
     FarmDTO getFarmById(Long id);
     void deleteFarm(Long id);
