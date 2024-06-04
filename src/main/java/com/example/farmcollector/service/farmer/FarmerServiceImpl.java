@@ -46,7 +46,7 @@ public class FarmerServiceImpl implements FarmerService {
     @Transactional
     @Override
     public FarmerDTO updateFarmerById(Long id, FarmerDTO farmerDTO) {
-        Optional<FarmerDTO> farmerToUpdate = Optional.ofNullable(getFarmerById(id));
+        Optional<Farmer> farmerToUpdate = farmerRepository.findById(id);
 
         if (farmerToUpdate.isPresent()) {
             Farmer farmer = farmerMapper.convertFarmerDtoToEntity(farmerDTO);

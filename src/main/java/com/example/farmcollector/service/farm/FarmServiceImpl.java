@@ -61,10 +61,10 @@ public class FarmServiceImpl implements FarmService {
             farmToUpdate.setId(id);
 
             // Save the updated entity
-            Farm savedFarm = farmRepository.save(farmToUpdate);
+            Farm updatedFarm = farmRepository.save(farmToUpdate);
 
             // Convert the saved entity back to DTO
-            FarmDTO updatedFarmDTO = farmMapper.convertFarmEntityToDto(savedFarm);
+            FarmDTO updatedFarmDTO = farmMapper.convertFarmEntityToDto(updatedFarm);
 
             return Optional.of(updatedFarmDTO);
         } else {
@@ -120,7 +120,7 @@ public class FarmServiceImpl implements FarmService {
     }
 
     /**
-     * Adds a farmer to an existing farm.
+     * Adds a farmer to an existing farm
      *
      * @param farmId   the ID of the farm to which the farmer will be added
      * @param farmerId the ID of the farmer to be added to the farm
@@ -139,15 +139,26 @@ public class FarmServiceImpl implements FarmService {
         return farmMapper.convertFarmEntityToDto(savedFarm);
     }
 
+    /**
+     * Adds a specified crop to a specified farm.
+     *
+     * <p>Fetches the farm and crop entities using their respective IDs.
+     * If either the farm or the crop is not found, it throws a {@code RuntimeException}.
+     * The crop is then added to the farm's list of crops, and the farm is saved back to the repository.
+     * Finally, the updated farm entity is converted to a {@code FarmDTO} and returned.</p>
+     *
+     * @param farmId the ID of the farm to which the crop will be added
+     * @param cropId the ID of the crop to be added to the farm
+     * @return a {@code FarmDTO} representing the updated farm with the new crop
+     * @throws RuntimeException if either the farm or the crop is not found
+     */
     @Override
     public FarmDTO addCropToFarm(Long farmId, Long cropId) {
-        Farm farm = farmRepository.findById(farmId).orElseThrow(() -> new RuntimeException("Farm not found"));
-        Crop crop = cropRepository.findById(cropId).orElseThrow(() -> new RuntimeException("Crop not found"));
+        Crop crop = cropRepository.findById(cropId).orElseThrow(() -> new FarmDataNotFoundException("Crop not found with id: " + cropId));
+        Farm farm = farmRepository.findById(farmId).orElseThrow(() -> new FarmDataNotFoundException("Farm not found with id: " + farmId));
         farm.getCrops().add(crop);
         farm.setId(farmId);
         Farm cropSavedFarm = farmRepository.save(farm);
         return farmMapper.convertFarmEntityToDto(cropSavedFarm);
     }
-
-
 }
