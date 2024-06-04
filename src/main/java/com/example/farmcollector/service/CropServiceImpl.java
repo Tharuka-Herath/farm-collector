@@ -87,7 +87,7 @@ public class CropServiceImpl implements CropService {
     @Transactional
     @Override
     public CropDTO updateCropById(Long id, CropDTO cropDTO) {
-        Optional<CropDTO> updatedCrop = Optional.ofNullable(getCropById(id));
+        Optional<Crop> updatedCrop = cropRepository.findById(id);
 
         if (updatedCrop.isPresent()) {
             Crop crop = cropMapper.convertCropDtoToEntity(cropDTO);

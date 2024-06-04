@@ -14,6 +14,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CropDTO {
+    private String CropId;
     private String cropType;
     private Season season;
     private Integer yieldYear;
