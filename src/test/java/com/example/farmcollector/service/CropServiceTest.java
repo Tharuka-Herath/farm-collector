@@ -216,7 +216,7 @@ class CropServiceTest {
 
 
     @Test
-    public void testDeleteExistingCrop() {
+    void testDeleteExistingCrop() {
 
         Long id = 1L;
         Crop crop = new Crop();
