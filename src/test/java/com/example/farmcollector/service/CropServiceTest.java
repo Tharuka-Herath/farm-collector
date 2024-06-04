@@ -6,6 +6,7 @@ import com.example.farmcollector.model.Crop;
 import com.example.farmcollector.model.Farmer;
 import com.example.farmcollector.repository.CropRepository;
 import com.example.farmcollector.repository.FarmerRepository;
+import com.example.farmcollector.service.crop.CropServiceImpl;
 import com.example.farmcollector.util.CropMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,4 +1,4 @@
-package com.example.farmcollector.service;
+package com.example.farmcollector.service.crop;
 
 import com.example.farmcollector.dto.CropDTO;
 
