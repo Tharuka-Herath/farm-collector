@@ -2,8 +2,6 @@ package com.example.farmcollector.service.crop;
 
 import com.example.farmcollector.dto.CropDTO;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
-import com.example.farmcollector.model.Crop;
-import com.example.farmcollector.model.Farmer;
 import com.example.farmcollector.repository.CropRepository;
 import com.example.farmcollector.repository.FarmerRepository;
 import com.example.farmcollector.util.CropMapper;

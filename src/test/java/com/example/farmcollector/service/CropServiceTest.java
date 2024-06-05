@@ -2,8 +2,6 @@ package com.example.farmcollector.service;
 
 import com.example.farmcollector.dto.CropDTO;
 import com.example.farmcollector.enums.Season;
-import com.example.farmcollector.model.Crop;
-import com.example.farmcollector.model.Farmer;
 import com.example.farmcollector.repository.CropRepository;
 import com.example.farmcollector.repository.FarmerRepository;
 import com.example.farmcollector.service.crop.CropServiceImpl;

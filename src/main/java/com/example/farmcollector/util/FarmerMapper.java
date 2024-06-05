@@ -3,7 +3,6 @@ package com.example.farmcollector.util;
 import com.example.farmcollector.api.request.FarmerRequest;
 import com.example.farmcollector.api.response.FarmerResponse;
 import com.example.farmcollector.dto.FarmerDTO;
-import com.example.farmcollector.model.Farmer;
 import org.springframework.stereotype.Component;
 
 @Component

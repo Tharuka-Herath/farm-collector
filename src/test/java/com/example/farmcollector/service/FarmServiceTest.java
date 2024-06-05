@@ -3,8 +3,6 @@ package com.example.farmcollector.service;
 import com.example.farmcollector.dto.FarmDTO;
 import com.example.farmcollector.enums.Season;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
-import com.example.farmcollector.model.Crop;
-import com.example.farmcollector.model.Farm;
 import com.example.farmcollector.repository.CropRepository;
 import com.example.farmcollector.repository.FarmRepository;
 import com.example.farmcollector.service.farm.FarmServiceImpl;

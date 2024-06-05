@@ -11,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -44,21 +45,5 @@ public class Farm {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private Instant updatedAt;
-
-    @ManyToMany
-    @JoinTable(
-            name = "Farm_Farmer",
-            joinColumns = @JoinColumn(name = "farm_id"),
-            inverseJoinColumns = @JoinColumn(name = "farmer_id")
-    )
-    private Set<Farmer> farmers = new HashSet<>();
-
-    @ManyToMany
-    @JoinTable(
-            name = "Farm_Crop",
-            joinColumns = @JoinColumn(name = "farm_id"),
-            inverseJoinColumns = @JoinColumn(name = "crop_id")
-    )
-    private Set<Crop> crops = new HashSet<>();
 
 }

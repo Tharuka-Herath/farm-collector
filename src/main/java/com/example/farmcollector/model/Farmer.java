@@ -40,12 +40,4 @@ public class Farmer {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
-    @JsonIgnore
-    @ManyToMany(mappedBy = "farmers")
-    private Set<Farm> farms = new HashSet<>();
-
-    @JsonIgnore
-    @OneToOne(mappedBy = "farmer", cascade = CascadeType.ALL)
-    private Crop crop;
-
 }

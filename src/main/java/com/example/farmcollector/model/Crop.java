@@ -12,6 +12,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -46,18 +47,19 @@ public class Crop {
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
-    private Instant createdAt;
+    private LocalDateTime createdAt;
 
     @UpdateTimestamp
     @Column(name = "updated_at")
-    private Instant updatedAt;
-
-    @JsonIgnore
-    @ManyToMany(mappedBy = "crops")
-    private Set<Farm> farms = new HashSet<>();
+    private LocalDateTime updatedAt;
 
     @OneToOne
-    @JoinColumn(name = "farmer_id", unique = true)
     private Farmer farmer;
+
+    @OneToOne
+    private Farm farm;
+//Change here
+
+
 
 }

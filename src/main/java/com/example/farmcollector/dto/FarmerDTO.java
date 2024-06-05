@@ -1,6 +1,5 @@
 package com.example.farmcollector.dto;
 
-import com.example.farmcollector.model.Crop;
 import lombok.*;
 
 @Getter
