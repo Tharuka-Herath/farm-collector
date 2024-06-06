@@ -46,8 +46,7 @@ public class Farm {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @OneToMany
-            @JoinColumn(name = "farm_Id")
+    @OneToMany(mappedBy = "farm")
     List<Farmer> farmers;
 
 }

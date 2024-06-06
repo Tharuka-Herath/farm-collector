@@ -38,6 +38,8 @@ public class Farmer {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-   
+   @ManyToOne
+   @JoinColumn(name = "farm_id")
+   private Farm farm;
 
 }
