@@ -2,6 +2,9 @@ package com.example.farmcollector.service.farm;
 
 import com.example.farmcollector.dto.FarmDTO;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
+import com.example.farmcollector.model.Crop;
+import com.example.farmcollector.model.Farm;
+import com.example.farmcollector.model.Farmer;
 import com.example.farmcollector.repository.CropRepository;
 import com.example.farmcollector.repository.FarmRepository;
 import com.example.farmcollector.repository.FarmerRepository;
@@ -116,46 +119,5 @@ public class FarmServiceImpl implements FarmService {
         }
     }
 
-    /**
-     * Adds a farmer to an existing farm
-     *
-     * @param farmId   the ID of the farm to which the farmer will be added
-     * @param farmerId the ID of the farmer to be added to the farm
-     * @return the updated FarmDTO after the farmer has been added
-     * @throws FarmDataNotFoundException if the farm or farmer with the specified IDs are not found
-     */
-    @Override
-    public FarmDTO addFarmerToFarm(Long farmId, Long farmerId) {
-        Farm farm = farmRepository.findById(farmId).orElseThrow(() -> new FarmDataNotFoundException("Farm not found with ths id"));
-        Farmer farmer = farmerRepository.findById(farmerId).orElseThrow(() -> new FarmDataNotFoundException("Farmer not found with this id"));
 
-        farm.getFarmers().add(farmer);
-        farm.setId(farmId);
-
-        Farm savedFarm = farmRepository.save(farm);
-        return farmMapper.convertFarmEntityToDto(savedFarm);
-    }
-
-    /**
-     * Adds a specified crop to a specified farm.
-     *
-     * <p>Fetches the farm and crop entities using their respective IDs.
-     * If either the farm or the crop is not found, it throws a {@code RuntimeException}.
-     * The crop is then added to the farm's list of crops, and the farm is saved back to the repository.
-     * Finally, the updated farm entity is converted to a {@code FarmDTO} and returned.</p>
-     *
-     * @param farmId the ID of the farm to which the crop will be added
-     * @param cropId the ID of the crop to be added to the farm
-     * @return a {@code FarmDTO} representing the updated farm with the new crop
-     * @throws RuntimeException if either the farm or the crop is not found
-     */
-    @Override
-    public FarmDTO addCropToFarm(Long farmId, Long cropId) {
-        Crop crop = cropRepository.findById(cropId).orElseThrow(() -> new FarmDataNotFoundException("Crop not found with id: " + cropId));
-        Farm farm = farmRepository.findById(farmId).orElseThrow(() -> new FarmDataNotFoundException("Farm not found with id: " + farmId));
-        farm.getCrops().add(crop);
-        farm.setId(farmId);
-        Farm cropSavedFarm = farmRepository.save(farm);
-        return farmMapper.convertFarmEntityToDto(cropSavedFarm);
-    }
 }

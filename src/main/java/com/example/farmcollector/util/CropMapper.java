@@ -4,6 +4,7 @@ package com.example.farmcollector.util;
 import com.example.farmcollector.api.request.CropRequest;
 import com.example.farmcollector.api.response.CropResponse;
 import com.example.farmcollector.dto.CropDTO;
+import com.example.farmcollector.model.Crop;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

@@ -3,6 +3,7 @@ package com.example.farmcollector.util;
 import com.example.farmcollector.api.request.FarmRequest;
 import com.example.farmcollector.api.response.FarmResponse;
 import com.example.farmcollector.dto.FarmDTO;
+import com.example.farmcollector.model.Farm;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -17,8 +18,6 @@ public class FarmMapper {
         dto.setFarmName(entity.getFarmName());
         dto.setLocation(entity.getLocation());
         dto.setFarmArea(entity.getFarmArea());
-        dto.setFarmers(entity.getFarmers());
-        dto.setCrops(entity.getCrops());
         return dto;
     }
 

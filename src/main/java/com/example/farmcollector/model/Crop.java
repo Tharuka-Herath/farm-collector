@@ -2,7 +2,6 @@ package com.example.farmcollector.model;
 
 import com.example.farmcollector.enums.Season;
 import com.example.farmcollector.util.IdGenerator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,10 +10,9 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.Instant;
+
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+
 
 @Entity
 @Getter
@@ -58,8 +56,5 @@ public class Crop {
 
     @OneToOne
     private Farm farm;
-//Change here
-
-
 
 }

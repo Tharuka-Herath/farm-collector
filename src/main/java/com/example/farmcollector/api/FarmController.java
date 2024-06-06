@@ -67,17 +67,6 @@ public class FarmController {
         }
     }
 
-    @PostMapping("/{farmId}/addFarmer/{farmerId}")
-    public ResponseEntity<FarmResponse> addFarmerToFarm(@PathVariable Long farmId, @PathVariable Long farmerId) {
-        FarmResponse farmResponse = farmMapper.convertDtoToResponse(farmService.addFarmerToFarm(farmId, farmerId));
-        return ResponseEntity.status(HttpStatus.OK).body(farmResponse);
-    }
 
-    @PostMapping("/{farmId}/addCrop/{cropId}")
-
-    public ResponseEntity<FarmResponse> addCropToFarm(@PathVariable Long farmId, @PathVariable Long cropId) {
-        FarmResponse farmResponse = farmMapper.convertDtoToResponse(farmService.addCropToFarm(farmId,cropId));
-        return  ResponseEntity.status(HttpStatus.OK).body(farmResponse);
-    }
 
 }

@@ -19,6 +19,4 @@ public class CropDTO {
     private Integer yieldYear;
     private Double expectedAmount;
     private Double actualAmount;
-    private Set<FarmDTO> farms;
-    private Farmer farmer;
 }

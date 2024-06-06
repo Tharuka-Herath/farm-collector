@@ -2,6 +2,7 @@ package com.example.farmcollector.service.farmer;
 
 import com.example.farmcollector.dto.FarmerDTO;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
+import com.example.farmcollector.model.Farmer;
 import com.example.farmcollector.repository.FarmerRepository;
 import com.example.farmcollector.util.FarmerMapper;
 import jakarta.transaction.Transactional;

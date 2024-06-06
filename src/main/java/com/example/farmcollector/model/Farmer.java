@@ -1,7 +1,6 @@
 package com.example.farmcollector.model;
 
 import com.example.farmcollector.util.IdGenerator;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,9 +9,8 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "farmer")
@@ -34,10 +32,12 @@ public class Farmer {
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
-    private Instant createdAt;
+    private LocalDateTime createdAt;
 
     @UpdateTimestamp
     @Column(name = "updated_at")
-    private Instant updatedAt;
+    private LocalDateTime updatedAt;
+
+   
 
 }
