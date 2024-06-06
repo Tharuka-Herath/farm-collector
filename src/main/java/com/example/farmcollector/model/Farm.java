@@ -47,6 +47,7 @@ public class Farm {
     private LocalDateTime updatedAt;
 
     @OneToMany
+            @JoinColumn(name = "farm_Id")
     List<Farmer> farmers;
 
 }
