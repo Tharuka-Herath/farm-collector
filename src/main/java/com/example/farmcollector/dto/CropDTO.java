@@ -1,6 +1,8 @@
 package com.example.farmcollector.dto;
 
 import com.example.farmcollector.enums.Season;
+import com.example.farmcollector.model.Farm;
+import com.example.farmcollector.model.Farmer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,10 +15,11 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CropDTO {
-    private String CropId;
     private String cropType;
     private Season season;
     private Integer yieldYear;
     private Double expectedAmount;
     private Double actualAmount;
+    private Farmer farmer;
+    private Farm farm;
 }

@@ -1,10 +1,12 @@
 package com.example.farmcollector.dto;
 
+import com.example.farmcollector.model.Farmer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -12,9 +14,8 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FarmDTO {
-    private String farmId;
     private String farmName;
     private String location;
     private Double farmArea;
-
+    List<Farmer> farmers;
 }

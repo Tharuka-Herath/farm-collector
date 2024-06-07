@@ -3,8 +3,10 @@ package com.example.farmcollector.service.crop;
 import com.example.farmcollector.dto.CropDTO;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
 import com.example.farmcollector.model.Crop;
+import com.example.farmcollector.model.Farm;
 import com.example.farmcollector.model.Farmer;
 import com.example.farmcollector.repository.CropRepository;
+import com.example.farmcollector.repository.FarmRepository;
 import com.example.farmcollector.repository.FarmerRepository;
 import com.example.farmcollector.util.CropMapper;
 import jakarta.transaction.Transactional;
@@ -21,6 +23,7 @@ public class CropServiceImpl implements CropService {
     private final CropRepository cropRepository;
     private final CropMapper cropMapper;
     private final FarmerRepository farmerRepository;
+    private final FarmRepository farmRepository;
 
     /**
      * Constructs a new CropServiceImpl.
@@ -28,10 +31,11 @@ public class CropServiceImpl implements CropService {
      * @param cropRepository the repository used for CRUD operations on crops
      * @param cropMapper     the mapper used to convert between Crop entities and CropDTOs
      */
-    public CropServiceImpl(CropRepository cropRepository, CropMapper cropMapper, FarmerRepository farmerRepository) {
+    public CropServiceImpl(CropRepository cropRepository, CropMapper cropMapper, FarmerRepository farmerRepository, FarmRepository farmRepository) {
         this.cropRepository = cropRepository;
         this.cropMapper = cropMapper;
         this.farmerRepository = farmerRepository;
+        this.farmRepository = farmRepository;
     }
 
     /**
@@ -127,8 +131,16 @@ public class CropServiceImpl implements CropService {
         Farmer farmer = farmerRepository.findById(farmerId).orElseThrow(() -> new FarmDataNotFoundException("No farmer with the id"));
         Crop crop = cropRepository.findById(cropId).orElseThrow(() -> new FarmDataNotFoundException("No crop with this id"));
         crop.setFarmer(farmer);
-        crop.setId(cropId);
-        Crop addCrop = cropRepository.save(crop);
-        return cropMapper.convertCropEntityToDto(addCrop);
+        Crop addCFarmer = cropRepository.save(crop);
+        return cropMapper.convertCropEntityToDto(addCFarmer);
+    }
+
+    @Override
+    public CropDTO addFarmToCrop(Long cropId, Long farmId) {
+        Farm farm = farmRepository.findById(farmId).orElseThrow(() -> new FarmDataNotFoundException("No fam with this id"));
+        Crop crop = cropRepository.findById(cropId).orElseThrow(() -> new FarmDataNotFoundException("No crop with this id"));
+        crop.setFarm(farm);
+        Crop addFarm = cropRepository.save(crop);
+        return cropMapper.convertCropEntityToDto(addFarm);
     }
 }

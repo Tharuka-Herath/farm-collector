@@ -1,5 +1,6 @@
 package com.example.farmcollector.api.response;
 
+import com.example.farmcollector.model.Farm;
 import lombok.*;
 
 @Getter
@@ -9,5 +10,6 @@ import lombok.*;
 @ToString
 public class FarmerResponse {
     private String farmerName;
+    private Farm farm;
 
 }
