@@ -8,4 +8,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface CropRepository extends JpaRepository<Crop, Long> {
+
+    // Find all crops of a specific type
+    @Query("SELECT c FROM Crop c WHERE c.cropType = :cropType")
+    List<Crop> findAllByCropType(@Param("cropType") String cropType);
 }

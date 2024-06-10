@@ -93,4 +93,10 @@ public class CropMapper {
     public List<CropResponse> convertDtoListToResponseList(List<CropDTO> cropDTOList) {
         return cropDTOList.stream().map(this::convertDtoToResponse).toList();
     }
+
+    public List<CropDTO> convertCropEntityListToDtoList(List<Crop> entities) {
+        return entities.stream()
+                .map(this::convertCropEntityToDto)
+                .toList();
+    }
 }

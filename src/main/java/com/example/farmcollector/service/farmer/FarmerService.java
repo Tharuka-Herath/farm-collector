@@ -14,4 +14,6 @@ public interface FarmerService {
     FarmerDTO updateFarmerById(Long id, FarmerDTO farmerDTO);
 
     void deleteFarmer(Long id);
+
+    FarmerDTO addFarmerToFarm(Long farmId,Long farmerId);
 }

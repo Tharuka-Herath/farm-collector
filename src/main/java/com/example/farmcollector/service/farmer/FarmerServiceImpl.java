@@ -2,7 +2,9 @@ package com.example.farmcollector.service.farmer;
 
 import com.example.farmcollector.dto.FarmerDTO;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
+import com.example.farmcollector.model.Farm;
 import com.example.farmcollector.model.Farmer;
+import com.example.farmcollector.repository.FarmRepository;
 import com.example.farmcollector.repository.FarmerRepository;
 import com.example.farmcollector.util.FarmerMapper;
 import jakarta.transaction.Transactional;
@@ -11,24 +13,17 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Service implementation for managing farmers.
- */
 @Service
 public class FarmerServiceImpl implements FarmerService {
 
     private final FarmerRepository farmerRepository;
     private final FarmerMapper farmerMapper;
+    private final FarmRepository farmRepository;
 
-    /**
-     * Constructs a new FarmerServiceImpl.
-     *
-     * @param farmerRepository the repository used for CRUD operations on farmers
-     * @param farmerMapper     the mapper used to convert between Farmer entities and FarmerDTOs
-     */
-    public FarmerServiceImpl(FarmerRepository farmerRepository, FarmerMapper farmerMapper) {
+    public FarmerServiceImpl(FarmerRepository farmerRepository, FarmerMapper farmerMapper,FarmRepository farmRepository) {
         this.farmerRepository = farmerRepository;
         this.farmerMapper = farmerMapper;
+        this.farmRepository = farmRepository;
     }
 
     /**
@@ -106,4 +101,25 @@ public class FarmerServiceImpl implements FarmerService {
             throw new FarmDataNotFoundException("No farmer with id " + id + " found.");
         }
     }
+
+    @Override
+    public FarmerDTO addFarmerToFarm(Long farmId,Long farmerId){
+        Optional<Farmer> farmerOptional = farmerRepository.findById(farmerId);
+        Optional<Farm> farmOptional = farmRepository.findById(farmId);
+
+        if (farmerOptional.isPresent() && farmOptional.isPresent()) {
+            Farmer farmer = farmerOptional.get();
+            Farm farm = farmOptional.get();
+
+            List<Farmer> farmerInFarm = farm.getFarmers();
+            farmerInFarm.add(farmer);
+            farmRepository.save(farm);
+
+            return farmerMapper.convertFarmerEntityToDto(farmer);
+        } else {
+            throw new FarmDataNotFoundException("Farmer or Farm not found with the provided IDs.");
+        }
+
+    }
+
 }

@@ -46,7 +46,7 @@ public class Farm {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "farm")
+    @OneToMany(mappedBy = "farm",cascade = CascadeType.ALL)
     List<Farmer> farmers;
 
 }

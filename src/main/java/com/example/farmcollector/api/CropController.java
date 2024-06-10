@@ -83,4 +83,12 @@ public class CropController {
         CropResponse cropResponse = cropMapper.convertDtoToResponse(cropService.addFarmToCrop(cropId, farmId));
         return ResponseEntity.status(HttpStatus.OK).body(cropResponse);
     }
+
+    @GetMapping("/by-crop-type")
+    public ResponseEntity<List<CropResponse>> getAllCropsByCropType(@RequestParam String cropType) {
+        List<CropDTO> crops = cropService.findAllByCropType(cropType);
+        return ResponseEntity.status(HttpStatus.OK).body(cropMapper.convertDtoListToResponseList(crops));
+    }
+
+
 }
