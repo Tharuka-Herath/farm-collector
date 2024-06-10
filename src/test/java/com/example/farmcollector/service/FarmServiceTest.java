@@ -1,303 +1,172 @@
 package com.example.farmcollector.service;
 
 import com.example.farmcollector.dto.FarmDTO;
-import com.example.farmcollector.enums.Season;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
-import com.example.farmcollector.repository.CropRepository;
+import com.example.farmcollector.model.Farm;
 import com.example.farmcollector.repository.FarmRepository;
 import com.example.farmcollector.service.farm.FarmServiceImpl;
-import com.example.farmcollector.util.CropMapper;
 import com.example.farmcollector.util.FarmMapper;
+import org.assertj.core.api.SoftAssertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
-import static org.mockito.MockitoAnnotations.openMocks;
 
-class FarmServiceTest {
+@ExtendWith(MockitoExtension.class)
+class FarmServiceImplTest {
+
     @Mock
     private FarmRepository farmRepository;
 
     @Mock
-    FarmMapper farmMapper;
-
-    @Mock
-    private CropRepository cropRepository;
-
-    @Mock
-    CropMapper cropMapper;
+    private FarmMapper farmMapper;
 
     @InjectMocks
     private FarmServiceImpl farmService;
 
+    private Farm farm;
+    private FarmDTO farmDTO;
+
     @BeforeEach
-    public void setUp() {
-        openMocks(this);
+    void setUp() {
+        farm = new Farm();
+        farm.setId(1L);
+        farm.setFarmName("Farm A");
+        farm.setLocation("Matara");
+        farm.setFarmArea(100.0);
+
+        farmDTO = new FarmDTO();
+        farmDTO.setFarmName("Farm A");
+        farmDTO.setLocation("Matara");
+        farmDTO.setFarmArea(100.0);
     }
 
     @Test
-    void shouldSaveFarm() {
-        //Arrange
-
-        FarmDTO farmDTO = new FarmDTO("L-0001", "Farm A", "Galle", 80.0, null, null);
-        Farm farmEntity = new Farm(1L, "L-0001", "Farm A", "Galle", 80.0, null, null, null, null);
-        Farm savedFarmEntity = new Farm(1L, "L-0001", "Farm A", "Galle", 80.0, null, null, null, null);
-        FarmDTO savedFarmDto = new FarmDTO("L-0001", "Farm A", "Galle", 80.0, null, null);
-
-        when(farmMapper.convertFarmDtoToEntity(farmDTO)).thenReturn(farmEntity);
-        when(farmRepository.save(farmEntity)).thenReturn(savedFarmEntity);
-        when(farmMapper.convertFarmEntityToDto(savedFarmEntity)).thenReturn(savedFarmDto);
-
-        //Act
-        FarmDTO result = farmService.saveFarm(farmDTO);
-
-        //Assert
-        assertNotNull(result);
-        assertEquals(savedFarmDto, result);
-        assertEquals(savedFarmDto.getFarmId(), result.getFarmId());
-        assertEquals(savedFarmDto.getFarmName(), result.getFarmName());
-        assertEquals(savedFarmDto.getLocation(), result.getLocation());
-        assertEquals(savedFarmDto.getFarmArea(), result.getFarmArea());
-
-        //verify
-        verify(farmMapper, times(1)).convertFarmDtoToEntity(farmDTO);
-        verify(farmRepository, times(1)).save(farmEntity);
-        verify(farmMapper, times(1)).convertFarmEntityToDto(savedFarmEntity);
-    }
-
-    @Test
-    void shouldUpdateFarmWhenPresent() {
-        Long id = 1L;
-
-        FarmDTO newFarmDetailsDto = new FarmDTO("L-0001", "Farm B", "Matara", 150.0, null, null);
-
-        Optional<Farm> oldFarmDetailsOptional = Optional.of(new Farm(id, "L-0001", "Farm A", "Galle", 80.0, null, null, null, null));
-
-        Farm farmToUpdateEntity = new Farm(id, "L-0001", "Farm A", "Galle", 80.0, null, null, null, null);
-
-        Farm updatedFarmEntity = new Farm(id, "L-0001", "Farm B", "Matara", 150.0, null, null, null, null);
-
-        FarmDTO updatedFarmDto = new FarmDTO("L-0001", "Farm B", "Matara", 150.0, null, null);
-
-        when(farmRepository.findById(id)).thenReturn(oldFarmDetailsOptional);
-        when(farmMapper.convertFarmDtoToEntity(newFarmDetailsDto)).thenReturn(farmToUpdateEntity);
-        when(farmRepository.save(farmToUpdateEntity)).thenReturn(updatedFarmEntity);
-        when(farmMapper.convertFarmEntityToDto(updatedFarmEntity)).thenReturn(updatedFarmDto);
-
-        Optional<FarmDTO> result = farmService.updateFarm(id, newFarmDetailsDto);
-
-        assertTrue(result.isPresent());
-        assertEquals(updatedFarmDto, result.get());
-        assertEquals(updatedFarmDto.getFarmId(), result.get().getFarmId());
-        assertEquals(updatedFarmDto.getFarmName(), result.get().getFarmName());
-        assertEquals(updatedFarmDto.getLocation(), result.get().getLocation());
-        assertEquals(updatedFarmDto.getFarmArea(), result.get().getFarmArea());
-
-        verify(farmRepository, times(1)).findById(id);
-        verify(farmMapper, times(1)).convertFarmDtoToEntity(newFarmDetailsDto);
-        verify(farmRepository, times(1)).save(farmToUpdateEntity);
-        verify(farmMapper, times(1)).convertFarmEntityToDto(updatedFarmEntity);
-    }
-
-    @Test
-    void shouldReturnEmptyWhenFarmNotFound() {
-        //Arrange
-        Long farmId = 1L;
-        FarmDTO farmDTO = new FarmDTO("L-0001", "Farm B", "Matara", 150.0, null, null);
-
-        when(farmRepository.findById(farmId)).thenReturn(Optional.empty());
-
-        // Act
-        Optional<FarmDTO> result = farmService.updateFarm(farmId, farmDTO);
-
-        // Assert
-        assertFalse(result.isPresent());
-
-        //verify
-        verify(farmRepository, times(1)).findById(farmId);
-        verify(farmMapper, never()).convertFarmDtoToEntity(any());
-        verify(farmRepository, never()).save(any());
-        verify(farmMapper, never()).convertFarmEntityToDto(any());
-    }
-
-    @Test
-    void shouldGetAllFarms() {
-        // Arrange
-        List<Farm> farms = List.of(new Farm(1L, "L-0001", "Farm A", "Galle", 80.0, null, null, null, null), new Farm(2L, "L-0002", "Farm B", "Matara", 150.0, null, null, null, null));
-        List<FarmDTO> farmDTOs = List.of(new FarmDTO("L-0001", "Farm A", "Galle", 80.0, null, null), new FarmDTO("L-0002", "Farm B", "Matara", 150.0, null, null));
-
-        when(farmRepository.findAll()).thenReturn(farms);
-        when(farmMapper.convertFarmEntityToDto(farms.get(0))).thenReturn(farmDTOs.get(0));
-        when(farmMapper.convertFarmEntityToDto(farms.get(1))).thenReturn(farmDTOs.get(1));
-
-        // Act
-        List<FarmDTO> result = farmService.getAllFarms();
-
-        // Assert
-        assertEquals(farmDTOs.size(), result.size());
-        assertNotNull(result.get(0));
-        assertNotNull(result.get(1));
-        assertEquals(farmDTOs.get(0), result.get(0));
-        assertEquals(farmDTOs.get(1), result.get(1));
-
-        //Verify
-        verify(farmRepository, times(1)).findAll();
-        verify(farmMapper, times(1)).convertFarmEntityToDto(farms.get(0));
-        verify(farmMapper, times(1)).convertFarmEntityToDto(farms.get(1));
-    }
-
-
-    @Test
-    void shouldReturnFarmDtoWhenFarmIsFound() {
-        // Arrange
-        Long id = 1L;
-        Farm farm = new Farm(id, "L-0001", "Farm A", "Galle", 80.0, null, null, null, null);
-        FarmDTO farmDTO = new FarmDTO("L-0001", "Farm A", "Galle", 80.0, null, null);
-
-        when(farmRepository.findById(id)).thenReturn(Optional.of(farm));
+    void saveFarm_ShouldSaveAndReturnFarmDTO() {
+        when(farmMapper.convertFarmDtoToEntity(farmDTO)).thenReturn(farm);
+        when(farmRepository.save(farm)).thenReturn(farm);
         when(farmMapper.convertFarmEntityToDto(farm)).thenReturn(farmDTO);
 
-        // Act
-        FarmDTO result = farmService.getFarmById(id);
+        FarmDTO savedFarmDTO = farmService.saveFarm(farmDTO);
 
-        // Assert
-        assertEquals(farmDTO, result);
-        assertEquals(farmDTO.getFarmId(), result.getFarmId());
-        assertEquals(farmDTO.getFarmName(), result.getFarmName());
-        assertEquals(farmDTO.getLocation(), result.getLocation());
-        assertEquals(farmDTO.getFarmArea(), result.getFarmArea());
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(savedFarmDTO).isEqualTo(farmDTO);
+        softly.assertThat(savedFarmDTO.getFarmName()).isEqualToIgnoringCase("Farm A");
+        softly.assertThat(savedFarmDTO.getLocation()).isEqualToIgnoringCase("Matara");
+        softly.assertThat(savedFarmDTO.getFarmArea()).isEqualTo(100.0);
+        softly.assertAll();
 
-        //Verify
-        verify(farmRepository, times(1)).findById(id);
-        verify(farmMapper, times(1)).convertFarmEntityToDto(farm);
+        verify(farmRepository).save(farm);
+        verify(farmMapper).convertFarmDtoToEntity(farmDTO);
+        verify(farmMapper).convertFarmEntityToDto(farm);
     }
 
     @Test
-    void shouldThrowExceptionWhenFarmIsNotFound() {
-        // Arrange
-        Long id = 1L;
-        when(farmRepository.findById(id)).thenReturn(Optional.empty());
+    void updateFarm_ShouldUpdateAndReturnFarmDTO_WhenFarmExists() {
+        when(farmRepository.findById(1L)).thenReturn(Optional.of(farm));
+        when(farmMapper.convertFarmDtoToEntity(farmDTO)).thenReturn(farm);
+        when(farmRepository.save(farm)).thenReturn(farm);
+        when(farmMapper.convertFarmEntityToDto(farm)).thenReturn(farmDTO);
 
-        // Act & Assert
-        FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> {
-            farmService.getFarmById(id);
-        });
+        Optional<FarmDTO> updatedFarmDTO = farmService.updateFarm(1L, farmDTO);
 
-        assertEquals("Farm not found with id: " + id, exception.getMessage());
-        verify(farmRepository, times(1)).findById(id);
-        verify(farmMapper, never()).convertFarmEntityToDto(any());
-    }
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(updatedFarmDTO).isPresent();
+        softly.assertThat(updatedFarmDTO.get()).isEqualTo(farmDTO);
+        softly.assertThat(updatedFarmDTO.get().getFarmName()).isEqualTo("Farm A");
+        softly.assertThat(updatedFarmDTO.get().getLocation()).isEqualTo("Matara");
+        softly.assertThat(updatedFarmDTO.get().getFarmArea()).isEqualTo(100.0);
+        softly.assertAll();
 
-
-    @Test
-    void shouldDeleteFarmWhenExists() {
-        // Arrange
-        Long id = 1L;
-        when(farmRepository.existsById(id)).thenReturn(true);
-
-        // Act
-        farmService.deleteFarm(id);
-
-        // Assert
-        assertFalse(farmRepository.findById(id).isPresent());
-
-        verify(farmRepository, times(1)).existsById(id);
-        verify(farmRepository, times(1)).deleteById(id);
+        verify(farmRepository).findById(1L);
+        verify(farmMapper).convertFarmDtoToEntity(farmDTO);
+        verify(farmRepository).save(farm);
+        verify(farmMapper).convertFarmEntityToDto(farm);
     }
 
     @Test
-    void shouldThrowExceptionWhenNoFarmToDelete() {
-        //Arrange
-        Long id = 1L;
+    void updateFarm_ShouldReturnEmptyOptional_WhenFarmDoesNotExist() {
+        when(farmRepository.findById(1L)).thenReturn(Optional.empty());
 
-        when(farmRepository.existsById(id)).thenReturn(false);
+        Optional<FarmDTO> updatedFarmDTO = farmService.updateFarm(1L, farmDTO);
 
-        // Act & Assert
-        FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> {
-            farmService.deleteFarm(id);
-        });
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(updatedFarmDTO).isEmpty();
+        softly.assertAll();
 
-        assertEquals("No farm with id " + id + " found.", exception.getMessage());
-
-        verify(farmRepository, times(1)).existsById(any());
-        verify(farmRepository, never()).deleteById(any());
+        verify(farmRepository).findById(1L);
     }
 
     @Test
-    void shouldThrowExceptionWhenCropNotFound() {
-        //Arrange
-        Long farmId = 1L;
-        Long cropId = 1L;
+    void getAllFarms_ShouldReturnListOfFarmDTOs() {
+        when(farmRepository.findAll()).thenReturn(List.of(farm));
+        when(farmMapper.convertFarmEntityToDto(farm)).thenReturn(farmDTO);
 
-        when(cropRepository.findById(cropId)).thenReturn(Optional.empty());
+        List<FarmDTO> farmDTOs = farmService.getAllFarms();
 
-        //Act & Assert
-        FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> {
-            farmService.addCropToFarm(farmId, cropId);
-        });
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(farmDTOs).containsExactly(farmDTO);
+        softly.assertAll();
 
-        assertEquals("Crop not found with id: " + cropId, exception.getMessage());
-        verify(cropRepository, times(1)).findById(cropId);
-        verify(farmRepository, never()).findById(farmId);
-        verify(farmRepository, never()).save(any());
-        verify(farmMapper, never()).convertFarmEntityToDto(any());
+        verify(farmRepository).findAll();
+        verify(farmMapper).convertFarmEntityToDto(farm);
     }
 
     @Test
-    void shouldThrowExceptionWhenFarmNotFound() {
-        //Arrange
-        Long farmId = 1L;
-        Long cropId = 1L;
-        Crop crop = new Crop(cropId, "C-0001", "Wheat", Season.YALA, 2024, 150.0, 120.0, null, null, null, null);
+    void getFarmById_ShouldReturnFarmDTO_WhenFarmExists() {
+        when(farmRepository.findById(1L)).thenReturn(Optional.of(farm));
+        when(farmMapper.convertFarmEntityToDto(farm)).thenReturn(farmDTO);
 
-        when(cropRepository.findById(cropId)).thenReturn(Optional.of(crop));
-        when(farmRepository.findById(farmId)).thenReturn(Optional.empty());
+        FarmDTO foundFarmDTO = farmService.getFarmById(1L);
 
-        //Act & Assert
-        FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> {
-            farmService.addCropToFarm(farmId, cropId);
-        });
-        assertEquals("Farm not found with id: " + farmId, exception.getMessage());
-        verify(cropRepository, times(1)).findById(cropId);
-        verify(farmRepository, times(1)).findById(farmId);
-        verify(farmRepository, never()).save(any());
-        verify(farmMapper, never()).convertFarmEntityToDto(any());
+        SoftAssertions softly = new SoftAssertions();
+        softly.assertThat(foundFarmDTO).isEqualTo(farmDTO);
+        softly.assertThat(foundFarmDTO.getFarmName()).isEqualTo("Farm A");
+        softly.assertThat(foundFarmDTO.getLocation()).isEqualTo("Matara");
+        softly.assertThat(foundFarmDTO.getFarmArea()).isEqualTo(100.0);
+        softly.assertAll();
+
+        verify(farmRepository).findById(1L);
+        verify(farmMapper).convertFarmEntityToDto(farm);
     }
 
     @Test
-    void shouldAddCropToFarmWhenBothFarmAndCropAreFound() {
-        //Arrange
-        Long farmId = 1L;
-        Long cropId = 1L;
+    void getFarmById_ShouldThrowException_WhenFarmDoesNotExist() {
+        when(farmRepository.findById(1L)).thenReturn(Optional.empty());
 
-        Crop crop = new Crop(cropId, "C-0001", "Wheat", Season.YALA, 2024, 150.0, 120.0, null, null, null, null);
-        Farm farm = new Farm(farmId, "L-0001", "Farm A", "Galle", 80.0, null, null, null, new HashSet<>());
-        Farm updatedFarm = new Farm(farmId, "L-0001", "Farm A", "Galle", 80.0, null, null, null, Set.of(crop));
-        FarmDTO updatedFarmDto = new FarmDTO("L-0001", "Farm A", "Galle", 80.0, null, Set.of(crop));
+        assertThatThrownBy(() -> farmService.getFarmById(1L))
+                .isInstanceOf(FarmDataNotFoundException.class)
+                .hasMessage("Farm not found with id: 1");
 
-        when(cropRepository.findById(cropId)).thenReturn(Optional.of(crop));
-        when(farmRepository.findById(farmId)).thenReturn(Optional.of(farm));
-        when(farmRepository.save(farm)).thenReturn(updatedFarm);
-        when(farmMapper.convertFarmEntityToDto(updatedFarm)).thenReturn(updatedFarmDto);
+        verify(farmRepository).findById(1L);
+    }
 
-        //Act
-        FarmDTO result = farmService.addCropToFarm(farmId, cropId);
+    @Test
+    void deleteFarm_ShouldDeleteFarm_WhenFarmExists() {
+        when(farmRepository.existsById(1L)).thenReturn(true);
 
-        //Assert
-        assertEquals(updatedFarmDto, result);
-        assertEquals(updatedFarmDto.getCrops(), result.getCrops());
+        farmService.deleteFarm(1L);
 
-        verify(cropRepository, times(1)).findById(cropId);
-        verify(farmRepository, times(1)).findById(farmId);
-        verify(farmRepository, times(1)).save(farm);
-        verify(farmMapper, times(1)).convertFarmEntityToDto(updatedFarm);
+        verify(farmRepository).existsById(1L);
+        verify(farmRepository).deleteById(1L);
+    }
+
+    @Test
+    void deleteFarm_ShouldThrowException_WhenFarmDoesNotExist() {
+        when(farmRepository.existsById(1L)).thenReturn(false);
+
+        assertThatThrownBy(() -> farmService.deleteFarm(1L))
+                .isInstanceOf(FarmDataNotFoundException.class)
+                .hasMessage("No farm with id 1 found.");
+
+        verify(farmRepository).existsById(1L);
     }
 }

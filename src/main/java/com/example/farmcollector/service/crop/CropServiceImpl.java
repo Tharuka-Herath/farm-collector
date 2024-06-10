@@ -30,6 +30,8 @@ public class CropServiceImpl implements CropService {
      *
      * @param cropRepository the repository used for CRUD operations on crops
      * @param cropMapper     the mapper used to convert between Crop entities and CropDTOs
+     * @param farmerRepository the repository used for CRUD operations on farmers
+     * @param farmRepository the repository used for CRUD operations on farms
      */
     public CropServiceImpl(CropRepository cropRepository, CropMapper cropMapper, FarmerRepository farmerRepository, FarmRepository farmRepository) {
         this.cropRepository = cropRepository;
@@ -87,7 +89,6 @@ public class CropServiceImpl implements CropService {
      * @return the updated CropDTO
      * @throws FarmDataNotFoundException if no crop is found with the given ID
      */
-
     @Transactional
     @Override
     public CropDTO updateCropById(Long id, CropDTO cropDTO) {
@@ -131,10 +132,18 @@ public class CropServiceImpl implements CropService {
         Farmer farmer = farmerRepository.findById(farmerId).orElseThrow(() -> new FarmDataNotFoundException("No farmer with the id"));
         Crop crop = cropRepository.findById(cropId).orElseThrow(() -> new FarmDataNotFoundException("No crop with this id"));
         crop.setFarmer(farmer);
-        Crop addCFarmer = cropRepository.save(crop);
-        return cropMapper.convertCropEntityToDto(addCFarmer);
+        Crop saveUpdatedCrop = cropRepository.save(crop);
+        return cropMapper.convertCropEntityToDto(saveUpdatedCrop);
     }
 
+    /**
+     * Adds a farm to a crop by updating the crop's farm association in the database.
+     *
+     * @param cropId The unique identifier of the crop.
+     * @param farmId The unique identifier of the farm to be associated with the crop.
+     * @return A CropDTO object representing the updated crop with the associated farm.
+     * @throws FarmDataNotFoundException if either the farm with the specified ID or the crop with the specified ID is not found in the database.
+     */
     @Override
     public CropDTO addFarmToCrop(Long cropId, Long farmId) {
         Farm farm = farmRepository.findById(farmId).orElseThrow(() -> new FarmDataNotFoundException("No fam with this id"));

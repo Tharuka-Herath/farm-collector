@@ -2,23 +2,26 @@ package com.example.farmcollector.service;
 
 import com.example.farmcollector.dto.FarmerDTO;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
+import com.example.farmcollector.model.Farmer;
 import com.example.farmcollector.repository.FarmerRepository;
 import com.example.farmcollector.service.farmer.FarmerServiceImpl;
 import com.example.farmcollector.util.FarmerMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
-class FarmerServiceTest {
+@ExtendWith(MockitoExtension.class)
+class FarmerServiceImplTest {
 
     @Mock
     private FarmerRepository farmerRepository;
@@ -29,184 +32,113 @@ class FarmerServiceTest {
     @InjectMocks
     private FarmerServiceImpl farmerService;
 
+    private Farmer farmer;
+    private FarmerDTO farmerDTO;
+
     @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
+    void setUp() {
+        farmer = new Farmer();
+        farmer.setId(1L);
+        farmer.setFarmerName("Thilak");
+
+        farmerDTO = new FarmerDTO();
+        farmerDTO.setFarmerName("Thilak");
     }
 
     @Test
-    void shouldSaveFarmer() {
-        //Arrange
-        Long farmerId = 1L;
-        FarmerDTO farmerDTO = new FarmerDTO("Thilak", null);
-        Farmer farmer = new Farmer(farmerId, "F-0001", "Thilak", null, null, null, null);
-        Farmer savedFarmer = new Farmer(farmerId, "F-0001", "Thilak", null, null, null, null);
-        FarmerDTO savedFarmerDto = new FarmerDTO("Thilak", null);
-
+    void saveFarmer_ShouldSaveAndReturnFarmerDTO() {
         when(farmerMapper.convertFarmerDtoToEntity(farmerDTO)).thenReturn(farmer);
-        when(farmerRepository.save(farmer)).thenReturn(savedFarmer);
-        when(farmerMapper.convertFarmerEntityToDto(savedFarmer)).thenReturn(savedFarmerDto);
+        when(farmerRepository.save(farmer)).thenReturn(farmer);
+        when(farmerMapper.convertFarmerEntityToDto(farmer)).thenReturn(farmerDTO);
 
-        //Act
-        FarmerDTO result = farmerService.saveFarmer(farmerDTO);
+        FarmerDTO savedFarmerDTO = farmerService.saveFarmer(farmerDTO);
 
-        //Assert
-        assertEquals(savedFarmerDto, result);
-        assertEquals(savedFarmerDto.getFarmerName(), result.getFarmerName());
-
-        //verify
-        verify(farmerMapper, times(1)).convertFarmerDtoToEntity(farmerDTO);
-        verify(farmerRepository, times(1)).save(farmer);
-        verify(farmerMapper, times(1)).convertFarmerEntityToDto(savedFarmer);
+        assertThat(savedFarmerDTO).isEqualTo(farmerDTO);
+        verify(farmerRepository).save(farmer);
+        verify(farmerMapper).convertFarmerDtoToEntity(farmerDTO);
+        verify(farmerMapper).convertFarmerEntityToDto(farmer);
     }
 
     @Test
-    void shouldUpdateFarmerWhenExists() {
-        Long id = 1L;
-        FarmerDTO newFarmerDetailsDto = new FarmerDTO("namal", null);
-        Optional<Farmer> farmerToUpdate = Optional.of(new Farmer(id, "F-0001", "Mithila", null, null, null, null));
-        Farmer newFarmerDetailsEntity = new Farmer(id, "F-0001", "namal", null, null, null, null);
-        Farmer updatedFarmerEntity = new Farmer(id, "F-0001", "namal", null, null, null, null);
+    void updateFarmerById_ShouldUpdateAndReturnFarmerDTO_WhenFarmerExists() {
+        when(farmerRepository.findById(1L)).thenReturn(Optional.of(farmer));
+        when(farmerMapper.convertFarmerDtoToEntity(farmerDTO)).thenReturn(farmer);
+        when(farmerRepository.save(farmer)).thenReturn(farmer);
+        when(farmerMapper.convertFarmerEntityToDto(farmer)).thenReturn(farmerDTO);
 
-        FarmerDTO updatedFarmerDto = new FarmerDTO("namal", null);
+        FarmerDTO updatedFarmerDTO = farmerService.updateFarmerById(1L, farmerDTO);
 
-        when(farmerRepository.findById(id)).thenReturn(farmerToUpdate);
-        when(farmerMapper.convertFarmerDtoToEntity(newFarmerDetailsDto)).thenReturn(newFarmerDetailsEntity);
-        when(farmerRepository.save(newFarmerDetailsEntity)).thenReturn(updatedFarmerEntity);
-        when(farmerMapper.convertFarmerEntityToDto(updatedFarmerEntity)).thenReturn(updatedFarmerDto);
-
-        FarmerDTO result = farmerService.updateFarmerById(id, newFarmerDetailsDto);
-
-        assertEquals(updatedFarmerDto, result);
-        assertEquals(newFarmerDetailsDto.getFarmerName(), result.getFarmerName());
-
-        verify(farmerRepository, times(1)).findById(id);
-        verify(farmerMapper, times(1)).convertFarmerDtoToEntity(newFarmerDetailsDto);
-        verify(farmerRepository, times(1)).save(newFarmerDetailsEntity);
-        verify(farmerMapper, times(1)).convertFarmerEntityToDto(updatedFarmerEntity);
+        assertThat(updatedFarmerDTO).isEqualTo(farmerDTO);
+        verify(farmerRepository).findById(1L);
+        verify(farmerMapper).convertFarmerDtoToEntity(farmerDTO);
+        verify(farmerRepository).save(farmer);
+        verify(farmerMapper).convertFarmerEntityToDto(farmer);
     }
 
     @Test
-    void shouldThrowExceptionWhenFarmerNotFound() {
-        //Arrange
-        Long id = 1L;
-        FarmerDTO newFarmerDetailsDto = new FarmerDTO("namal", null);
+    void updateFarmerById_ShouldThrowException_WhenFarmerDoesNotExist() {
+        when(farmerRepository.findById(1L)).thenReturn(Optional.empty());
 
-        when(farmerRepository.findById(id)).thenReturn(Optional.empty());
+        assertThatThrownBy(() -> farmerService.updateFarmerById(1L, farmerDTO))
+                .isInstanceOf(FarmDataNotFoundException.class)
+                .hasMessage("No farmer with id 1 found.");
 
-        //Act & Assert
-        FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () ->
-                farmerService.updateFarmerById(id, newFarmerDetailsDto));
-
-        assertEquals("No farmer with id " + id + " found.", exception.getMessage());
-
-        verify(farmerRepository, times(1)).findById(id);
-        verify(farmerMapper, never()).convertFarmerDtoToEntity(any());
-        verify(farmerRepository, never()).save(any());
-        verify(farmerMapper, never()).convertFarmerEntityToDto(any());
+        verify(farmerRepository).findById(1L);
     }
 
     @Test
-    void shouldGetAllFarmers() {
-        //Arrange
-        Farmer farmer1 = new Farmer(1L, "F-0001", "Thilak", null, null, null, null);
-        FarmerDTO farmerDTO1 = new FarmerDTO("Thilak", null);
+    void getAllFarmers_ShouldReturnListOfFarmerDTOs() {
+        when(farmerRepository.findAll()).thenReturn(List.of(farmer));
+        when(farmerMapper.convertFarmerEntityToDto(farmer)).thenReturn(farmerDTO);
 
-        Farmer farmer2 = new Farmer(2L, "F-0002", "Silva", null, null, null, null);
-        FarmerDTO farmerDTO2 = new FarmerDTO("Silva", null);
+        List<FarmerDTO> farmerDTOs = farmerService.getAllFarmers();
 
-        List<Farmer> farmersList = Arrays.asList(farmer1, farmer2);
-        List<FarmerDTO> farmerDTOList = Arrays.asList(farmerDTO1, farmerDTO2);
-
-
-        when(farmerRepository.findAll()).thenReturn(farmersList);
-        when(farmerMapper.convertFarmerEntityToDto(farmersList.get(0))).thenReturn(farmerDTOList.get(0));
-        when(farmerMapper.convertFarmerEntityToDto(farmersList.get(1))).thenReturn(farmerDTOList.get(1));
-
-
-        //Act
-        List<FarmerDTO> result = farmerService.getAllFarmers();
-
-        //Assert
-        assertNotNull(result);
-        assertEquals(farmerDTOList, result);
-        assertEquals(farmerDTOList.size(), result.size());
-        assertEquals(farmerDTOList.get(0), result.get(0));
-        assertEquals(farmerDTOList.get(1), result.get(1));
-
-        //Verify
-        verify(farmerRepository, times(1)).findAll();
-        verify(farmerMapper, times(2)).convertFarmerEntityToDto(any(Farmer.class));
+        assertThat(farmerDTOs).containsExactly(farmerDTO);
+        verify(farmerRepository).findAll();
+        verify(farmerMapper).convertFarmerEntityToDto(farmer);
     }
 
     @Test
-    void shouldReturnFarmerByIDWhenExists() {
-        //Arrange
-        Long id = 1L;
-        Optional<Farmer> getFarmer = Optional.of(new Farmer(1L, "F-0001", "Thilak", null, null, null, null));
-        FarmerDTO farmerById = new FarmerDTO("Thilak", null);
+    void getFarmerById_ShouldReturnFarmerDTO_WhenFarmerExists() {
+        when(farmerRepository.findById(1L)).thenReturn(Optional.of(farmer));
+        when(farmerMapper.convertFarmerEntityToDto(farmer)).thenReturn(farmerDTO);
 
-        when(farmerRepository.findById(id)).thenReturn(getFarmer);
-        when(farmerMapper.convertFarmerEntityToDto(getFarmer.get())).thenReturn(farmerById);
+        FarmerDTO foundFarmerDTO = farmerService.getFarmerById(1L);
 
-        //Act
-        FarmerDTO result = farmerService.getFarmerById(id);
-
-        //Assert
-        assertNotNull(result);
-        assertEquals(farmerById, result);
-        assertEquals(farmerById.getFarmerName(), result.getFarmerName());
+        assertThat(foundFarmerDTO).isEqualTo(farmerDTO);
+        verify(farmerRepository).findById(1L);
+        verify(farmerMapper).convertFarmerEntityToDto(farmer);
     }
 
     @Test
-    void shouldThrowExceptionWhenFarmerNotExists() {
-        //Arrange
-        Long id = 1L;
+    void getFarmerById_ShouldThrowException_WhenFarmerDoesNotExist() {
+        when(farmerRepository.findById(1L)).thenReturn(Optional.empty());
 
-        when(farmerRepository.findById(id)).thenReturn(Optional.empty());
+        assertThatThrownBy(() -> farmerService.getFarmerById(1L))
+                .isInstanceOf(FarmDataNotFoundException.class)
+                .hasMessage("Farmer was not found with id 1");
 
-        //Act & Assert
-        FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> farmerService.getFarmerById(id));
-
-        //Assert
-        assertEquals("Farmer was not found with id " + id, exception.getMessage());
-
-        verify(farmerRepository, times(1)).findById(id);
-        verify(farmerMapper, never()).convertFarmerEntityToDto(any(Farmer.class));
+        verify(farmerRepository).findById(1L);
     }
 
     @Test
-    void shouldDeleteWhenFarmerExists() {
-        //Arrange
-        Long id = 1L;
+    void deleteFarmer_ShouldDeleteFarmer_WhenFarmerExists() {
+        when(farmerRepository.existsById(1L)).thenReturn(true);
 
-        when(farmerRepository.existsById(id)).thenReturn(true);
+        farmerService.deleteFarmer(1L);
 
-        //Act
-        farmerService.deleteFarmer(id);
-
-        //Assert
-        assertFalse(farmerRepository.findById(id).isPresent());
-
-        //Verify
-        verify(farmerRepository, times(1)).existsById(id);
-        verify(farmerRepository, times(1)).deleteById(id);
+        verify(farmerRepository).existsById(1L);
+        verify(farmerRepository).deleteById(1L);
     }
 
     @Test
-    void shouldThrowExceptionWhenFarmerNotFoundToDelete() {
-        //Arrange
+    void deleteFarmer_ShouldThrowException_WhenFarmerDoesNotExist() {
+        when(farmerRepository.existsById(1L)).thenReturn(false);
 
-        Long id = 1L;
+        assertThatThrownBy(() -> farmerService.deleteFarmer(1L))
+                .isInstanceOf(FarmDataNotFoundException.class)
+                .hasMessage("No farmer with id 1 found.");
 
-        when(farmerRepository.existsById(id)).thenReturn(false);
-
-        //Act & Assert
-        FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, ()->farmerService.deleteFarmer(id));
-
-        assertEquals("No farmer with id " + id + " found.", exception.getMessage());
-
-        verify(farmerRepository, times(1)).existsById(id);
-        verify(farmerRepository, never()).deleteById(any());
+        verify(farmerRepository).existsById(1L);
     }
 }

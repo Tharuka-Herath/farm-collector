@@ -19,5 +19,4 @@ public interface CropService {
     CropDTO addFarmerToCrop(Long cropId, Long farmerId);
 
     CropDTO addFarmToCrop(Long cropId, Long farmerId);
-
 }

@@ -2,12 +2,8 @@ package com.example.farmcollector.service.farm;
 
 import com.example.farmcollector.dto.FarmDTO;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
-import com.example.farmcollector.model.Crop;
 import com.example.farmcollector.model.Farm;
-import com.example.farmcollector.model.Farmer;
-import com.example.farmcollector.repository.CropRepository;
 import com.example.farmcollector.repository.FarmRepository;
-import com.example.farmcollector.repository.FarmerRepository;
 import com.example.farmcollector.util.FarmMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -15,20 +11,23 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service implementation for managing farms.
+ */
 @Service
 public class FarmServiceImpl implements FarmService {
     private final FarmRepository farmRepository;
-    private final FarmerRepository farmerRepository;
-    private final CropRepository cropRepository;
     private final FarmMapper farmMapper;
 
-
-    public FarmServiceImpl(FarmRepository farmRepository, FarmerRepository farmerRepository, CropRepository cropRepository, FarmMapper farmMapper) {
+    /**
+     * Constructs a new FarmServiceImpl.
+     *
+     * @param farmRepository the repository used for CRUD operations on farms
+     * @param farmMapper     the mapper used to convert between Farm entities and FarmDTOs
+     */
+    public FarmServiceImpl(FarmRepository farmRepository, FarmMapper farmMapper) {
         this.farmRepository = farmRepository;
-        this.farmerRepository = farmerRepository;
-        this.cropRepository = cropRepository;
         this.farmMapper = farmMapper;
-
     }
 
     /**
@@ -100,7 +99,6 @@ public class FarmServiceImpl implements FarmService {
             Farm farm = optionalFarm.get();
             return farmMapper.convertFarmEntityToDto(farm);
         } else {
-            // Handle the case when the farm with the given ID is not found
             throw new FarmDataNotFoundException("Farm not found with id: " + id);
         }
     }
@@ -118,6 +116,4 @@ public class FarmServiceImpl implements FarmService {
             throw new FarmDataNotFoundException("No farm with id " + id + " found.");
         }
     }
-
-
 }

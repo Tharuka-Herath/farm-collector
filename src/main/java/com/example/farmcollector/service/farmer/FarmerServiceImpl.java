@@ -11,12 +11,21 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Service implementation for managing farmers.
+ */
 @Service
 public class FarmerServiceImpl implements FarmerService {
 
     private final FarmerRepository farmerRepository;
     private final FarmerMapper farmerMapper;
 
+    /**
+     * Constructs a new FarmerServiceImpl.
+     *
+     * @param farmerRepository the repository used for CRUD operations on farmers
+     * @param farmerMapper     the mapper used to convert between Farmer entities and FarmerDTOs
+     */
     public FarmerServiceImpl(FarmerRepository farmerRepository, FarmerMapper farmerMapper) {
         this.farmerRepository = farmerRepository;
         this.farmerMapper = farmerMapper;
