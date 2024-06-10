@@ -3,6 +3,7 @@ package com.example.farmcollector.api;
 import com.example.farmcollector.api.request.CropRequest;
 import com.example.farmcollector.api.response.CropResponse;
 import com.example.farmcollector.dto.CropDTO;
+import com.example.farmcollector.enums.Season;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
 import com.example.farmcollector.model.Crop;
 import com.example.farmcollector.service.crop.CropService;
@@ -88,6 +89,13 @@ public class CropController {
     public ResponseEntity<List<CropResponse>> getAllCropsByCropType(@RequestParam String cropType) {
         List<CropDTO> crops = cropService.findAllByCropType(cropType);
         return ResponseEntity.status(HttpStatus.OK).body(cropMapper.convertDtoListToResponseList(crops));
+    }
+
+    @GetMapping("/average-yield")
+    public ResponseEntity<Double> getAverageYieldBySeasonAndYear(
+            @RequestParam Season season, @RequestParam Integer year) {
+        Double averageYield = cropService.findAverageYieldBySeasonAndYear(season, year);
+        return new ResponseEntity<>(averageYield, HttpStatus.OK);
     }
 
 

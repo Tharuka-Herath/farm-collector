@@ -68,7 +68,4 @@ public class FarmController {
         }
     }
 
-//    @GetMapping()
-//    public ResponseEntity <Farm> findFarmersByFarmName(@PathVariable) {
-//    }
 }

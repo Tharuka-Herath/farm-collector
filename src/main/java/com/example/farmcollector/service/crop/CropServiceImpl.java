@@ -1,6 +1,7 @@
 package com.example.farmcollector.service.crop;
 
 import com.example.farmcollector.dto.CropDTO;
+import com.example.farmcollector.enums.Season;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
 import com.example.farmcollector.model.Crop;
 import com.example.farmcollector.model.Farm;
@@ -158,4 +159,12 @@ public class CropServiceImpl implements CropService {
         List<Crop> crops = cropRepository.findAllByCropType(cropType);
         return cropMapper.convertCropEntityListToDtoList(crops);
     }
+
+
+    @Override
+    public Double findAverageYieldBySeasonAndYear(Season season, Integer year) {
+        return cropRepository.findAverageYieldBySeasonAndYear(season, year);
+    }
+
+
 }
