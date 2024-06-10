@@ -152,4 +152,10 @@ public class CropServiceImpl implements CropService {
         Crop addFarm = cropRepository.save(crop);
         return cropMapper.convertCropEntityToDto(addFarm);
     }
+
+    @Override
+    public List<CropDTO> findAllByCropType(String cropType) {
+        List<Crop> crops = cropRepository.findAllByCropType(cropType);
+        return cropMapper.convertCropEntityListToDtoList(crops);
+    }
 }
