@@ -11,6 +11,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -47,6 +48,6 @@ public class Farm {
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "farm",cascade = CascadeType.ALL)
-    List<Farmer> farmers;
+    List<Farmer> farmers = new ArrayList<>();
 
 }

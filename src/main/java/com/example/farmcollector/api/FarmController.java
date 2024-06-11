@@ -5,6 +5,7 @@ import com.example.farmcollector.api.response.FarmResponse;
 import com.example.farmcollector.dto.FarmDTO;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
 import com.example.farmcollector.model.Farm;
+import com.example.farmcollector.model.Farmer;
 import com.example.farmcollector.service.farm.FarmService;
 import com.example.farmcollector.util.FarmMapper;
 import org.springframework.http.HttpStatus;
@@ -68,4 +69,13 @@ public class FarmController {
         }
     }
 
+    @PostMapping("/{farmId}/addFarmer/{farmerId}")
+    public ResponseEntity<FarmResponse> addFarmerToFarm(@PathVariable Long farmId, @PathVariable Long farmerId) {
+        try {
+            FarmResponse farmResponse = farmMapper.convertDtoToResponse(farmService.addFarmerToFarm(farmId, farmerId));
+            return ResponseEntity.status(HttpStatus.OK).body(farmResponse);
+        } catch(FarmDataNotFoundException e) {
+            return ResponseEntity.status((HttpStatus.NOT_FOUND)).build();
+        }
+    }
 }

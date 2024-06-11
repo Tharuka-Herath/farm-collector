@@ -74,11 +74,4 @@ public class FarmerController {
             return ResponseEntity.notFound().build();
         }
     }
-
-    @PostMapping("/{farmerId}/farm/{farmId}")
-    public ResponseEntity<FarmerDTO> addFarmerToFarm(@PathVariable Long farmerId, @PathVariable Long farmId) {
-        FarmerDTO updatedFarmer = farmerService.addFarmerToFarm(farmerId, farmId);
-        return new ResponseEntity<>(updatedFarmer, HttpStatus.OK);
-    }
-
 }

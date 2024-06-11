@@ -102,24 +102,4 @@ public class FarmerServiceImpl implements FarmerService {
         }
     }
 
-    @Override
-    public FarmerDTO addFarmerToFarm(Long farmId,Long farmerId){
-        Optional<Farmer> farmerOptional = farmerRepository.findById(farmerId);
-        Optional<Farm> farmOptional = farmRepository.findById(farmId);
-
-        if (farmerOptional.isPresent() && farmOptional.isPresent()) {
-            Farmer farmer = farmerOptional.get();
-            Farm farm = farmOptional.get();
-
-            List<Farmer> farmerInFarm = farm.getFarmers();
-            farmerInFarm.add(farmer);
-            farmRepository.save(farm);
-
-            return farmerMapper.convertFarmerEntityToDto(farmer);
-        } else {
-            throw new FarmDataNotFoundException("Farmer or Farm not found with the provided IDs.");
-        }
-
-    }
-
 }

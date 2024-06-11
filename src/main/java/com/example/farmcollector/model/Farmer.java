@@ -1,6 +1,7 @@
 package com.example.farmcollector.model;
 
 import com.example.farmcollector.util.IdGenerator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,6 +40,7 @@ public class Farmer {
     private LocalDateTime updatedAt;
 
    @ManyToOne
+   @JsonIgnore
    @JoinColumn(name = "farm_id")
    private Farm farm;
 

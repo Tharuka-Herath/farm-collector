@@ -2,16 +2,15 @@ package com.example.farmcollector.service.farm;
 
 import com.example.farmcollector.dto.FarmDTO;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
-import com.example.farmcollector.model.Crop;
 import com.example.farmcollector.model.Farm;
 import com.example.farmcollector.model.Farmer;
-import com.example.farmcollector.repository.CropRepository;
 import com.example.farmcollector.repository.FarmRepository;
 import com.example.farmcollector.repository.FarmerRepository;
 import com.example.farmcollector.util.FarmMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,14 +18,12 @@ import java.util.Optional;
 public class FarmServiceImpl implements FarmService {
     private final FarmRepository farmRepository;
     private final FarmerRepository farmerRepository;
-    private final CropRepository cropRepository;
     private final FarmMapper farmMapper;
 
 
-    public FarmServiceImpl(FarmRepository farmRepository, FarmerRepository farmerRepository, CropRepository cropRepository, FarmMapper farmMapper) {
+    public FarmServiceImpl(FarmRepository farmRepository, FarmerRepository farmerRepository, FarmMapper farmMapper) {
         this.farmRepository = farmRepository;
         this.farmerRepository = farmerRepository;
-        this.cropRepository = cropRepository;
         this.farmMapper = farmMapper;
 
     }
@@ -120,6 +117,16 @@ public class FarmServiceImpl implements FarmService {
     }
 
 
+    public FarmDTO addFarmerToFarm(Long farmId, Long farmerId) {
+        Farm farm = farmRepository.findById(farmId).orElseThrow(() -> new FarmDataNotFoundException("Farm not found with ths id"));
+        Farmer farmer = farmerRepository.findById(farmerId).orElseThrow(() -> new FarmDataNotFoundException("Farmer not found with this id"));
 
+        List<Farmer> farmerList = farm.getFarmers();
+        farmerList.add(farmer);
+        farm.setFarmers(farmerList);
 
+        farmer.setFarm(farm);
+
+        return farmMapper.convertFarmEntityToDto(farmRepository.save(farm));
+    }
 }

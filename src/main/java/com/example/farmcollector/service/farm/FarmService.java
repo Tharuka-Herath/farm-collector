@@ -13,5 +13,5 @@ public interface FarmService {
     List<FarmDTO> getAllFarms();
     FarmDTO getFarmById(Long id);
     void deleteFarm(Long id);
-
+    FarmDTO addFarmerToFarm(Long farmId, Long farmerId);
 }
