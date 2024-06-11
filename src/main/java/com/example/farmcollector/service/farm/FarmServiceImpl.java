@@ -10,7 +10,6 @@ import com.example.farmcollector.util.FarmMapper;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -77,9 +76,7 @@ public class FarmServiceImpl implements FarmService {
     @Override
     public List<FarmDTO> getAllFarms() {
         List<Farm> farms = farmRepository.findAll();
-        return farms.stream()
-                .map(farmMapper::convertFarmEntityToDto)
-                .toList();
+        return farms.stream().map(farmMapper::convertFarmEntityToDto).toList();
     }
 
     /**

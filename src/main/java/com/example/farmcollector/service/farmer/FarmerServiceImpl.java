@@ -2,7 +2,6 @@ package com.example.farmcollector.service.farmer;
 
 import com.example.farmcollector.dto.FarmerDTO;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
-import com.example.farmcollector.model.Farm;
 import com.example.farmcollector.model.Farmer;
 import com.example.farmcollector.repository.FarmRepository;
 import com.example.farmcollector.repository.FarmerRepository;

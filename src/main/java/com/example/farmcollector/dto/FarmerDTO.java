@@ -13,5 +13,4 @@ import lombok.Setter;
 public class FarmerDTO {
     private String farmerName;
     private Farm farm;
-
 }

@@ -29,10 +29,10 @@ public class CropServiceImpl implements CropService {
     /**
      * Constructs a new CropServiceImpl.
      *
-     * @param cropRepository the repository used for CRUD operations on crops
-     * @param cropMapper     the mapper used to convert between Crop entities and CropDTOs
+     * @param cropRepository   the repository used for CRUD operations on crops
+     * @param cropMapper       the mapper used to convert between Crop entities and CropDTOs
      * @param farmerRepository the repository used for CRUD operations on farmers
-     * @param farmRepository the repository used for CRUD operations on farms
+     * @param farmRepository   the repository used for CRUD operations on farms
      */
     public CropServiceImpl(CropRepository cropRepository, CropMapper cropMapper, FarmerRepository farmerRepository, FarmRepository farmRepository) {
         this.cropRepository = cropRepository;
@@ -154,13 +154,25 @@ public class CropServiceImpl implements CropService {
         return cropMapper.convertCropEntityToDto(addFarm);
     }
 
+    /**
+     * Finds all crops of a given crop type.
+     *
+     * @param cropType the type of crop to search for
+     * @return a list of {@link CropDTO} objects representing the found crops
+     */
     @Override
     public List<CropDTO> findAllByCropType(String cropType) {
         List<Crop> crops = cropRepository.findAllByCropType(cropType);
         return cropMapper.convertCropEntityListToDtoList(crops);
     }
 
-
+    /**
+     * Finds the average yield for a given season and year.
+     *
+     * @param season the season for which to calculate the average yield
+     * @param year   the year for which to calculate the average yield
+     * @return the average yield for the given season and year
+     */
     @Override
     public Double findAverageYieldBySeasonAndYear(Season season, Integer year) {
         return cropRepository.findAverageYieldBySeasonAndYear(season, year);

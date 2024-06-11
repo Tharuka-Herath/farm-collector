@@ -8,9 +8,7 @@ import com.example.farmcollector.model.Farmer;
 import com.example.farmcollector.repository.FarmRepository;
 import com.example.farmcollector.repository.FarmerRepository;
 import com.example.farmcollector.service.farm.FarmServiceImpl;
-import com.example.farmcollector.service.farmer.FarmerServiceImpl;
 import com.example.farmcollector.util.FarmMapper;
-import com.example.farmcollector.util.FarmerMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,7 +16,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,14 +35,8 @@ public class FarmServiceImplTest {
     @Mock
     private FarmerRepository farmerRepository;
 
-    @Mock
-    private FarmerMapper farmerMapper;
-
     @InjectMocks
     private FarmServiceImpl farmService;
-    
-    @InjectMocks
-    private FarmerServiceImpl farmerService;
 
     private Farm farm;
     private FarmDTO farmDTO;

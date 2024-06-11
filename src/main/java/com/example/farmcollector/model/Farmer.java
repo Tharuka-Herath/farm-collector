@@ -10,7 +10,6 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -39,9 +38,9 @@ public class Farmer {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-   @ManyToOne
-   @JsonIgnore
-   @JoinColumn(name = "farm_id")
-   private Farm farm;
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name = "farm_id")
+    private Farm farm;
 
 }

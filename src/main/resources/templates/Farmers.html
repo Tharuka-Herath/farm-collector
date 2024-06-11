@@ -8,7 +8,9 @@
 <body>
 <div class="container">
     <h1>Farmers</h1>
-    <button type="button" class="btn btn-secondary mb-3" data-bs-toggle="modal" data-bs-target="#addFarmerModal">Add Farmer</button>
+    <button type="button" class="btn btn-secondary mb-3" data-bs-toggle="modal" data-bs-target="#addFarmerModal">Add
+        Farmer
+    </button>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -40,7 +42,8 @@
                 <form th:action="@{/farmers}" th:object="${newFarmer}" method="post">
                     <div class="mb-3">
                         <label for="farmerName" class="form-label">Farmer Name</label>
-                        <input type="text" class="form-control" id="farmerName" th:field="*{farmerName}" placeholder="Enter farmer name">
+                        <input type="text" class="form-control" id="farmerName" th:field="*{farmerName}"
+                               placeholder="Enter farmer name">
                     </div>
                     <button type="submit" class="btn btn-primary">Save</button>
                 </form>

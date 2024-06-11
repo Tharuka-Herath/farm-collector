@@ -8,7 +8,9 @@
 <body>
 <div class="container">
     <h1>Crops</h1>
-    <button type="button" class="btn btn-secondary mb-3" data-bs-toggle="modal" data-bs-target="#addCropModal">Add Crop</button>
+    <button type="button" class="btn btn-secondary mb-3" data-bs-toggle="modal" data-bs-target="#addCropModal">Add
+        Crop
+    </button>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -48,25 +50,30 @@
                 <form th:action="@{/crops}" th:object="${newCrop}" method="post">
                     <div class="mb-3">
                         <label for="cropType" class="form-label">Crop Type</label>
-                        <input type="text" class="form-control" id="cropType" th:field="*{cropType}" placeholder="Enter crop type">
+                        <input type="text" class="form-control" id="cropType" th:field="*{cropType}"
+                               placeholder="Enter crop type">
                     </div>
                     <div class="mb-3">
                         <label for="season" class="form-label">Season</label>
                         <select class="form-select" id="season" th:field="*{season}">
-                            <option th:text="${season}" th:each="season : ${#arrays.array('SPRING', 'SUMMER', 'FALL', 'WINTER')}"></option>
+                            <option th:text="${season}"
+                                    th:each="season : ${#arrays.array('SPRING', 'SUMMER', 'FALL', 'WINTER')}"></option>
                         </select>
                     </div>
                     <div class="mb-3">
                         <label for="yieldYear" class="form-label">Yield Year</label>
-                        <input type="number" class="form-control" id="yieldYear" th:field="*{yieldYear}" placeholder="Enter yield year">
+                        <input type="number" class="form-control" id="yieldYear" th:field="*{yieldYear}"
+                               placeholder="Enter yield year">
                     </div>
                     <div class="mb-3">
                         <label for="expectedAmount" class="form-label">Expected Amount (tons)</label>
-                        <input type="number" class="form-control" id="expectedAmount" th:field="*{expectedAmount}" placeholder="Enter expected amount">
+                        <input type="number" class="form-control" id="expectedAmount" th:field="*{expectedAmount}"
+                               placeholder="Enter expected amount">
                     </div>
                     <div class="mb-3">
                         <label for="actualAmount" class="form-label">Actual Amount (tons)</label>
-                        <input type="number" class="form-control" id="actualAmount" th:field="*{actualAmount}" placeholder="Enter actual amount">
+                        <input type="number" class="form-control" id="actualAmount" th:field="*{actualAmount}"
+                               placeholder="Enter actual amount">
                     </div>
                     <button type="submit" class="btn btn-primary">Save</button>
                 </form>

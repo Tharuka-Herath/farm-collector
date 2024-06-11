@@ -8,7 +8,9 @@
 <body>
 <div class="container">
     <h1>Farms</h1>
-    <button type="button" class="btn btn-secondary mb-3" data-bs-toggle="modal" data-bs-target="#addFarmModal">Add Farm</button>
+    <button type="button" class="btn btn-secondary mb-3" data-bs-toggle="modal" data-bs-target="#addFarmModal">Add
+        Farm
+    </button>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -44,15 +46,18 @@
                 <form th:action="@{/farms}" th:object="${newFarm}" method="post">
                     <div class="mb-3">
                         <label for="farmName" class="form-label">Farm Name</label>
-                        <input type="text" class="form-control" id="farmName" th:field="*{farmName}" placeholder="Enter farm name">
+                        <input type="text" class="form-control" id="farmName" th:field="*{farmName}"
+                               placeholder="Enter farm name">
                     </div>
                     <div class="mb-3">
                         <label for="location" class="form-label">Location</label>
-                        <input type="text" class="form-control" id="location" th:field="*{location}" placeholder="Enter location">
+                        <input type="text" class="form-control" id="location" th:field="*{location}"
+                               placeholder="Enter location">
                     </div>
                     <div class="mb-3">
                         <label for="farmArea" class="form-label">Area (in acres)</label>
-                        <input type="number" class="form-control" id="farmArea" th:field="*{farmArea}" placeholder="Enter area">
+                        <input type="number" class="form-control" id="farmArea" th:field="*{farmArea}"
+                               placeholder="Enter area">
                     </div>
                     <button type="submit" class="btn btn-primary">Save</button>
                 </form>

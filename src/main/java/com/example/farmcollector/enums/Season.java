@@ -4,8 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum Season {
-    YALA("yala"),
-    MAHA("maha");
+    YALA("yala"), MAHA("maha");
     private final String value;
 
     Season(String value) {

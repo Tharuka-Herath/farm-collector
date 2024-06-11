@@ -35,9 +35,7 @@ public class FarmerController {
     @GetMapping
     public ResponseEntity<List<FarmerResponse>> getAllFarmers() {
         List<FarmerDTO> farmersList = farmerService.getAllFarmers();
-        List<FarmerResponse> farmerList = farmersList.stream()
-                .map(farmerMapper::convertFarmerDtoToResponse)
-                .toList();
+        List<FarmerResponse> farmerList = farmersList.stream().map(farmerMapper::convertFarmerDtoToResponse).toList();
 
         return ResponseEntity.status(HttpStatus.OK).body(farmerList);
     }
@@ -62,7 +60,6 @@ public class FarmerController {
         } catch (FarmDataNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-
     }
 
     @DeleteMapping("/{id}")

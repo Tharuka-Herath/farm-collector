@@ -2,7 +2,6 @@ package com.example.farmcollector.service.crop;
 
 import com.example.farmcollector.dto.CropDTO;
 import com.example.farmcollector.enums.Season;
-import com.example.farmcollector.model.Crop;
 
 import java.util.List;
 
