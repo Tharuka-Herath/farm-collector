@@ -18,5 +18,12 @@ public interface CropRepository extends JpaRepository<Crop, Long> {
     @Query("SELECT AVG(c.actualAmount) FROM Crop c WHERE c.season = :season AND c.yieldYear = :year")
     Double findAverageYieldBySeasonAndYear(@Param("season") Season season, @Param("year") Integer year);
 
+    // Find crops with a specific crop type along with farm location
+
+    @Query("SELECT c.cropType, f.location FROM Crop c JOIN c.farm f WHERE c.cropType = :cropType")
+    List<Object[]> findCropsWithFarmLocationByCropType(@Param("cropType") String cropType);
+
+
+
 
 }

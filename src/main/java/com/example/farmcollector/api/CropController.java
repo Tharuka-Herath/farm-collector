@@ -7,6 +7,7 @@ import com.example.farmcollector.enums.Season;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
 import com.example.farmcollector.service.crop.CropService;
 import com.example.farmcollector.util.CropMapper;
+import jakarta.websocket.server.PathParam;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -95,4 +96,9 @@ public class CropController {
         return new ResponseEntity<>(averageYield, HttpStatus.OK);
     }
 
+    @GetMapping("/with-farm-location")
+    public ResponseEntity<List<Object[]>> getCropsWithFarmLocationByCropType(@RequestParam String cropType) {
+        List<Object[]> cropsWithFarmLocation = cropService.findCropsWithFarmLocationByCropType(cropType);
+        return new ResponseEntity<>(cropsWithFarmLocation, HttpStatus.OK);
+    }
 }
