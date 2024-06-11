@@ -98,5 +98,4 @@ public class CropController {
         return new ResponseEntity<>(averageYield, HttpStatus.OK);
     }
 
-
 }
