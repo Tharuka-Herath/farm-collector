@@ -90,6 +90,7 @@ public class FarmServiceImplTest {
 
         assertTrue(result.isPresent());
         assertEquals(farmDTO.getFarmName(), result.get().getFarmName());
+
         verify(farmRepository, times(1)).findById(1L);
         verify(farmRepository, times(1)).save(any(Farm.class));
     }
@@ -114,6 +115,7 @@ public class FarmServiceImplTest {
 
         assertNotNull(result);
         assertEquals(1, result.size());
+
         verify(farmRepository, times(1)).findAll();
     }
 
@@ -126,6 +128,7 @@ public class FarmServiceImplTest {
 
         assertNotNull(result);
         assertEquals(farmDTO.getFarmName(), result.getFarmName());
+
         verify(farmRepository, times(1)).findById(1L);
     }
 
@@ -138,6 +141,7 @@ public class FarmServiceImplTest {
         });
 
         assertEquals("Farm not found with id: 1", exception.getMessage());
+
         verify(farmRepository, times(1)).findById(1L);
     }
 
@@ -160,6 +164,7 @@ public class FarmServiceImplTest {
         });
 
         assertEquals("No farm with id 1 found.", exception.getMessage());
+
         verify(farmRepository, times(1)).existsById(1L);
         verify(farmRepository, times(0)).deleteById(1L);
     }
@@ -194,6 +199,7 @@ public class FarmServiceImplTest {
         });
 
         assertEquals("Farm not found with ths id", exception.getMessage());
+
         verify(farmRepository, times(1)).findById(1L);
         verify(farmerRepository, times(0)).findById(1L);
         verify(farmRepository, times(0)).save(any(Farm.class));
@@ -210,6 +216,7 @@ public class FarmServiceImplTest {
         });
 
         assertEquals("Farmer not found with this id", exception.getMessage());
+
         verify(farmRepository, times(1)).findById(1L);
         verify(farmerRepository, times(1)).findById(1L);
         verify(farmRepository, times(0)).save(any(Farm.class));

@@ -56,7 +56,7 @@ public class CropServiceImplTest {
 
         farmer = new Farmer();
         farmer.setId(1L);
-        farmer.setFarmerName("John Doe");
+        farmer.setFarmerName("Darshana");
 
         crop = new Crop();
         crop.setId(1L);
@@ -88,6 +88,7 @@ public class CropServiceImplTest {
 
         assertNotNull(result);
         assertEquals(cropDTO.getCropType(), result.getCropType());
+
         verify(cropRepository, times(1)).save(any(Crop.class));
     }
 
@@ -100,6 +101,7 @@ public class CropServiceImplTest {
 
         assertNotNull(result);
         assertEquals(1, result.size());
+
         verify(cropRepository, times(1)).findAll();
     }
 
@@ -112,6 +114,7 @@ public class CropServiceImplTest {
 
         assertNotNull(result);
         assertEquals(cropDTO.getCropType(), result.getCropType());
+
         verify(cropRepository, times(1)).findById(1L);
     }
 
@@ -124,6 +127,7 @@ public class CropServiceImplTest {
         });
 
         assertEquals("Crop not found for the given ID", exception.getMessage());
+
         verify(cropRepository, times(1)).findById(1L);
     }
 
@@ -138,6 +142,7 @@ public class CropServiceImplTest {
 
         assertNotNull(result);
         assertEquals(cropDTO.getCropType(), result.getCropType());
+
         verify(cropRepository, times(1)).findById(1L);
         verify(cropRepository, times(1)).save(any(Crop.class));
     }
@@ -151,6 +156,7 @@ public class CropServiceImplTest {
         });
 
         assertEquals("No crop with ID 1 found.", exception.getMessage());
+
         verify(cropRepository, times(1)).findById(1L);
         verify(cropRepository, times(0)).save(any(Crop.class));
     }
@@ -174,6 +180,7 @@ public class CropServiceImplTest {
         });
 
         assertEquals("Crop not found for the given ID", exception.getMessage());
+
         verify(cropRepository, times(1)).findById(1L);
         verify(cropRepository, times(0)).deleteById(1L);
     }
@@ -188,6 +195,7 @@ public class CropServiceImplTest {
         CropDTO result = cropService.addFarmerToCrop(1L, 1L);
 
         assertNotNull(result);
+
         verify(farmerRepository, times(1)).findById(1L);
         verify(cropRepository, times(1)).findById(1L);
         verify(cropRepository, times(1)).save(any(Crop.class));
@@ -202,6 +210,7 @@ public class CropServiceImplTest {
         });
 
         assertEquals("No farmer with the id", exception.getMessage());
+
         verify(farmerRepository, times(1)).findById(1L);
         verify(cropRepository, times(0)).findById(1L);
         verify(cropRepository, times(0)).save(any(Crop.class));
@@ -217,6 +226,7 @@ public class CropServiceImplTest {
         });
 
         assertEquals("No crop with this id", exception.getMessage());
+
         verify(farmerRepository, times(1)).findById(1L);
         verify(cropRepository, times(1)).findById(1L);
         verify(cropRepository, times(0)).save(any(Crop.class));
@@ -232,6 +242,7 @@ public class CropServiceImplTest {
         CropDTO result = cropService.addFarmToCrop(1L, 1L);
 
         assertNotNull(result);
+
         verify(farmRepository, times(1)).findById(1L);
         verify(cropRepository, times(1)).findById(1L);
         verify(cropRepository, times(1)).save(any(Crop.class));
@@ -246,6 +257,7 @@ public class CropServiceImplTest {
         });
 
         assertEquals("No fam with this id", exception.getMessage());
+
         verify(farmRepository, times(1)).findById(1L);
         verify(cropRepository, times(0)).findById(1L);
         verify(cropRepository, times(0)).save(any(Crop.class));
@@ -261,6 +273,7 @@ public class CropServiceImplTest {
         });
 
         assertEquals("No crop with this id", exception.getMessage());
+
         verify(farmRepository, times(1)).findById(1L);
         verify(cropRepository, times(1)).findById(1L);
         verify(cropRepository, times(0)).save(any(Crop.class));
@@ -269,13 +282,14 @@ public class CropServiceImplTest {
     @Test
     void findAllByCropType_success() {
         when(cropRepository.findAllByCropType("Wheat")).thenReturn(List.of(crop));
-        when(cropMapper.convertCropEntityListToDtoList(any(List.class))).thenReturn(List.of(cropDTO));
+        when(cropMapper.convertCropEntityListToDtoList(List.of(crop))).thenReturn(List.of(cropDTO));
 
         List<CropDTO> result = cropService.findAllByCropType("Wheat");
 
         assertNotNull(result);
         assertEquals(1, result.size());
         assertEquals(cropDTO.getCropType(), result.get(0).getCropType());
+
         verify(cropRepository, times(1)).findAllByCropType("Wheat");
     }
 
@@ -287,6 +301,7 @@ public class CropServiceImplTest {
 
         assertNotNull(result);
         assertEquals(90.0, result);
+
         verify(cropRepository, times(1)).findAverageYieldBySeasonAndYear(Season.YALA, 2023);
     }
 }

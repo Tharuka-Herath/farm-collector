@@ -40,10 +40,10 @@ public class FarmerServiceImplTest {
 
         farmer = new Farmer();
         farmer.setId(1L);
-        farmer.setFarmerName("John Doe");
+        farmer.setFarmerName("Darshana");
 
         farmerDTO = new FarmerDTO();
-        farmerDTO.setFarmerName("John Doe");
+        farmerDTO.setFarmerName("Darshana");
     }
 
     @Test
@@ -56,6 +56,7 @@ public class FarmerServiceImplTest {
 
         assertNotNull(result);
         assertEquals(farmerDTO.getFarmerName(), result.getFarmerName());
+
         verify(farmerRepository, times(1)).save(any(Farmer.class));
     }
 
@@ -70,6 +71,7 @@ public class FarmerServiceImplTest {
 
         assertNotNull(result);
         assertEquals(farmerDTO.getFarmerName(), result.getFarmerName());
+
         verify(farmerRepository, times(1)).findById(1L);
         verify(farmerRepository, times(1)).save(any(Farmer.class));
     }
@@ -83,6 +85,7 @@ public class FarmerServiceImplTest {
         });
 
         assertEquals("No farmer with id 1 found.", exception.getMessage());
+
         verify(farmerRepository, times(1)).findById(1L);
         verify(farmerRepository, times(0)).save(any(Farmer.class));
     }
@@ -96,6 +99,7 @@ public class FarmerServiceImplTest {
 
         assertNotNull(result);
         assertEquals(1, result.size());
+
         verify(farmerRepository, times(1)).findAll();
     }
 
@@ -108,6 +112,7 @@ public class FarmerServiceImplTest {
 
         assertNotNull(result);
         assertEquals(farmerDTO.getFarmerName(), result.getFarmerName());
+
         verify(farmerRepository, times(1)).findById(1L);
     }
 
@@ -120,6 +125,7 @@ public class FarmerServiceImplTest {
         });
 
         assertEquals("Farmer was not found with id 1", exception.getMessage());
+
         verify(farmerRepository, times(1)).findById(1L);
     }
 
@@ -142,6 +148,7 @@ public class FarmerServiceImplTest {
         });
 
         assertEquals("No farmer with id 1 found.", exception.getMessage());
+
         verify(farmerRepository, times(1)).existsById(1L);
         verify(farmerRepository, times(0)).deleteById(1L);
     }

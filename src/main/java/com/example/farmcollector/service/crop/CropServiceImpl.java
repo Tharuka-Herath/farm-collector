@@ -177,6 +177,4 @@ public class CropServiceImpl implements CropService {
     public Double findAverageYieldBySeasonAndYear(Season season, Integer year) {
         return cropRepository.findAverageYieldBySeasonAndYear(season, year);
     }
-
-
 }

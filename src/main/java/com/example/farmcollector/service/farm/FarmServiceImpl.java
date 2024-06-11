@@ -24,7 +24,6 @@ public class FarmServiceImpl implements FarmService {
         this.farmRepository = farmRepository;
         this.farmerRepository = farmerRepository;
         this.farmMapper = farmMapper;
-
     }
 
     /**
@@ -113,7 +112,14 @@ public class FarmServiceImpl implements FarmService {
         }
     }
 
-
+    /**
+     * Adds a farmer to a farm.
+     *
+     * @param farmId   The ID of the farm to which the farmer will be added.
+     * @param farmerId The ID of the farmer to be added to the farm.
+     * @return A FarmDTO representing the updated farm after adding the farmer.
+     * @throws FarmDataNotFoundException if the farm or farmer with the given ID is not found.
+     */
     public FarmDTO addFarmerToFarm(Long farmId, Long farmerId) {
         Farm farm = farmRepository.findById(farmId).orElseThrow(() -> new FarmDataNotFoundException("Farm not found with ths id"));
         Farmer farmer = farmerRepository.findById(farmerId).orElseThrow(() -> new FarmDataNotFoundException("Farmer not found with this id"));
