@@ -183,4 +183,9 @@ public class CropServiceImpl implements CropService {
         return cropRepository.findCropsWithFarmLocationByCropType(cropType);
     }
 
+    @Override
+    public List<Object[]> findCropsByFarmNameAndSeason(String farmName, Season season) {
+        return cropRepository.findCropsByFarmNameAndSeason(farmName, season);
+    }
+
 }

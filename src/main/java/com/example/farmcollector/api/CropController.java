@@ -5,6 +5,7 @@ import com.example.farmcollector.api.response.CropResponse;
 import com.example.farmcollector.dto.CropDTO;
 import com.example.farmcollector.enums.Season;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
+import com.example.farmcollector.model.Crop;
 import com.example.farmcollector.service.crop.CropService;
 import com.example.farmcollector.util.CropMapper;
 import jakarta.websocket.server.PathParam;
@@ -100,5 +101,11 @@ public class CropController {
     public ResponseEntity<List<Object[]>> getCropsWithFarmLocationByCropType(@RequestParam String cropType) {
         List<Object[]> cropsWithFarmLocation = cropService.findCropsWithFarmLocationByCropType(cropType);
         return new ResponseEntity<>(cropsWithFarmLocation, HttpStatus.OK);
+    }
+
+    @GetMapping("/with-farm-season")
+    public ResponseEntity<List<Object[]>> getCropsByFarmNameAndSeason(@RequestParam String farmName, @RequestParam Season season) {
+        List<Object[]> cropsWithFarmNameAndSeason = cropService.findCropsByFarmNameAndSeason(farmName, season);
+        return new ResponseEntity<>(cropsWithFarmNameAndSeason,HttpStatus.OK);
     }
 }
