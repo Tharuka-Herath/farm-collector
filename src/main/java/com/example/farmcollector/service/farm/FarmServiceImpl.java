@@ -121,8 +121,8 @@ public class FarmServiceImpl implements FarmService {
      * @throws FarmDataNotFoundException if the farm or farmer with the given ID is not found.
      */
     public FarmDTO addFarmerToFarm(Long farmId, Long farmerId) {
-        Farm farm = farmRepository.findById(farmId).orElseThrow(() -> new FarmDataNotFoundException("Farm not found with ths id"));
-        Farmer farmer = farmerRepository.findById(farmerId).orElseThrow(() -> new FarmDataNotFoundException("Farmer not found with this id"));
+        Farm farm = farmRepository.findById(farmId).orElseThrow(() -> new FarmDataNotFoundException("No farm with id "+ farmId + "found"));
+        Farmer farmer = farmerRepository.findById(farmerId).orElseThrow(() -> new FarmDataNotFoundException("No farmer with id "+ farmerId + "found"));
 
         List<Farmer> farmerList = farm.getFarmers();
         farmerList.add(farmer);

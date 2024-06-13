@@ -163,7 +163,7 @@ public class FarmServiceImplTest {
             farmService.deleteFarm(1L);
         });
 
-        assertEquals("No farm with id 1 found.", exception.getMessage());
+        assertEquals("No farm with id 1 found", exception.getMessage());
 
         verify(farmRepository, times(1)).existsById(1L);
         verify(farmRepository, times(0)).deleteById(1L);
@@ -198,7 +198,7 @@ public class FarmServiceImplTest {
             farmService.addFarmerToFarm(1L, 1L);
         });
 
-        assertEquals("Farm not found with ths id", exception.getMessage());
+        assertEquals("No farm with id 1 found", exception.getMessage());
 
         verify(farmRepository, times(1)).findById(1L);
         verify(farmerRepository, times(0)).findById(1L);
@@ -215,7 +215,7 @@ public class FarmServiceImplTest {
             farmService.addFarmerToFarm(1L, 1L);
         });
 
-        assertEquals("Farmer not found with this id", exception.getMessage());
+        assertEquals("No farmer with id 1 found", exception.getMessage());
 
         verify(farmRepository, times(1)).findById(1L);
         verify(farmerRepository, times(1)).findById(1L);

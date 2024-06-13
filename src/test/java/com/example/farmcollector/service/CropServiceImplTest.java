@@ -304,4 +304,67 @@ public class CropServiceImplTest {
 
         verify(cropRepository, times(1)).findAverageYieldBySeasonAndYear(Season.YALA, 2023);
     }
+
+
+    @Test
+    void findCropsWithFarmLocationByCropType_success() {
+        List<Object[]> mockResult = List.of(
+                new Object[]{"Crop1", "Location1"},
+                new Object[]{"Crop2", "Location2"}
+        );
+
+        when(cropRepository.findCropsWithFarmLocationByCropType("Wheat")).thenReturn(mockResult);
+
+        List<Object[]> result = cropService.findCropsWithFarmLocationByCropType("Wheat");
+
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        assertEquals("Crop1", result.get(0)[0]);
+        assertEquals("Location1", result.get(0)[1]);
+
+        verify(cropRepository, times(1)).findCropsWithFarmLocationByCropType("Wheat");
+    }
+
+    @Test
+    void findCropsWithFarmLocationByCropType_emptyResult() {
+        when(cropRepository.findCropsWithFarmLocationByCropType("Wheat")).thenReturn(List.of());
+
+        List<Object[]> result = cropService.findCropsWithFarmLocationByCropType("Wheat");
+
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+
+        verify(cropRepository, times(1)).findCropsWithFarmLocationByCropType("Wheat");
+    }
+
+    @Test
+    void findCropsByFarmNameAndSeason_success() {
+        List<Object[]> mockResult = List.of(
+                new Object[]{"Crop1", "YALA"},
+                new Object[]{"Crop2", "YALA"}
+        );
+
+        when(cropRepository.findCropsByFarmNameAndSeason("Test Farm", Season.YALA)).thenReturn(mockResult);
+
+        List<Object[]> result = cropService.findCropsByFarmNameAndSeason("Test Farm", Season.YALA);
+
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        assertEquals("Crop1", result.get(0)[0]);
+        assertEquals("YALA", result.get(0)[1]);
+
+        verify(cropRepository, times(1)).findCropsByFarmNameAndSeason("Test Farm", Season.YALA);
+    }
+
+    @Test
+    void findCropsByFarmNameAndSeason_emptyResult() {
+        when(cropRepository.findCropsByFarmNameAndSeason("Test Farm", Season.YALA)).thenReturn(List.of());
+
+        List<Object[]> result = cropService.findCropsByFarmNameAndSeason("Test Farm", Season.YALA);
+
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
+
+        verify(cropRepository, times(1)).findCropsByFarmNameAndSeason("Test Farm", Season.YALA);
+    }
 }
