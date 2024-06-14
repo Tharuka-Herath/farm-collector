@@ -13,6 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CropResponse {
+    private String cropId;
     private String cropType;
     private Season season;
     private Integer yieldYear;

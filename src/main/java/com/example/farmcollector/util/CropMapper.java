@@ -13,24 +13,22 @@ import java.util.List;
  */
 @Component
 public class CropMapper {
-
     /**
-     * Converts a Crop entity to a CropDTO.
+     * Converts a CropRequest to a CropDTO.
      *
-     * @param entity the Crop entity to convert.
+     * @param request the CropRequest to convert.
      * @return the converted CropDTO.
      */
-    public CropDTO convertCropEntityToDto(Crop entity) {
+    public CropDTO convertCropRequestToDto(CropRequest request) {
         CropDTO dto = new CropDTO();
-        dto.setCropType(entity.getCropType());
-        dto.setSeason(entity.getSeason());
-        dto.setYieldYear(entity.getYieldYear());
-        dto.setExpectedAmount(entity.getExpectedAmount());
-        dto.setActualAmount(entity.getActualAmount());
-        dto.setFarm(entity.getFarm());
-        dto.setFarmer(entity.getFarmer());
+        dto.setCropType(request.getCropType());
+        dto.setSeason(request.getSeason());
+        dto.setYieldYear(request.getYieldYear());
+        dto.setExpectedAmount(request.getExpectedAmount());
+        dto.setActualAmount(request.getActualAmount());
         return dto;
     }
+
 
     /**
      * Converts a CropDTO to a Crop entity.
@@ -51,20 +49,26 @@ public class CropMapper {
     }
 
     /**
-     * Converts a CropRequest to a CropDTO.
+     * Converts a Crop entity to a CropDTO.
      *
-     * @param request the CropRequest to convert.
+     * @param entity the Crop entity to convert.
      * @return the converted CropDTO.
      */
-    public CropDTO convertCropRequestToDto(CropRequest request) {
+    public CropDTO convertCropEntityToDto(Crop entity) {
         CropDTO dto = new CropDTO();
-        dto.setCropType(request.getCropType());
-        dto.setSeason(request.getSeason());
-        dto.setYieldYear(request.getYieldYear());
-        dto.setExpectedAmount(request.getExpectedAmount());
-        dto.setActualAmount(request.getActualAmount());
+        dto.setCropId(entity.getCropId());
+        dto.setCropType(entity.getCropType());
+        dto.setSeason(entity.getSeason());
+        dto.setYieldYear(entity.getYieldYear());
+        dto.setExpectedAmount(entity.getExpectedAmount());
+        dto.setActualAmount(entity.getActualAmount());
+        dto.setFarm(entity.getFarm());
+        dto.setFarmer(entity.getFarmer());
         return dto;
     }
+
+
+
 
     /**
      * Converts a CropDTO to a CropResponse.
@@ -74,6 +78,7 @@ public class CropMapper {
      */
     public CropResponse convertDtoToResponse(CropDTO dto) {
         CropResponse response = new CropResponse();
+        response.setCropId(dto.getCropId());
         response.setCropType(dto.getCropType());
         response.setSeason(dto.getSeason());
         response.setYieldYear(dto.getYieldYear());
