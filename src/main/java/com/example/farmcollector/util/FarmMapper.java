@@ -14,37 +14,6 @@ import java.util.List;
 @Component
 public class FarmMapper {
 
-    /**
-     * Converts a Farm entity to a FarmDTO.
-     *
-     * @param entity the Farm entity to convert.
-     * @return the converted FarmDTO.
-     */
-    public FarmDTO convertFarmEntityToDto(Farm entity) {
-        FarmDTO dto = new FarmDTO();
-
-        dto.setFarmName(entity.getFarmName());
-        dto.setLocation(entity.getLocation());
-        dto.setFarmArea(entity.getFarmArea());
-        dto.setFarmers(entity.getFarmers());
-        return dto;
-    }
-
-    /**
-     * Converts a FarmDTO to a Farm entity.
-     *
-     * @param dto the FarmDTO to convert.
-     * @return the converted Farm entity.
-     */
-    public Farm convertFarmDtoToEntity(FarmDTO dto) {
-        Farm entity = new Farm();
-
-        entity.setFarmName(dto.getFarmName());
-        entity.setLocation(dto.getLocation());
-        entity.setFarmArea(dto.getFarmArea());
-        entity.setFarmers(dto.getFarmers());
-        return entity;
-    }
 
     /**
      * Converts a FarmRequest to a FarmDTO.
@@ -62,6 +31,39 @@ public class FarmMapper {
     }
 
     /**
+     * Converts a FarmDTO to a Farm entity.
+     *
+     * @param dto the FarmDTO to convert.
+     * @return the converted Farm entity.
+     */
+    public Farm convertFarmDtoToEntity(FarmDTO dto) {
+        Farm entity = new Farm();
+
+        entity.setFarmName(dto.getFarmName());
+        entity.setLocation(dto.getLocation());
+        entity.setFarmArea(dto.getFarmArea());
+        return entity;
+    }
+
+    /**
+     * Converts a Farm entity to a FarmDTO.
+     *
+     * @param entity the Farm entity to convert.
+     * @return the converted FarmDTO.
+     */
+    public FarmDTO convertFarmEntityToDto(Farm entity) {
+        FarmDTO dto = new FarmDTO();
+
+        dto.setId(entity.getId());
+        dto.setFarmId(entity.getFarmId());
+        dto.setFarmName(entity.getFarmName());
+        dto.setLocation(entity.getLocation());
+        dto.setFarmArea(entity.getFarmArea());
+        dto.setFarmers(entity.getFarmers());
+        return dto;
+    }
+
+    /**
      * Converts a FarmDTO to a FarmResponse.
      *
      * @param dto the FarmDTO to convert.
@@ -70,6 +72,7 @@ public class FarmMapper {
     public FarmResponse convertDtoToResponse(FarmDTO dto) {
         FarmResponse response = new FarmResponse();
 
+        response.setFarmId(dto.getFarmId());
         response.setFarmName(dto.getFarmName());
         response.setLocation(dto.getLocation());
         response.setFarmArea(dto.getFarmArea());

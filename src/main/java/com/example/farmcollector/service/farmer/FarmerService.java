@@ -9,10 +9,10 @@ public interface FarmerService {
 
     List<FarmerDTO> getAllFarmers();
 
-    FarmerDTO getFarmerById(Long id);
+    FarmerDTO getFarmerById(String farmerId);
 
-    FarmerDTO updateFarmerById(Long id, FarmerDTO farmerDTO);
+    FarmerDTO updateFarmerById(String farmerId, FarmerDTO farmerDTO);
 
-    void deleteFarmer(Long id);
+    void deleteFarmerById(String farmerId);
 
 }

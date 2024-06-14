@@ -1,6 +1,6 @@
 package com.example.farmcollector.api.request;
 
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FarmerRequest {
-    @NotBlank(message = "Farmer Name is required")
+    @NotNull
     private String farmerName;
 }
 

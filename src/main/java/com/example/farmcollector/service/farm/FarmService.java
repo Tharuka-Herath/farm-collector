@@ -8,13 +8,13 @@ import java.util.Optional;
 public interface FarmService {
     FarmDTO saveFarm(FarmDTO farmDTO);
 
-    Optional<FarmDTO> updateFarm(Long id, FarmDTO farmDTO);
+    Optional<FarmDTO> updateFarm(String farmId, FarmDTO farmDTO);
 
     List<FarmDTO> getAllFarms();
 
-    FarmDTO getFarmById(Long id);
+    FarmDTO getFarmById(String farmId);
 
-    void deleteFarm(Long id);
+    void deleteFarmById(String farmId);
 
-    FarmDTO addFarmerToFarm(Long farmId, Long farmerId);
+    FarmDTO addFarmerToFarm(String farmId, String farmerId);
 }

@@ -8,23 +8,19 @@ import com.example.farmcollector.repository.FarmRepository;
 import com.example.farmcollector.repository.FarmerRepository;
 import com.example.farmcollector.util.FarmMapper;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class FarmServiceImpl implements FarmService {
+
     private final FarmRepository farmRepository;
     private final FarmerRepository farmerRepository;
     private final FarmMapper farmMapper;
-
-
-    public FarmServiceImpl(FarmRepository farmRepository, FarmerRepository farmerRepository, FarmMapper farmMapper) {
-        this.farmRepository = farmRepository;
-        this.farmerRepository = farmerRepository;
-        this.farmMapper = farmMapper;
-    }
 
     /**
      * Saves a new farm in the database.
@@ -34,29 +30,31 @@ public class FarmServiceImpl implements FarmService {
      */
     @Override
     public FarmDTO saveFarm(FarmDTO farmDTO) {
-        Farm savedFarm = farmMapper.convertFarmDtoToEntity(farmDTO);
-        return farmMapper.convertFarmEntityToDto(farmRepository.save(savedFarm));
+        Farm farmEntity = farmMapper.convertFarmDtoToEntity(farmDTO);
+        Farm savedFarmEntity = farmRepository.save(farmEntity);
+        return farmMapper.convertFarmEntityToDto(savedFarmEntity);
     }
 
     /**
-     * Updates a farm with the given ID.
+     * Updates a farm with the generated farm ID.
      *
-     * @param id      The ID of the farm to update.
+     * @param farmId  The generated ID of the farm to update.
      * @param farmDTO The DTO containing the updated farm data.
      * @return An Optional containing the updated farm as a DTO, or an empty Optional if the farm was not found.
      */
     @Transactional
     @Override
-    public Optional<FarmDTO> updateFarm(Long id, FarmDTO farmDTO) {
-        Optional<Farm> optionalFarm = farmRepository.findById(id);
+    public Optional<FarmDTO> updateFarm(String farmId, FarmDTO farmDTO) {
+        Optional<Farm> optionalFarm = farmRepository.findFarmByFarmId(farmId);
 
         if (optionalFarm.isPresent()) {
             // Convert DTO to entity and set the ID to ensure the correct entity is updated
-            Farm farmToUpdate = farmMapper.convertFarmDtoToEntity(farmDTO);
-            farmToUpdate.setId(id);
+            Farm newFarmDataEntity = farmMapper.convertFarmDtoToEntity(farmDTO);
+            newFarmDataEntity.setFarmId(farmId);
+            newFarmDataEntity.setId(optionalFarm.get().getId());
 
             // Save the updated entity
-            Farm updatedFarm = farmRepository.save(farmToUpdate);
+            Farm updatedFarm = farmRepository.save(newFarmDataEntity);
 
             // Convert the saved entity back to DTO
             FarmDTO updatedFarmDTO = farmMapper.convertFarmEntityToDto(updatedFarm);
@@ -79,50 +77,51 @@ public class FarmServiceImpl implements FarmService {
     }
 
     /**
-     * Retrieves a farm by its ID.
+     * Retrieves a farm by its generated ID.
      *
-     * @param id The ID of the farm to retrieve.
+     * @param farmId The generated ID of the farm to retrieve.
      * @return The farm as a DTO.
-     * @throws FarmDataNotFoundException If no farm is found with the given ID.
+     * @throws FarmDataNotFoundException If no farm is found with the generated farm ID.
      */
     @Override
-    public FarmDTO getFarmById(Long id) {
-        Optional<Farm> optionalFarm = farmRepository.findById(id);
+    public FarmDTO getFarmById(String farmId) {
+        Optional<Farm> optionalFarm = farmRepository.findFarmByFarmId(farmId);
 
         if (optionalFarm.isPresent()) {
             Farm farm = optionalFarm.get();
             return farmMapper.convertFarmEntityToDto(farm);
         } else {
-            // Handle the case when the farm with the given ID is not found
-            throw new FarmDataNotFoundException("Farm not found with id: " + id);
+            // Handle the case when the farm with the farm ID is not found
+            throw new FarmDataNotFoundException("Farm not found with id: " + farmId);
         }
     }
 
     /**
      * Deletes a farm with the given ID.
      *
-     * @param id The ID of the farm to delete.
+     * @param farmId The ID of the farm to delete.
      */
     @Override
-    public void deleteFarm(Long id) {
-        if (farmRepository.existsById(id)) {
-            farmRepository.deleteById(id);
+    public void deleteFarmById(String farmId) {
+
+        if (farmRepository.existsFarmByFarmId(farmId)) {
+            farmRepository.deleteFarmByFarmId(farmId);
         } else {
-            throw new FarmDataNotFoundException("No farm with id " + id + " found.");
+            throw new FarmDataNotFoundException("No farm with id " + farmId + "found");
         }
     }
 
     /**
      * Adds a farmer to a farm.
      *
-     * @param farmId   The ID of the farm to which the farmer will be added.
-     * @param farmerId The ID of the farmer to be added to the farm.
+     * @param farmId   The generated ID of the farm to which the farmer will be added.
+     * @param farmerId The generated ID of the farmer to be added to the farm.
      * @return A FarmDTO representing the updated farm after adding the farmer.
-     * @throws FarmDataNotFoundException if the farm or farmer with the given ID is not found.
+     * @throws FarmDataNotFoundException if the farm or farmer with the farm ID is not found.
      */
-    public FarmDTO addFarmerToFarm(Long farmId, Long farmerId) {
-        Farm farm = farmRepository.findById(farmId).orElseThrow(() -> new FarmDataNotFoundException("No farm with id "+ farmId + "found"));
-        Farmer farmer = farmerRepository.findById(farmerId).orElseThrow(() -> new FarmDataNotFoundException("No farmer with id "+ farmerId + "found"));
+    public FarmDTO addFarmerToFarm(String farmId, String farmerId) {
+        Farm farm = farmRepository.findFarmByFarmId(farmId).orElseThrow(() -> new FarmDataNotFoundException("No farm with id " + farmId + "found"));
+        Farmer farmer = farmerRepository.findFarmerByFarmerId(farmerId).orElseThrow(() -> new FarmDataNotFoundException("No farmer with id " + farmerId + "found"));
 
         List<Farmer> farmerList = farm.getFarmers();
         farmerList.add(farmer);

@@ -13,6 +13,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FarmDTO {
+
+    private Long id;
+    private String farmId;
     private String farmName;
     private String location;
     private Double farmArea;
