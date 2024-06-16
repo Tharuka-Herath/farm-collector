@@ -15,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,31 +48,36 @@ public class FarmServiceImplTest {
     void setUp() {
         farm = new Farm();
         farm.setFarmId(farmId);
-        farm.setFarmName("Test Farm");
-        farm.setLocation("Test Location");
+        farm.setFarmName("Farm A");
+        farm.setLocation("Galle");
         farm.setFarmArea(100.0);
-
-        farmDTO = new FarmDTO();
-        farmDTO.setFarmName("Test Farm");
-        farmDTO.setLocation("Test Location");
-        farmDTO.setFarmArea(100.0);
 
         farmer = new Farmer();
         farmer.setFarmerId(farmerId);
         farmer.setFarmerName("Thilak");
         farmer.setFarm(farm);
+
+        List<Farmer> farmersList = new ArrayList<>();
+        farmersList.add(farmer);
+
+        farmDTO = new FarmDTO();
+        farmDTO.setFarmName("Farm A");
+        farmDTO.setLocation("Galle");
+        farmDTO.setFarmArea(100.0);
+        farmDTO.setFarmers(farmersList);
     }
 
     @Test
-    void saveFarm_success() {
+    void saveFarm_AndFarmer_success() {
         when(farmMapper.convertFarmDtoToEntity(any(FarmDTO.class))).thenReturn(farm);
         when(farmRepository.save(any(Farm.class))).thenReturn(farm);
         when(farmMapper.convertFarmEntityToDto(any(Farm.class))).thenReturn(farmDTO);
 
-        FarmDTO result = farmService.saveFarm(farmDTO);
+        FarmDTO result = farmService.saveFarmAndFarmer(farmDTO);
 
         assertNotNull(result);
         assertEquals(farmDTO.getFarmName(), result.getFarmName());
+        assertEquals(farmDTO.getFarmers(), result.getFarmers());
         verify(farmRepository, times(1)).save(any(Farm.class));
     }
 

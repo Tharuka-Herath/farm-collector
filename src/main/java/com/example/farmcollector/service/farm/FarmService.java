@@ -5,7 +5,7 @@ import com.example.farmcollector.dto.FarmDTO;
 import java.util.List;
 
 public interface FarmService {
-    FarmDTO saveFarm(FarmDTO farmDTO);
+    FarmDTO saveFarmAndFarmer(FarmDTO farmDTO);
 
     FarmDTO updateFarm(String farmId, FarmDTO farmDTO);
 

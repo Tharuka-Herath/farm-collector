@@ -22,6 +22,7 @@ public class Farmer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonIgnore
     private Long id;
 
     @Column(name = "farmer_id")
@@ -31,10 +32,12 @@ public class Farmer {
     private String farmerName;
 
     @CreationTimestamp
+    @JsonIgnore
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
+    @JsonIgnore
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 

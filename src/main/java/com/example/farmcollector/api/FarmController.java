@@ -23,7 +23,7 @@ public class FarmController {
 
     @PostMapping
     public ResponseEntity<FarmResponse> saveFarm(@RequestBody FarmRequest farmRequest) {
-        FarmDTO farmDTO = farmService.saveFarm(farmMapper.convertFarmRequestToDto(farmRequest));
+        FarmDTO farmDTO = farmService.saveFarmAndFarmer(farmMapper.convertFarmRequestToDto(farmRequest));
         return ResponseEntity.status(HttpStatus.CREATED).body(farmMapper.convertDtoToResponse(farmDTO));
     }
 
