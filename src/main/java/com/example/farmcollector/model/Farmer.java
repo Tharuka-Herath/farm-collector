@@ -25,7 +25,7 @@ public class Farmer {
     private Long id;
 
     @Column(name = "farmer_id")
-    private String farmerId = IdGenerator.generateFarmerId();
+    private String farmerId;
 
     @Column(name = "farmer_name")
     private String farmerName;

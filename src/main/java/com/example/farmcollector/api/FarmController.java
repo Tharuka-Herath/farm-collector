@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,9 +30,12 @@ public class FarmController {
     @PutMapping("/{farmId}")
     public ResponseEntity<FarmResponse> updateFarm(@PathVariable String farmId, @RequestBody FarmRequest farmRequest) {
         FarmDTO farmDTO = farmMapper.convertFarmRequestToDto(farmRequest);
-        Optional<FarmDTO> updatedFarm = farmService.updateFarm(farmId, farmDTO);
-
-        return updatedFarm.map(dto -> new ResponseEntity<>(farmMapper.convertDtoToResponse(dto), HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        try {
+            FarmDTO updatedFarm = farmService.updateFarm(farmId, farmDTO);
+            return ResponseEntity.status(HttpStatus.OK).body(farmMapper.convertDtoToResponse(updatedFarm));
+        } catch (FarmDataNotFoundException e) {
+           return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
     @GetMapping

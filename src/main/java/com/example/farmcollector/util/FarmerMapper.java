@@ -13,15 +13,17 @@ import org.springframework.stereotype.Component;
 public class FarmerMapper {
 
     /**
-     * Converts a Farmer entity to a FarmerDTO.
+     * Converts a FarmerRequest to a FarmerDTO.
      *
-     * @param entity the Farmer entity to convert.
+     * @param request the FarmerRequest to convert.
      * @return the converted FarmerDTO.
      */
-    public FarmerDTO convertFarmerEntityToDto(Farmer entity) {
+    public FarmerDTO convertFarmerRequestToDto(FarmerRequest request) {
         FarmerDTO dto = new FarmerDTO();
-        dto.setFarmerName(entity.getFarmerName());
-        dto.setFarm(entity.getFarm());
+
+        dto.setFarmerName(request.getFarmerName());
+        dto.setFarm(request.getFarm());
+
         return dto;
     }
 
@@ -33,20 +35,27 @@ public class FarmerMapper {
      */
     public Farmer convertFarmerDtoToEntity(FarmerDTO dto) {
         Farmer entity = new Farmer();
+
+        entity.setFarmerId(dto.getFarmerId());
         entity.setFarmerName(dto.getFarmerName());
         entity.setFarm(dto.getFarm());
+
         return entity;
     }
 
     /**
-     * Converts a FarmerRequest to a FarmerDTO.
+     * Converts a Farmer entity to a FarmerDTO.
      *
-     * @param request the FarmerRequest to convert.
+     * @param entity the Farmer entity to convert.
      * @return the converted FarmerDTO.
      */
-    public FarmerDTO convertFarmerRequestToDto(FarmerRequest request) {
+    public FarmerDTO convertFarmerEntityToDto(Farmer entity) {
         FarmerDTO dto = new FarmerDTO();
-        dto.setFarmerName(request.getFarmerName());
+
+        dto.setFarmerId(entity.getFarmerId());
+        dto.setFarmerName(entity.getFarmerName());
+        dto.setFarm(entity.getFarm());
+
         return dto;
     }
 
@@ -58,8 +67,11 @@ public class FarmerMapper {
      */
     public FarmerResponse convertFarmerDtoToResponse(FarmerDTO dto) {
         FarmerResponse response = new FarmerResponse();
+
+        response.setFarmerId(dto.getFarmerId());
         response.setFarmerName(dto.getFarmerName());
         response.setFarm(dto.getFarm());
+
         return response;
     }
 }

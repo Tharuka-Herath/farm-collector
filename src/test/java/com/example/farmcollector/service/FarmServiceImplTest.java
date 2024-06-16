@@ -82,11 +82,10 @@ public class FarmServiceImplTest {
         when(farmRepository.save(any(Farm.class))).thenReturn(farm);
         when(farmMapper.convertFarmEntityToDto(any(Farm.class))).thenReturn(farmDTO);
 
-        Optional<FarmDTO> result = farmService.updateFarm(farmId, farmDTO);
+        FarmDTO result = farmService.updateFarm(farmId, farmDTO);
 
-        assertTrue(result.isPresent());
-
-        assertEquals(farmDTO.getFarmName(), result.get().getFarmName());
+        assertNotNull(result);
+        assertEquals(farmDTO.getFarmName(), result.getFarmName());
 
         verify(farmRepository, times(1)).findFarmByFarmId(farmId);
         verify(farmRepository, times(1)).save(any(Farm.class));
@@ -96,11 +95,11 @@ public class FarmServiceImplTest {
     void updateFarm_notFound() {
         when(farmRepository.findFarmByFarmId(farmId)).thenReturn(Optional.empty());
 
-        Optional<FarmDTO> result = farmService.updateFarm(farmId, farmDTO);
+        FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> farmService.updateFarm(farmId, farmDTO));
 
-        assertFalse(result.isPresent());
+        assertEquals("No record with " + farmId + "to update", exception.getMessage());
         verify(farmRepository, times(1)).findFarmByFarmId(farmId);
-        verify(farmRepository, times(0)).save(any(Farm.class));
+        verify(farmRepository, never()).save(any(Farm.class));
     }
 
     @Test
@@ -133,9 +132,7 @@ public class FarmServiceImplTest {
     void getFarmById_notFound() {
         when(farmRepository.findFarmByFarmId(farmId)).thenReturn(Optional.empty());
 
-        Exception exception = assertThrows(FarmDataNotFoundException.class, () -> {
-            farmService.getFarmById(farmId);
-        });
+        Exception exception = assertThrows(FarmDataNotFoundException.class, () -> farmService.getFarmById(farmId));
 
         assertEquals("Farm not found with id: " + farmId, exception.getMessage());
 
@@ -156,9 +153,7 @@ public class FarmServiceImplTest {
     void deleteFarm_ById_notFound() {
         when(farmRepository.existsFarmByFarmId(farmId)).thenReturn(false);
 
-        Exception exception = assertThrows(FarmDataNotFoundException.class, () -> {
-            farmService.deleteFarmById(farmId);
-        });
+        Exception exception = assertThrows(FarmDataNotFoundException.class, () -> farmService.deleteFarmById(farmId));
 
         assertEquals("No farm with id " + farmId + "found", exception.getMessage());
 
@@ -191,9 +186,7 @@ public class FarmServiceImplTest {
     void addFarmerToFarm_farmNotFound() {
         when(farmRepository.findFarmByFarmId(farmId)).thenReturn(Optional.empty());
 
-        FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> {
-            farmService.addFarmerToFarm(farmId, farmerId);
-        });
+        FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> farmService.addFarmerToFarm(farmId, farmerId));
 
         assertEquals("No farm with id " + farmId + "found", exception.getMessage());
 
@@ -208,9 +201,7 @@ public class FarmServiceImplTest {
         when(farmRepository.findFarmByFarmId(farmId)).thenReturn(Optional.of(farm));
         when(farmerRepository.findFarmerByFarmerId(farmerId)).thenReturn(Optional.empty());
 
-        FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> {
-            farmService.addFarmerToFarm(farmId, farmerId);
-        });
+        FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> farmService.addFarmerToFarm(farmId, farmerId));
 
         assertEquals("No farmer with id " + farmerId + "found", exception.getMessage());
 

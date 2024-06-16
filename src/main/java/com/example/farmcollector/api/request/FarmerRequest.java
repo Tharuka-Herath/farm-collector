@@ -1,5 +1,6 @@
 package com.example.farmcollector.api.request;
 
+import com.example.farmcollector.model.Farm;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,7 +12,10 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FarmerRequest {
+
     @NotNull
     private String farmerName;
+    @NotNull
+    private Farm farm;
 }
 

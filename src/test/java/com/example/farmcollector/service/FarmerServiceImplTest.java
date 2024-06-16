@@ -72,7 +72,7 @@ public class FarmerServiceImplTest {
 
     @Test
     void updateFarmerById_success() {
-        when(farmerRepository.existsFarmerByFarmerId(farmerId)).thenReturn(true);
+        when(farmerRepository.findFarmerByFarmerId(farmerId)).thenReturn(Optional.of(farmer));
         when(farmerMapper.convertFarmerDtoToEntity(any(FarmerDTO.class))).thenReturn(farmer);
         when(farmerRepository.save(any(Farmer.class))).thenReturn(farmer);
         when(farmerMapper.convertFarmerEntityToDto(any(Farmer.class))).thenReturn(farmerDTO);
@@ -82,7 +82,7 @@ public class FarmerServiceImplTest {
         assertNotNull(result);
         assertEquals(farmerDTO.getFarmerName(), result.getFarmerName());
 
-        verify(farmerRepository, times(1)).existsFarmerByFarmerId(farmerId);
+        verify(farmerRepository, times(1)).findFarmerByFarmerId(farmerId);
         verify(farmerMapper, times(1)).convertFarmerDtoToEntity(farmerDTO);
         verify(farmerRepository, times(1)).save(any(Farmer.class));
         verify(farmerMapper, times(1)).convertFarmerEntityToDto(farmer);
@@ -90,7 +90,7 @@ public class FarmerServiceImplTest {
 
     @Test
     void updateFarmerById_notFound() {
-        when(farmerRepository.existsFarmerByFarmerId(farmerId)).thenReturn(false);
+        when(farmerRepository.findFarmerByFarmerId(farmerId)).thenReturn(Optional.empty());
 
         FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> {
             farmerService.updateFarmerById(farmerId, farmerDTO);
@@ -98,7 +98,7 @@ public class FarmerServiceImplTest {
 
         assertEquals("No farmer with id F-0001 found.", exception.getMessage());
 
-        verify(farmerRepository, times(1)).existsFarmerByFarmerId(farmerId);
+        verify(farmerRepository, times(1)).findFarmerByFarmerId(farmerId);
         verify(farmerRepository, times(0)).save(any(Farmer.class));
         verify(farmerMapper, never()).convertFarmerDtoToEntity(farmerDTO);
         verify(farmerMapper, never()).convertFarmerEntityToDto(farmer);

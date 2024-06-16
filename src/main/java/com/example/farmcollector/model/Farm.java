@@ -1,6 +1,5 @@
 package com.example.farmcollector.model;
 
-import com.example.farmcollector.util.IdGenerator;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,7 +26,7 @@ public class Farm {
     private Long id;
 
     @Column(name = "farm_id")
-    private String farmId = IdGenerator.generateFarmId();
+    private String farmId;
 
     @Column(name = "farm_name")
     private String farmName;
@@ -46,7 +45,7 @@ public class Farm {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     List<Farmer> farmers = new ArrayList<>();
 
 }

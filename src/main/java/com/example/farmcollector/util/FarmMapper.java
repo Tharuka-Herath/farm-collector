@@ -39,6 +39,7 @@ public class FarmMapper {
     public Farm convertFarmDtoToEntity(FarmDTO dto) {
         Farm entity = new Farm();
 
+        entity.setFarmId(dto.getFarmId());
         entity.setFarmName(dto.getFarmName());
         entity.setLocation(dto.getLocation());
         entity.setFarmArea(dto.getFarmArea());
@@ -87,8 +88,6 @@ public class FarmMapper {
      * @return the list of converted FarmResponse.
      */
     public List<FarmResponse> convertDtoListToResponseList(List<FarmDTO> farmDtoList) {
-        return farmDtoList.stream()
-                .map(this::convertDtoToResponse)
-                .toList();
+        return farmDtoList.stream().map(this::convertDtoToResponse).toList();
     }
 }

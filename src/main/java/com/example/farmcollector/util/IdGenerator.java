@@ -5,8 +5,8 @@ package com.example.farmcollector.util;
  */
 public class IdGenerator {
     private static int cropIdCounter = 0;
-    private static int farmIdCounter = 0;
-    private static int farmerIdCounter = 0;
+    private static int farmIdCounter = 1;
+    private static int farmerIdCounter = 1;
 
     /**
      * Generates a unique ID for a crop.

@@ -5,6 +5,7 @@ import com.example.farmcollector.exception.FarmDataNotFoundException;
 import com.example.farmcollector.model.Farmer;
 import com.example.farmcollector.repository.FarmerRepository;
 import com.example.farmcollector.util.FarmerMapper;
+import com.example.farmcollector.util.IdGenerator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class FarmerServiceImpl implements FarmerService {
 
@@ -27,32 +29,35 @@ public class FarmerServiceImpl implements FarmerService {
      */
     @Override
     public FarmerDTO saveFarmer(FarmerDTO farmerDTO) {
+        farmerDTO.setFarmerId(IdGenerator.generateFarmerId());
+
         Farmer farmer = farmerMapper.convertFarmerDtoToEntity(farmerDTO);
         Farmer savedFarmer = farmerRepository.save(farmer);
+
         return farmerMapper.convertFarmerEntityToDto(savedFarmer);
     }
 
     /**
      * Updates a farmer with the given ID.
      *
-     * @param farmerId        The generated ID of the farmer to update.
+     * @param farmerId  The generated ID of the farmer to update.
      * @param farmerDTO The DTO containing the updated farmer data.
      * @return The updated farmer as a DTO.
      * @throws FarmDataNotFoundException if no farmer is found with the farmer ID.
      */
-    @Transactional
     @Override
     public FarmerDTO updateFarmerById(String farmerId, FarmerDTO farmerDTO) {
+        Optional<Farmer> optionalFarmer = farmerRepository.findFarmerByFarmerId(farmerId);
 
-        if (farmerRepository.existsFarmerByFarmerId(farmerId)) {
-            Farmer farmer = farmerMapper.convertFarmerDtoToEntity(farmerDTO);
-            farmer.setFarmerId(farmerId);
-            return farmerMapper.convertFarmerEntityToDto(farmerRepository.save(farmer));
-
-        } else {
+        if (optionalFarmer.isEmpty()) {
             throw new FarmDataNotFoundException("No farmer with id " + farmerId + " found.");
         }
 
+        Farmer farmer = farmerMapper.convertFarmerDtoToEntity(farmerDTO);
+        farmer.setFarmerId(farmerId);
+        farmer.setId(optionalFarmer.get().getId());
+
+        return farmerMapper.convertFarmerEntityToDto(farmerRepository.save(farmer));
     }
 
     /**

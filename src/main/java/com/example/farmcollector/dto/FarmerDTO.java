@@ -11,6 +11,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FarmerDTO {
+
+    private String farmerId;
     private String farmerName;
     private Farm farm;
 }

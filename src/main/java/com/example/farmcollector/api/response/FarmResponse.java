@@ -1,6 +1,5 @@
 package com.example.farmcollector.api.response;
 
-import com.example.farmcollector.dto.FarmDTO;
 import com.example.farmcollector.model.Farmer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
