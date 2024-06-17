@@ -26,6 +26,8 @@ public class CropMapper {
         dto.setYieldYear(request.getYieldYear());
         dto.setExpectedAmount(request.getExpectedAmount());
         dto.setActualAmount(request.getActualAmount());
+        dto.setFarm(request.getFarm());
+        dto.setFarmer(request.getFarmer());
         return dto;
     }
 

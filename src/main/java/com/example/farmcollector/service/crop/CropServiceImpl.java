@@ -12,6 +12,7 @@ import com.example.farmcollector.repository.FarmerRepository;
 import com.example.farmcollector.util.CropMapper;
 import com.example.farmcollector.util.IdGenerator;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,26 +22,14 @@ import java.util.Optional;
  * Service implementation for managing crops.
  */
 @Service
+@RequiredArgsConstructor
 public class CropServiceImpl implements CropService {
     private final CropRepository cropRepository;
     private final CropMapper cropMapper;
     private final FarmerRepository farmerRepository;
     private final FarmRepository farmRepository;
 
-    /**
-     * Constructs a new CropServiceImpl.
-     *
-     * @param cropRepository   the repository used for CRUD operations on crops
-     * @param cropMapper       the mapper used to convert between Crop entities and CropDTOs
-     * @param farmerRepository the repository used for CRUD operations on farmers
-     * @param farmRepository   the repository used for CRUD operations on farms
-     */
-    public CropServiceImpl(CropRepository cropRepository, CropMapper cropMapper, FarmerRepository farmerRepository, FarmRepository farmRepository) {
-        this.cropRepository = cropRepository;
-        this.cropMapper = cropMapper;
-        this.farmerRepository = farmerRepository;
-        this.farmRepository = farmRepository;
-    }
+
 
     /**
      * Saves a crop.
@@ -51,7 +40,18 @@ public class CropServiceImpl implements CropService {
     @Override
     public CropDTO saveCrop(CropDTO cropDTO) {
         cropDTO.setCropId(IdGenerator.generateCropId());
+        cropDTO.getFarm().setFarmId(IdGenerator.generateFarmId());
+        cropDTO.getFarmer().setFarmerId(IdGenerator.generateFarmerId());
+
         Crop crop = cropMapper.convertCropDtoToEntity(cropDTO);
+        Farm farm = cropDTO.getFarm();
+        crop.setFarm(farm);
+
+        Farmer farmer = cropDTO.getFarmer();
+        farmer.setFarm(farm);
+        farm.getFarmers().add(farmer);
+        crop.setFarmer(farmer);
+
         return cropMapper.convertCropEntityToDto(cropRepository.save(crop));
     }
 

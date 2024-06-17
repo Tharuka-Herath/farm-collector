@@ -9,6 +9,7 @@ import com.example.farmcollector.model.Crop;
 import com.example.farmcollector.service.crop.CropService;
 import com.example.farmcollector.util.CropMapper;
 import jakarta.websocket.server.PathParam;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,15 +17,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/crops")
 public class CropController {
     private final CropService cropService;
     private final CropMapper cropMapper;
 
-    public CropController(CropService cropService, CropMapper cropMapper) {
-        this.cropService = cropService;
-        this.cropMapper = cropMapper;
-    }
 
     @PostMapping
     public ResponseEntity<CropResponse> createCrop(@RequestBody CropRequest cropRequest) {

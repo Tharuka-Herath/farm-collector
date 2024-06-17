@@ -13,7 +13,6 @@ public interface CropService {
 
     CropDTO getCropById(String cropId);
 
-
     CropDTO updateCropById(String id, CropDTO cropDTO);
 
     void deleteCropByCropId(String cropId);

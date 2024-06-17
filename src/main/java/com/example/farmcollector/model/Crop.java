@@ -50,10 +50,10 @@ public class Crop {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Farmer farmer;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Farm farm;
 
 }
