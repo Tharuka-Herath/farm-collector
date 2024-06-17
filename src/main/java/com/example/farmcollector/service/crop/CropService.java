@@ -17,10 +17,6 @@ public interface CropService {
 
     void deleteCropByCropId(String cropId);
 
-    CropDTO addFarmerToCrop(Long cropId, Long farmerId);
-
-    CropDTO addFarmToCrop(Long cropId, Long farmerId);
-
     List<CropDTO> findAllByCropType(String cropType);
 
     Double findAverageYieldBySeasonAndYear(Season season, Integer year);

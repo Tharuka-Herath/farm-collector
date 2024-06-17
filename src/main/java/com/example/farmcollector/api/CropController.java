@@ -70,18 +70,7 @@ public class CropController {
         }
     }
 
-    @PostMapping("/{cropId}/addFarmer/{farmerId}")
-    public ResponseEntity<CropResponse> addFarmerToCrop(@PathVariable Long cropId, @PathVariable Long farmerId) {
-        CropResponse cropResponse = cropMapper.convertDtoToResponse(cropService.addFarmerToCrop(cropId, farmerId));
 
-        return ResponseEntity.status(HttpStatus.OK).body(cropResponse);
-    }
-
-    @PostMapping("/{cropId}/addFarm/{farmId}")
-    public ResponseEntity<CropResponse> addFarmToCrop(@PathVariable Long cropId, @PathVariable Long farmId) {
-        CropResponse cropResponse = cropMapper.convertDtoToResponse(cropService.addFarmToCrop(cropId, farmId));
-        return ResponseEntity.status(HttpStatus.OK).body(cropResponse);
-    }
 
     @GetMapping("/by-crop-type")
     public ResponseEntity<List<CropResponse>> getAllCropsByCropType(@RequestParam String cropType) {

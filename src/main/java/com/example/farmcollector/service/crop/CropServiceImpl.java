@@ -124,39 +124,6 @@ public class CropServiceImpl implements CropService {
         }
     }
 
-    /**
-     * Adds a farmer to a crop by updating the crop's farmer association in the database.
-     *
-     * @param farmerId The unique identifier of the farmer to be associated with the crop.
-     * @param cropId   The unique identifier of the crop.
-     * @return A CropDTO object representing the updated crop with the associated farmer.
-     * @throws FarmDataNotFoundException if either the farmer with the specified ID or the crop with the specified ID is not found in the database.
-     */
-    @Override
-    public CropDTO addFarmerToCrop(Long cropId, Long farmerId) {
-        Farmer farmer = farmerRepository.findById(farmerId).orElseThrow(() -> new FarmDataNotFoundException("No farmer with the id"));
-        Crop crop = cropRepository.findById(cropId).orElseThrow(() -> new FarmDataNotFoundException("No crop with this id"));
-        crop.setFarmer(farmer);
-        Crop saveUpdatedCrop = cropRepository.save(crop);
-        return cropMapper.convertCropEntityToDto(saveUpdatedCrop);
-    }
-
-    /**
-     * Adds a farm to a crop by updating the crop's farm association in the database.
-     *
-     * @param cropId The unique identifier of the crop.
-     * @param farmId The unique identifier of the farm to be associated with the crop.
-     * @return A CropDTO object representing the updated crop with the associated farm.
-     * @throws FarmDataNotFoundException if either the farm with the specified ID or the crop with the specified ID is not found in the database.
-     */
-    @Override
-    public CropDTO addFarmToCrop(Long cropId, Long farmId) {
-        Farm farm = farmRepository.findById(farmId).orElseThrow(() -> new FarmDataNotFoundException("No fam with this id"));
-        Crop crop = cropRepository.findById(cropId).orElseThrow(() -> new FarmDataNotFoundException("No crop with this id"));
-        crop.setFarm(farm);
-        Crop addFarm = cropRepository.save(crop);
-        return cropMapper.convertCropEntityToDto(addFarm);
-    }
 
     /**
      * Finds all crops of a given crop type.

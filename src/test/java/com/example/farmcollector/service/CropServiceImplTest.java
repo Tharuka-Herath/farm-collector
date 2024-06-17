@@ -47,19 +47,22 @@ public class CropServiceImplTest {
     private CropDTO cropDTO;
     private Farmer farmer;
     private Farm farm;
+    private final String farmId="L-0001";
+    private final String cropId="C-0001";
+    private final String farmerId="F-0001";
 
     @BeforeEach
     void setUp() {
         farm = new Farm();
-        farm.setId(1L);
+        farm.setFarmId(farmId);
         farm.setFarmName("Test Farm");
 
         farmer = new Farmer();
-        farmer.setId(1L);
+        farmer.setFarmerId(farmerId);
         farmer.setFarmerName("Darshana");
 
         crop = new Crop();
-        crop.setId(1L);
+        crop.setCropId(cropId);
         crop.setCropType("Wheat");
         crop.setSeason(Season.YALA);
         crop.setYieldYear(2023);
@@ -107,177 +110,86 @@ public class CropServiceImplTest {
 
     @Test
     void getCropById_success() {
-        when(cropRepository.findById(1L)).thenReturn(Optional.of(crop));
+        when(cropRepository.findCropByCropId(cropId)).thenReturn(Optional.of(crop));
         when(cropMapper.convertCropEntityToDto(any(Crop.class))).thenReturn(cropDTO);
 
-        CropDTO result = cropService.getCropById(1L);
+        CropDTO result = cropService.getCropById(cropId);
 
         assertNotNull(result);
         assertEquals(cropDTO.getCropType(), result.getCropType());
 
-        verify(cropRepository, times(1)).findById(1L);
+        verify(cropRepository, times(1)).findCropByCropId(cropId);
     }
 
     @Test
     void getCropById_notFound() {
-        when(cropRepository.findById(1L)).thenReturn(Optional.empty());
+        when(cropRepository.findCropByCropId(cropId)).thenReturn(Optional.empty());
 
         FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> {
-            cropService.getCropById(1L);
+            cropService.getCropById(cropId);
         });
 
         assertEquals("Crop not found for the given ID", exception.getMessage());
 
-        verify(cropRepository, times(1)).findById(1L);
+        verify(cropRepository, times(1)).findCropByCropId(cropId);
     }
 
     @Test
     void updateCropById_success() {
-        when(cropRepository.findById(1L)).thenReturn(Optional.of(crop));
+        when(cropRepository.findCropByCropId(cropId)).thenReturn(Optional.of(crop));
         when(cropMapper.convertCropDtoToEntity(any(CropDTO.class))).thenReturn(crop);
         when(cropRepository.save(any(Crop.class))).thenReturn(crop);
         when(cropMapper.convertCropEntityToDto(any(Crop.class))).thenReturn(cropDTO);
 
-        CropDTO result = cropService.updateCropById(1L, cropDTO);
+        CropDTO result = cropService.updateCropById(cropId, cropDTO);
 
         assertNotNull(result);
         assertEquals(cropDTO.getCropType(), result.getCropType());
 
-        verify(cropRepository, times(1)).findById(1L);
+        verify(cropRepository, times(1)).findCropByCropId(cropId);
         verify(cropRepository, times(1)).save(any(Crop.class));
     }
 
     @Test
     void updateCropById_notFound() {
-        when(cropRepository.findById(1L)).thenReturn(Optional.empty());
+        when(cropRepository.findCropByCropId(cropId)).thenReturn(Optional.empty());
 
         FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> {
-            cropService.updateCropById(1L, cropDTO);
+            cropService.updateCropById("C-0001", cropDTO);
         });
 
-        assertEquals("No crop with ID 1 found.", exception.getMessage());
+        assertEquals("No crop with ID C-0001 found.", exception.getMessage());
 
-        verify(cropRepository, times(1)).findById(1L);
+        verify(cropRepository, times(1)).findCropByCropId(cropId);
         verify(cropRepository, times(0)).save(any(Crop.class));
     }
 
     @Test
     void deleteCrop_success() {
-        when(cropRepository.findById(1L)).thenReturn(Optional.of(crop));
+        when(cropRepository.findCropByCropId(cropId)).thenReturn(Optional.of(crop));
 
-        cropService.deleteCrop(1L);
+        cropService.deleteCropByCropId(cropId);
 
-        verify(cropRepository, times(1)).findById(1L);
-        verify(cropRepository, times(1)).deleteById(1L);
+        verify(cropRepository, times(1)).findCropByCropId(cropId);
+        verify(cropRepository, times(1)).deleteCropByCropId(cropId);
     }
 
     @Test
     void deleteCrop_notFound() {
-        when(cropRepository.findById(1L)).thenReturn(Optional.empty());
+        when(cropRepository.findCropByCropId(cropId)).thenReturn(Optional.empty());
 
         FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> {
-            cropService.deleteCrop(1L);
+            cropService.deleteCropByCropId(cropId);
         });
 
         assertEquals("Crop not found for the given ID", exception.getMessage());
 
-        verify(cropRepository, times(1)).findById(1L);
-        verify(cropRepository, times(0)).deleteById(1L);
+        verify(cropRepository, times(1)).findCropByCropId(cropId);
+        verify(cropRepository, times(0)).deleteCropByCropId(cropId);
     }
 
-    @Test
-    void addFarmerToCrop_success() {
-        when(farmerRepository.findById(1L)).thenReturn(Optional.of(farmer));
-        when(cropRepository.findById(1L)).thenReturn(Optional.of(crop));
-        when(cropRepository.save(any(Crop.class))).thenReturn(crop);
-        when(cropMapper.convertCropEntityToDto(any(Crop.class))).thenReturn(cropDTO);
 
-        CropDTO result = cropService.addFarmerToCrop(1L, 1L);
 
-        assertNotNull(result);
-
-        verify(farmerRepository, times(1)).findById(1L);
-        verify(cropRepository, times(1)).findById(1L);
-        verify(cropRepository, times(1)).save(any(Crop.class));
-    }
-
-    @Test
-    void addFarmerToCrop_farmerNotFound() {
-        when(farmerRepository.findById(1L)).thenReturn(Optional.empty());
-
-        FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> {
-            cropService.addFarmerToCrop(1L, 1L);
-        });
-
-        assertEquals("No farmer with the id", exception.getMessage());
-
-        verify(farmerRepository, times(1)).findById(1L);
-        verify(cropRepository, times(0)).findById(1L);
-        verify(cropRepository, times(0)).save(any(Crop.class));
-    }
-
-    @Test
-    void addFarmerToCrop_cropNotFound() {
-        when(farmerRepository.findById(1L)).thenReturn(Optional.of(farmer));
-        when(cropRepository.findById(1L)).thenReturn(Optional.empty());
-
-        FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> {
-            cropService.addFarmerToCrop(1L, 1L);
-        });
-
-        assertEquals("No crop with this id", exception.getMessage());
-
-        verify(farmerRepository, times(1)).findById(1L);
-        verify(cropRepository, times(1)).findById(1L);
-        verify(cropRepository, times(0)).save(any(Crop.class));
-    }
-
-    @Test
-    void addFarmToCrop_success() {
-        when(farmRepository.findById(1L)).thenReturn(Optional.of(farm));
-        when(cropRepository.findById(1L)).thenReturn(Optional.of(crop));
-        when(cropRepository.save(any(Crop.class))).thenReturn(crop);
-        when(cropMapper.convertCropEntityToDto(any(Crop.class))).thenReturn(cropDTO);
-
-        CropDTO result = cropService.addFarmToCrop(1L, 1L);
-
-        assertNotNull(result);
-
-        verify(farmRepository, times(1)).findById(1L);
-        verify(cropRepository, times(1)).findById(1L);
-        verify(cropRepository, times(1)).save(any(Crop.class));
-    }
-
-    @Test
-    void addFarmToCrop_farmNotFound() {
-        when(farmRepository.findById(1L)).thenReturn(Optional.empty());
-
-        FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> {
-            cropService.addFarmToCrop(1L, 1L);
-        });
-
-        assertEquals("No fam with this id", exception.getMessage());
-
-        verify(farmRepository, times(1)).findById(1L);
-        verify(cropRepository, times(0)).findById(1L);
-        verify(cropRepository, times(0)).save(any(Crop.class));
-    }
-
-    @Test
-    void addFarmToCrop_cropNotFound() {
-        when(farmRepository.findById(1L)).thenReturn(Optional.of(farm));
-        when(cropRepository.findById(1L)).thenReturn(Optional.empty());
-
-        FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> {
-            cropService.addFarmToCrop(1L, 1L);
-        });
-
-        assertEquals("No crop with this id", exception.getMessage());
-
-        verify(farmRepository, times(1)).findById(1L);
-        verify(cropRepository, times(1)).findById(1L);
-        verify(cropRepository, times(0)).save(any(Crop.class));
-    }
 
     @Test
     void findAllByCropType_success() {
