@@ -40,10 +40,10 @@ public class CropController {
         return new ResponseEntity<>(responseList, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CropResponse> getCropById(@PathVariable Long id) {
+    @GetMapping("/crop-by-Id")
+    public ResponseEntity<CropResponse> getCropById(@RequestParam("cropId") String cropId) {
         try {
-            CropDTO cropDTO = cropService.getCropById(id);
+            CropDTO cropDTO = cropService.getCropById(cropId);
             CropResponse response = cropMapper.convertDtoToResponse(cropDTO);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (FarmDataNotFoundException e) {
@@ -51,22 +51,22 @@ public class CropController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<CropResponse> updateCropById(@PathVariable Long id, @RequestBody CropRequest request) {
+    @PutMapping("/{cropId}")
+    public ResponseEntity<CropResponse> updateCropById(@PathVariable String cropId, @RequestBody CropRequest request) {
         try {
             CropDTO cropDTO = cropMapper.convertCropRequestToDto(request);
-            CropResponse cropResponse = cropMapper.convertDtoToResponse(cropService.updateCropById(id, cropDTO));
+            CropResponse cropResponse = cropMapper.convertDtoToResponse(cropService.updateCropById(cropId, cropDTO));
             return new ResponseEntity<>(cropResponse, HttpStatus.OK);
         } catch (FarmDataNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteCropById(@PathVariable Long id) {
+    @DeleteMapping()
+    public ResponseEntity<Void> deleteCropById(@RequestParam("cropId") String cropId) {
         try {
-            cropService.deleteCrop(id);
-            return ResponseEntity.noContent().build();
+            cropService.deleteCropByCropId(cropId);
+            return ResponseEntity.ok().build();
         } catch (FarmDataNotFoundException e) {
             return ResponseEntity.notFound().build();
         }

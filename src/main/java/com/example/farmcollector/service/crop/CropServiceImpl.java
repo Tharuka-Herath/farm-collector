@@ -10,6 +10,7 @@ import com.example.farmcollector.repository.CropRepository;
 import com.example.farmcollector.repository.FarmRepository;
 import com.example.farmcollector.repository.FarmerRepository;
 import com.example.farmcollector.util.CropMapper;
+import com.example.farmcollector.util.IdGenerator;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -49,6 +50,7 @@ public class CropServiceImpl implements CropService {
      */
     @Override
     public CropDTO saveCrop(CropDTO cropDTO) {
+        cropDTO.setCropId(IdGenerator.generateCropId());
         Crop crop = cropMapper.convertCropDtoToEntity(cropDTO);
         return cropMapper.convertCropEntityToDto(cropRepository.save(crop));
     }
@@ -67,16 +69,16 @@ public class CropServiceImpl implements CropService {
     /**
      * Retrieves a crop by its ID.
      *
-     * @param id the ID of the crop
+     * @param cropId the ID of the crop
      * @return the CropDTO of the retrieved crop
      * @throws FarmDataNotFoundException if no crop is found with the given ID
      */
     @Override
-    public CropDTO getCropById(Long id) {
-        Optional<Crop> cropById = cropRepository.findById(id);
+    public CropDTO getCropById(String cropId) {
+        Optional<Crop> cropById = cropRepository.findCropByCropId(cropId);
         if (cropById.isPresent()) {
-            Crop crop = cropById.get();
-            return cropMapper.convertCropEntityToDto(crop);
+            Crop cropByIdEntity= cropById.get();
+            return cropMapper.convertCropEntityToDto(cropByIdEntity);
         } else {
             throw new FarmDataNotFoundException("Crop not found for the given ID");
         }
@@ -85,36 +87,38 @@ public class CropServiceImpl implements CropService {
     /**
      * Updates a crop by its ID.
      *
-     * @param id      the ID of the crop to be updated
+     * @param cropId      the ID of the crop to be updated
      * @param cropDTO the CropDTO object with updated data
      * @return the updated CropDTO
      * @throws FarmDataNotFoundException if no crop is found with the given ID
      */
-    @Transactional
     @Override
-    public CropDTO updateCropById(Long id, CropDTO cropDTO) {
-        Optional<Crop> updatedCrop = cropRepository.findById(id);
+    public CropDTO updateCropById(String cropId, CropDTO cropDTO) {
+        Optional<Crop> updatedCrop = cropRepository.findCropByCropId(cropId);
 
         if (updatedCrop.isPresent()) {
+            Long updatingId = updatedCrop.get().getId();
             Crop crop = cropMapper.convertCropDtoToEntity(cropDTO);
-            crop.setId(id);
+            crop.setId(updatingId);
+            crop.setCropId(cropId);
             return cropMapper.convertCropEntityToDto(cropRepository.save(crop));
         } else {
-            throw new FarmDataNotFoundException("No crop with ID " + id + " found.");
+            throw new FarmDataNotFoundException("No crop with ID " + cropId + " found.");
         }
     }
 
     /**
      * Deletes a crop by its ID.
      *
-     * @param id the ID of the crop to be deleted
+     * @param cropId the ID of the crop to be deleted
      * @throws FarmDataNotFoundException if no crop is found with the given ID
      */
     @Override
-    public void deleteCrop(Long id) {
-        Optional<Crop> crop = cropRepository.findById(id);
+    @Transactional
+    public void deleteCropByCropId(String cropId) {
+        Optional<Crop> crop = cropRepository.findCropByCropId(cropId);
         if (crop.isPresent()) {
-            cropRepository.deleteById(id);
+            cropRepository.deleteCropByCropId(cropId);
         } else {
             throw new FarmDataNotFoundException("Crop not found for the given ID");
         }

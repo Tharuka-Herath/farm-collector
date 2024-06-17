@@ -4,9 +4,11 @@ package com.example.farmcollector.util;
  * Utility class for generating unique IDs for crops, farms, and farmers.
  */
 public class IdGenerator {
-    private static int cropIdCounter = 0;
+
+    private static int cropIdCounter = 1;
     private static int farmIdCounter = 1;
     private static int farmerIdCounter = 1;
+
 
     /**
      * Generates a unique ID for a crop.

@@ -24,7 +24,7 @@ public class Crop {
     private Long id;
 
     @Column(name = "crop_id")
-    private String cropId = IdGenerator.generateCropId();
+    private String cropId;
 
     @Column(name = "crop_type")
     private String cropType;

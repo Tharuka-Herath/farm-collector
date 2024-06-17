@@ -1,5 +1,6 @@
 package com.example.farmcollector.repository;
 
+import com.example.farmcollector.dto.CropDTO;
 import com.example.farmcollector.enums.Season;
 import com.example.farmcollector.model.Crop;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -7,8 +8,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CropRepository extends JpaRepository<Crop, Long> {
+
+    Optional<Crop> findCropByCropId(String cropId);
+
+    void deleteCropByCropId(String cropId);
+
 
     // Find all crops of a specific type
     @Query("SELECT c FROM Crop c WHERE c.cropType = :cropType")
@@ -21,6 +28,7 @@ public interface CropRepository extends JpaRepository<Crop, Long> {
     // Find crops with a specific crop type along with farm location
     @Query("SELECT c.cropType, f.location FROM Crop c JOIN c.farm f WHERE c.cropType = :cropType")
     List<Object[]> findCropsWithFarmLocationByCropType(@Param("cropType") String cropType);
+
 
     // Find all crops for a specific farm name and season
     @Query("SELECT c.cropType, c.yieldYear, c.season FROM Crop c JOIN c.farm f WHERE f.farmName = :farmName AND c.season = :season")

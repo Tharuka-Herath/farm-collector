@@ -11,11 +11,12 @@ public interface CropService {
 
     List<CropDTO> getAllCrops();
 
-    CropDTO getCropById(Long id);
+    CropDTO getCropById(String cropId);
 
-    CropDTO updateCropById(Long id, CropDTO cropDTO);
 
-    void deleteCrop(Long id);
+    CropDTO updateCropById(String id, CropDTO cropDTO);
+
+    void deleteCropByCropId(String cropId);
 
     CropDTO addFarmerToCrop(Long cropId, Long farmerId);
 
