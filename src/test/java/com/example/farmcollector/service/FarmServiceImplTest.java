@@ -68,7 +68,7 @@ public class FarmServiceImplTest {
     }
 
     @Test
-    void saveFarm_AndFarmer_success() {
+    void saveFarm_success() {
         when(farmMapper.convertFarmDtoToEntity(any(FarmDTO.class))).thenReturn(farm);
         when(farmRepository.save(any(Farm.class))).thenReturn(farm);
         when(farmMapper.convertFarmEntityToDto(any(Farm.class))).thenReturn(farmDTO);
