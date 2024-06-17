@@ -22,7 +22,6 @@ public class FarmerMapper {
         FarmerDTO dto = new FarmerDTO();
 
         dto.setFarmerName(request.getFarmerName());
-        dto.setFarm(request.getFarm());
 
         return dto;
     }
@@ -38,7 +37,6 @@ public class FarmerMapper {
 
         entity.setFarmerId(dto.getFarmerId());
         entity.setFarmerName(dto.getFarmerName());
-        entity.setFarm(dto.getFarm());
 
         return entity;
     }
@@ -54,7 +52,6 @@ public class FarmerMapper {
 
         dto.setFarmerId(entity.getFarmerId());
         dto.setFarmerName(entity.getFarmerName());
-        dto.setFarm(entity.getFarm());
 
         return dto;
     }
@@ -70,7 +67,6 @@ public class FarmerMapper {
 
         response.setFarmerId(dto.getFarmerId());
         response.setFarmerName(dto.getFarmerName());
-        response.setFarm(dto.getFarm());
 
         return response;
     }

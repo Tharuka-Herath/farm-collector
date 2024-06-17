@@ -18,7 +18,5 @@ public class FarmResponse {
     private String farmName;
     private String location;
     private Double farmArea;
-    List<Farmer> farmers;
-
 }
 

@@ -73,7 +73,7 @@ public class FarmServiceImplTest {
         when(farmRepository.save(any(Farm.class))).thenReturn(farm);
         when(farmMapper.convertFarmEntityToDto(any(Farm.class))).thenReturn(farmDTO);
 
-        FarmDTO result = farmService.saveFarmAndFarmer(farmDTO);
+        FarmDTO result = farmService.saveFarm(farmDTO);
 
         assertNotNull(result);
         assertEquals(farmDTO.getFarmName(), result.getFarmName());

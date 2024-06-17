@@ -15,7 +15,5 @@ public class FarmerRequest {
 
     @NotNull
     private String farmerName;
-    @NotNull
-    private Farm farm;
 }
 

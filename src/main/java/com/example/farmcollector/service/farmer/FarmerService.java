@@ -14,5 +14,4 @@ public interface FarmerService {
     FarmerDTO updateFarmerById(String farmerId, FarmerDTO farmerDTO);
 
     void deleteFarmerById(String farmerId);
-
 }

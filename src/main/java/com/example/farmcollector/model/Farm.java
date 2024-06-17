@@ -49,7 +49,7 @@ public class Farm {
     @JsonIgnore
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL)
     List<Farmer> farmers = new ArrayList<>();
 
 }

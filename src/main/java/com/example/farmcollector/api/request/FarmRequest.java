@@ -21,6 +21,4 @@ public class FarmRequest {
     private String location;
     @NotNull
     private Double farmArea;
-    @NotNull
-    private List<Farmer> farmers;
 }

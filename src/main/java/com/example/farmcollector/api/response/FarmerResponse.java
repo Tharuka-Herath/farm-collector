@@ -12,6 +12,4 @@ public class FarmerResponse {
 
     private String farmerId;
     private String farmerName;
-    private Farm farm;
-
 }
