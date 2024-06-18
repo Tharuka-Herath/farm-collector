@@ -101,6 +101,8 @@ public class CropServiceImpl implements CropService {
             Crop crop = cropMapper.convertCropDtoToEntity(cropDTO);
             crop.setId(updatingId);
             crop.setCropId(cropId);
+            crop.setFarm(updatedCrop.get().getFarm());
+            crop.setFarmer(updatedCrop.get().getFarmer());
             return cropMapper.convertCropEntityToDto(cropRepository.save(crop));
         } else {
             throw new FarmDataNotFoundException("No crop with ID " + cropId + " found.");

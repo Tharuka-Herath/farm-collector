@@ -56,6 +56,7 @@ public class FarmerServiceImpl implements FarmerService {
         Farmer farmer = farmerMapper.convertFarmerDtoToEntity(farmerDTO);
         farmer.setFarmerId(farmerId);
         farmer.setId(optionalFarmer.get().getId());
+        farmer.setFarm(optionalFarmer.get().getFarm());
 
         return farmerMapper.convertFarmerEntityToDto(farmerRepository.save(farmer));
     }
