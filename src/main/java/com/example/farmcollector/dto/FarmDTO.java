@@ -19,5 +19,4 @@ public class FarmDTO {
     private String farmName;
     private String location;
     private Double farmArea;
-    List<Farmer> farmers;
 }

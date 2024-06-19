@@ -30,9 +30,6 @@ public class FarmServiceImplTest {
     private FarmRepository farmRepository;
 
     @Mock
-    private FarmMapper farmMapper;
-
-    @Mock
     private FarmerRepository farmerRepository;
 
     @InjectMocks
@@ -46,6 +43,10 @@ public class FarmServiceImplTest {
 
     @BeforeEach
     void setUp() {
+        // Inject farmMapper to the farmServiceImpl
+        FarmMapper farmMapper = new FarmMapper();
+        farmService = new FarmServiceImpl(farmRepository, farmerRepository, farmMapper);
+
         farm = new Farm();
         farm.setFarmId(farmId);
         farm.setFarmName("Farm A");
@@ -64,29 +65,23 @@ public class FarmServiceImplTest {
         farmDTO.setFarmName("Farm A");
         farmDTO.setLocation("Galle");
         farmDTO.setFarmArea(100.0);
-        farmDTO.setFarmers(farmersList);
     }
 
     @Test
     void saveFarm_success() {
-        when(farmMapper.convertFarmDtoToEntity(any(FarmDTO.class))).thenReturn(farm);
         when(farmRepository.save(any(Farm.class))).thenReturn(farm);
-        when(farmMapper.convertFarmEntityToDto(any(Farm.class))).thenReturn(farmDTO);
 
         FarmDTO result = farmService.saveFarm(farmDTO);
 
         assertNotNull(result);
         assertEquals(farmDTO.getFarmName(), result.getFarmName());
-        assertEquals(farmDTO.getFarmers(), result.getFarmers());
         verify(farmRepository, times(1)).save(any(Farm.class));
     }
 
     @Test
     void updateFarm_success() {
         when(farmRepository.findFarmByFarmId(farmId)).thenReturn(Optional.of(farm));
-        when(farmMapper.convertFarmDtoToEntity(any(FarmDTO.class))).thenReturn(farm);
         when(farmRepository.save(any(Farm.class))).thenReturn(farm);
-        when(farmMapper.convertFarmEntityToDto(any(Farm.class))).thenReturn(farmDTO);
 
         FarmDTO result = farmService.updateFarm(farmId, farmDTO);
 
@@ -111,7 +106,6 @@ public class FarmServiceImplTest {
     @Test
     void getAllFarms_success() {
         when(farmRepository.findAll()).thenReturn(List.of(farm));
-        when(farmMapper.convertFarmEntityToDto(any(Farm.class))).thenReturn(farmDTO);
 
         List<FarmDTO> result = farmService.getAllFarms();
 
@@ -124,7 +118,6 @@ public class FarmServiceImplTest {
     @Test
     void getFarmById_success() {
         when(farmRepository.findFarmByFarmId(farmId)).thenReturn(Optional.of(farm));
-        when(farmMapper.convertFarmEntityToDto(any(Farm.class))).thenReturn(farmDTO);
 
         FarmDTO result = farmService.getFarmById(farmId);
 
@@ -172,7 +165,6 @@ public class FarmServiceImplTest {
         when(farmRepository.findFarmByFarmId(farmId)).thenReturn(Optional.of(farm));
         when(farmerRepository.findFarmerByFarmerId(farmerId)).thenReturn(Optional.of(farmer));
         when(farmRepository.save(any(Farm.class))).thenReturn(farm);
-        when(farmMapper.convertFarmEntityToDto(any(Farm.class))).thenReturn(farmDTO);
 
         FarmDTO result = farmService.addFarmerToFarm(farmId, farmerId);
 
@@ -185,7 +177,6 @@ public class FarmServiceImplTest {
         verify(farmRepository, times(1)).findFarmByFarmId(farmId);
         verify(farmerRepository, times(1)).findFarmerByFarmerId(farmerId);
         verify(farmRepository, times(1)).save(farm);
-        verify(farmMapper, times(1)).convertFarmEntityToDto(farm);
     }
 
     @Test
@@ -199,7 +190,6 @@ public class FarmServiceImplTest {
         verify(farmRepository, times(1)).findFarmByFarmId(farmId);
         verify(farmerRepository, times(0)).findFarmerByFarmerId(farmerId);
         verify(farmRepository, times(0)).save(any(Farm.class));
-        verify(farmMapper, times(0)).convertFarmEntityToDto(any(Farm.class));
     }
 
     @Test
@@ -214,6 +204,5 @@ public class FarmServiceImplTest {
         verify(farmRepository, times(1)).findFarmByFarmId(farmId);
         verify(farmerRepository, times(1)).findFarmerByFarmerId(farmerId);
         verify(farmRepository, times(0)).save(any(Farm.class));
-        verify(farmMapper, times(0)).convertFarmEntityToDto(any(Farm.class));
     }
 }

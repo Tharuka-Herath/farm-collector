@@ -60,7 +60,6 @@ public class FarmMapper {
         dto.setFarmName(entity.getFarmName());
         dto.setLocation(entity.getLocation());
         dto.setFarmArea(entity.getFarmArea());
-        dto.setFarmers(entity.getFarmers());
         return dto;
     }
 

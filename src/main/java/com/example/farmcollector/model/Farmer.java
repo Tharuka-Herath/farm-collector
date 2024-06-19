@@ -1,6 +1,5 @@
 package com.example.farmcollector.model;
 
-import com.example.farmcollector.util.IdGenerator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

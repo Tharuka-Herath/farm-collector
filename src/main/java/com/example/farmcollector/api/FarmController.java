@@ -65,7 +65,7 @@ public class FarmController {
         }
     }
 
-    @PostMapping("/{farmId}/farms/{farmerId}")
+    @PostMapping("/{farmId}/farmers/{farmerId}")
     public ResponseEntity<FarmResponse> addFarmerToFarm(@PathVariable String farmId, @PathVariable String farmerId) {
         try {
             FarmResponse farmResponse = farmMapper.convertDtoToResponse(farmService.addFarmerToFarm(farmId, farmerId));

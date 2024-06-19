@@ -1,6 +1,5 @@
 package com.example.farmcollector.api.response;
 
-import com.example.farmcollector.model.Farm;
 import lombok.*;
 
 @Getter
