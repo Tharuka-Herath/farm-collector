@@ -2,7 +2,6 @@ package com.example.farmcollector.service.crop;
 
 import com.example.farmcollector.dto.CropDTO;
 import com.example.farmcollector.enums.Season;
-import com.example.farmcollector.model.Crop;
 
 import java.util.List;
 
@@ -21,7 +20,7 @@ public interface CropService {
 
     Double findAverageYieldBySeasonAndYear(Season season, Integer year);
 
-//    List<Object[]> findCropsWithFarmLocationByCropType(String cropType);
-//
-//    List<Object[]> findCropsByFarmNameAndSeason(String farmName, Season season);
+    List<Object[]> findCropsWithFarmLocationByCropType(String cropType);
+
+    List<Object[]> findCropsByFarmNameAndSeason(String farmName, Season season);
 }

@@ -1,8 +1,6 @@
 package com.example.farmcollector.dto;
 
 import com.example.farmcollector.enums.Season;
-import com.example.farmcollector.model.Farm;
-import com.example.farmcollector.model.Farmer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

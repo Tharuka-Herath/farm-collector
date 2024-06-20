@@ -152,15 +152,15 @@ public class CropServiceImpl implements CropService {
     public Double findAverageYieldBySeasonAndYear(Season season, Integer year) {
         return cropRepository.findAverageYieldBySeasonAndYear(season, year);
     }
-//
-//    @Override
-//    public List<Object[]> findCropsWithFarmLocationByCropType(String cropType) {
-//        return cropRepository.findCropsWithFarmLocationByCropType(cropType);
-//    }
-//
-//    @Override
-//    public List<Object[]> findCropsByFarmNameAndSeason(String farmName, Season season) {
-//        return cropRepository.findCropsByFarmNameAndSeason(farmName, season);
-//    }
+
+    @Override
+    public List<Object[]> findCropsWithFarmLocationByCropType(String cropType) {
+        return cropRepository.findCropsWithFarmLocationByCropType(cropType);
+    }
+
+    @Override
+    public List<Object[]> findCropsByFarmNameAndSeason(String farmName, Season season) {
+        return cropRepository.findCropsByFarmNameAndSeason(farmName, season);
+    }
 
 }
