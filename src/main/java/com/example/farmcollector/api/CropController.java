@@ -4,6 +4,7 @@ import com.example.farmcollector.api.request.CropRequest;
 import com.example.farmcollector.api.response.CropResponse;
 import com.example.farmcollector.dto.CropDTO;
 import com.example.farmcollector.enums.Season;
+import com.example.farmcollector.exception.DuplicateDataException;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
 import com.example.farmcollector.service.crop.CropService;
 import com.example.farmcollector.util.CropMapper;
@@ -28,7 +29,7 @@ public class CropController {
             CropDTO cropDTO = cropMapper.convertCropRequestToDto(cropRequest);
             CropResponse response = cropMapper.convertDtoToResponse(cropService.saveCrop(cropDTO));
             return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (FarmDataNotFoundException e) {
+        } catch (FarmDataNotFoundException | DuplicateDataException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }

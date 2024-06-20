@@ -133,23 +133,23 @@ public class FarmerServiceImplTest {
 
     @Test
     void deleteFarmer_ById_success() {
-        when(farmerRepository.existsFarmerByFarmerId(farmerId)).thenReturn(true);
+        when(farmerRepository.findFarmerByFarmerId(farmerId)).thenReturn(Optional.of(farmer));
 
         farmerService.deleteFarmerById(farmerId);
 
-        verify(farmerRepository, times(1)).existsFarmerByFarmerId(farmerId);
+        verify(farmerRepository, times(1)).findFarmerByFarmerId(farmerId);
         verify(farmerRepository, times(1)).deleteFarmerByFarmerId(farmerId);
     }
 
     @Test
     void deleteFarmer_ById_notFound() {
-        when(farmerRepository.existsFarmerByFarmerId(farmerId)).thenReturn(false);
+        when(farmerRepository.findFarmerByFarmerId(farmerId)).thenReturn(Optional.empty());
 
         FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> farmerService.deleteFarmerById(farmerId));
 
         assertEquals("No farmer record found with id: " + farmerId, exception.getMessage());
 
-        verify(farmerRepository, times(1)).existsFarmerByFarmerId(farmerId);
+        verify(farmerRepository, times(1)).findFarmerByFarmerId(farmerId);
         verify(farmerRepository, never()).deleteFarmerByFarmerId(farmerId);
     }
 }

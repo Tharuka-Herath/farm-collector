@@ -88,11 +88,8 @@ public class FarmerServiceImpl implements FarmerService {
      */
     @Override
     public void deleteFarmerById(String farmerId) {
-        if (farmerRepository.existsFarmerByFarmerId(farmerId)) {
-            farmerRepository.deleteFarmerByFarmerId(farmerId);
-        } else {
-            throw new FarmDataNotFoundException("No farmer record found with id: " + farmerId);
-        }
+        farmerRepository.findFarmerByFarmerId(farmerId).orElseThrow(() -> new FarmDataNotFoundException("No farmer record found with id: " + farmerId));
+        farmerRepository.deleteFarmerByFarmerId(farmerId);
     }
 
 }

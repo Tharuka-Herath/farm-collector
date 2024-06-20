@@ -2,6 +2,7 @@ package com.example.farmcollector.service.crop;
 
 import com.example.farmcollector.dto.CropDTO;
 import com.example.farmcollector.enums.Season;
+import com.example.farmcollector.exception.DuplicateDataException;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
 import com.example.farmcollector.model.Crop;
 import com.example.farmcollector.model.Farm;
@@ -41,7 +42,7 @@ public class CropServiceImpl implements CropService {
         boolean exists = cropRepository.existsByCropTypeAndSeasonAndYieldYearAndFarmIdAndFarmerId(cropDTO.getCropType(), cropDTO.getSeason(), cropDTO.getYieldYear(), cropDTO.getFarmId(), cropDTO.getFarmerId());
 
         if(exists) {
-            throw new FarmDataNotFoundException("Duplicated record");
+            throw new DuplicateDataException("Duplicated record");
         }
         cropDTO.setCropId(IdGenerator.generateCropId());
 

@@ -10,7 +10,5 @@ public interface FarmRepository extends JpaRepository<Farm, Long> {
 
     void deleteFarmByFarmId(String farmId);
 
-    boolean existsFarmByFarmId(String farmId);
-
     boolean existsFarmByFarmNameAndLocation(String farmId, String location);
 }
