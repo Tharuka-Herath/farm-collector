@@ -38,6 +38,11 @@ public class CropServiceImpl implements CropService {
      */
     @Override
     public CropDTO saveCrop(CropDTO cropDTO) {
+        boolean exists = cropRepository.existsByCropTypeAndSeasonAndYieldYearAndFarmIdAndFarmerId(cropDTO.getCropType(), cropDTO.getSeason(), cropDTO.getYieldYear(), cropDTO.getFarmId(), cropDTO.getFarmerId());
+
+        if(exists) {
+            throw new FarmDataNotFoundException("Duplicated record");
+        }
         cropDTO.setCropId(IdGenerator.generateCropId());
 
         Farm farm = farmRepository.findById(cropDTO.getFarmId()).orElseThrow(() -> new FarmDataNotFoundException("No farm selected"));

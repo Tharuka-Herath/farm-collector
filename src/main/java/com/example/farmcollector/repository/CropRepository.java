@@ -15,6 +15,13 @@ public interface CropRepository extends JpaRepository<Crop, Long> {
 
     void deleteCropByCropId(String cropId);
 
+    boolean existsByCropTypeAndSeasonAndYieldYearAndFarmIdAndFarmerId(
+            String cropType,
+            Season season,
+            Integer yieldYear,
+            Long farmId,
+            Long farmerId
+    );
 
     // Find all crops of a specific type
     @Query("SELECT c FROM Crop c WHERE c.cropType = :cropType")

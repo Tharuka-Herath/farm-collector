@@ -5,10 +5,8 @@ import com.example.farmcollector.api.response.CropResponse;
 import com.example.farmcollector.dto.CropDTO;
 import com.example.farmcollector.enums.Season;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
-import com.example.farmcollector.model.Crop;
 import com.example.farmcollector.service.crop.CropService;
 import com.example.farmcollector.util.CropMapper;
-import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,10 +23,14 @@ public class CropController {
 
 
     @PostMapping
-    public ResponseEntity<CropResponse> createCrop(@RequestBody CropRequest cropRequest) {
-        CropDTO cropDTO = cropMapper.convertCropRequestToDto(cropRequest);
-        CropResponse response = cropMapper.convertDtoToResponse(cropService.saveCrop(cropDTO));
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Object> createCrop(@RequestBody CropRequest cropRequest) {
+        try {
+            CropDTO cropDTO = cropMapper.convertCropRequestToDto(cropRequest);
+            CropResponse response = cropMapper.convertDtoToResponse(cropService.saveCrop(cropDTO));
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (FarmDataNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @GetMapping
@@ -69,7 +71,6 @@ public class CropController {
             return ResponseEntity.notFound().build();
         }
     }
-
 
 
     @GetMapping("/by-crop-type")

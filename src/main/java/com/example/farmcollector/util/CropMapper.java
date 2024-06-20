@@ -30,7 +30,7 @@ public class CropMapper {
     }
 
     public Long convertFarmIdToDatabaseId(String farmId) {
-        Farm farm = farmRepository.findFarmByFarmId(farmId).orElseThrow(() -> new FarmDataNotFoundException("No record with " + farmId + "to update"));
+        Farm farm = farmRepository.findFarmByFarmId(farmId).orElseThrow(() -> new FarmDataNotFoundException("No record with " + farmId + " to update"));
         return farm.getId();
     }
 
@@ -40,7 +40,7 @@ public class CropMapper {
     }
 
     public String convertDatabaseIdToFarmId(long id) {
-        Farm farm = farmRepository.findById(id).orElseThrow(() -> new FarmDataNotFoundException("No record with " + id + "to update"));
+        Farm farm = farmRepository.findById(id).orElseThrow(() -> new FarmDataNotFoundException("No record with " + id + " to update"));
         return farm.getFarmId();
     }
 

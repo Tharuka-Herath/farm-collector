@@ -13,6 +13,9 @@ import java.time.LocalDateTime;
 
 
 @Entity
+@Table(name = "crop", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"cropType", "season", "yieldYear", "farm_id", "farmer_id"})
+})
 @Getter
 @Setter
 @AllArgsConstructor

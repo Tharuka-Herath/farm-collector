@@ -50,7 +50,7 @@ public class FarmServiceImpl implements FarmService {
      */
     @Override
     public FarmDTO updateFarm(String farmId, FarmDTO farmDTO) {
-        Farm farm = farmRepository.findFarmByFarmId(farmId).orElseThrow(()-> new FarmDataNotFoundException("No record with " + farmId + "to update"));
+        Farm farm = farmRepository.findFarmByFarmId(farmId).orElseThrow(()-> new FarmDataNotFoundException("No record with " + farmId + " to update"));
 
         // Convert DTO to entity and set the ID to ensure the correct entity is updated
         Farm newFarmDataEntity = farmMapper.convertFarmDtoToEntity(farmDTO);
@@ -113,8 +113,8 @@ public class FarmServiceImpl implements FarmService {
      */
     @Override
     public FarmDTO addFarmerToFarm(String farmId, String farmerId) {
-        Farm farm = farmRepository.findFarmByFarmId(farmId).orElseThrow(() -> new FarmDataNotFoundException("No farm with id " + farmId + "found"));
-        Farmer farmer = farmerRepository.findFarmerByFarmerId(farmerId).orElseThrow(() -> new FarmDataNotFoundException("No farmer with id " + farmerId + "found"));
+        Farm farm = farmRepository.findFarmByFarmId(farmId).orElseThrow(() -> new FarmDataNotFoundException("No farm with id " + farmId + " found"));
+        Farmer farmer = farmerRepository.findFarmerByFarmerId(farmerId).orElseThrow(() -> new FarmDataNotFoundException("No farmer with id " + farmerId + " found"));
 
         List<Farmer> farmerList = farm.getFarmers();
 
