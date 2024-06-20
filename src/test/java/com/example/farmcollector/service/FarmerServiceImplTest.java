@@ -150,6 +150,6 @@ public class FarmerServiceImplTest {
         assertEquals("No farmer record found with id: " + farmerId, exception.getMessage());
 
         verify(farmerRepository, times(1)).existsFarmerByFarmerId(farmerId);
-        verify(farmerRepository, times(0)).deleteFarmerByFarmerId(farmerId);
+        verify(farmerRepository, never()).deleteFarmerByFarmerId(farmerId);
     }
 }

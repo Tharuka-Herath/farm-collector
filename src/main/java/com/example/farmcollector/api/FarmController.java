@@ -3,6 +3,7 @@ package com.example.farmcollector.api;
 import com.example.farmcollector.api.request.FarmRequest;
 import com.example.farmcollector.api.response.FarmResponse;
 import com.example.farmcollector.dto.FarmDTO;
+import com.example.farmcollector.exception.DuplicateDataException;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
 import com.example.farmcollector.service.farm.FarmService;
 import com.example.farmcollector.util.FarmMapper;
@@ -22,9 +23,13 @@ public class FarmController {
     private final FarmMapper farmMapper;
 
     @PostMapping
-    public ResponseEntity<FarmResponse> saveFarm(@RequestBody FarmRequest farmRequest) {
-        FarmDTO farmDTO = farmService.saveFarm(farmMapper.convertFarmRequestToDto(farmRequest));
-        return ResponseEntity.status(HttpStatus.CREATED).body(farmMapper.convertDtoToResponse(farmDTO));
+    public ResponseEntity<Object> saveFarm(@RequestBody FarmRequest farmRequest) {
+        try {
+            FarmDTO farmDTO = farmService.saveFarm(farmMapper.convertFarmRequestToDto(farmRequest));
+            return ResponseEntity.status(HttpStatus.CREATED).body(farmMapper.convertDtoToResponse(farmDTO));
+        } catch (DuplicateDataException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
     @PutMapping("/{farmId}")
@@ -34,7 +39,7 @@ public class FarmController {
             FarmDTO updatedFarm = farmService.updateFarm(farmId, farmDTO);
             return ResponseEntity.status(HttpStatus.OK).body(farmMapper.convertDtoToResponse(updatedFarm));
         } catch (FarmDataNotFoundException e) {
-           return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
 

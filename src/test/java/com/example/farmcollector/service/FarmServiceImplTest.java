@@ -1,6 +1,7 @@
 package com.example.farmcollector.service;
 
 import com.example.farmcollector.dto.FarmDTO;
+import com.example.farmcollector.exception.DuplicateDataException;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
 import com.example.farmcollector.model.Farm;
 import com.example.farmcollector.model.Farmer;
@@ -15,7 +16,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,31 +53,42 @@ public class FarmServiceImplTest {
         farm.setLocation("Galle");
         farm.setFarmArea(100.0);
 
-        farmer = new Farmer();
-        farmer.setFarmerId(farmerId);
-        farmer.setFarmerName("Thilak");
-        farmer.setFarm(farm);
-
-        List<Farmer> farmersList = new ArrayList<>();
-        farmersList.add(farmer);
-
         farmDTO = new FarmDTO();
         farmDTO.setFarmName("Farm A");
         farmDTO.setLocation("Galle");
         farmDTO.setFarmArea(100.0);
+
+        farmer = new Farmer();
+        farmer.setFarmerId(farmerId);
+        farmer.setFarmerName("Thilak");
+        farmer.setFarm(farm);
     }
 
     @Test
     void saveFarm_success() {
+        when(farmRepository.existsFarmByFarmNameAndLocation(anyString(),anyString())).thenReturn(false);
         when(farmRepository.save(any(Farm.class))).thenReturn(farm);
 
         FarmDTO result = farmService.saveFarm(farmDTO);
 
         assertNotNull(result);
         assertEquals(farmDTO.getFarmName(), result.getFarmName());
+
+        verify(farmRepository, times(1)).existsFarmByFarmNameAndLocation(anyString(),anyString());
         verify(farmRepository, times(1)).save(any(Farm.class));
     }
 
+    @Test
+    void saveFarm_duplicateFarmer() {
+        when(farmRepository.existsFarmByFarmNameAndLocation(anyString(),anyString())).thenReturn(true);
+
+        DuplicateDataException exception = assertThrows(DuplicateDataException.class, ()->farmService.saveFarm(farmDTO));
+
+        assertEquals("Duplicated record", exception.getMessage());
+
+        verify(farmRepository, times(1)).existsFarmByFarmNameAndLocation(anyString(),anyString());
+        verify(farmRepository, never()).save(any(Farm.class));
+    }
     @Test
     void updateFarm_success() {
         when(farmRepository.findFarmByFarmId(farmId)).thenReturn(Optional.of(farm));
@@ -140,23 +151,23 @@ public class FarmServiceImplTest {
 
     @Test
     void deleteFarm_ById_success() {
-        when(farmRepository.existsFarmByFarmId(farmId)).thenReturn(true);
+        when(farmRepository.findFarmByFarmId(anyString())).thenReturn(Optional.of(farm));
 
         farmService.deleteFarmById(farmId);
 
-        verify(farmRepository, times(1)).existsFarmByFarmId(farmId);
+        verify(farmRepository, times(1)).findFarmByFarmId(farmId);
         verify(farmRepository, times(1)).deleteFarmByFarmId(farmId);
     }
 
     @Test
     void deleteFarm_ById_notFound() {
-        when(farmRepository.existsFarmByFarmId(farmId)).thenReturn(false);
+        when(farmRepository.findFarmByFarmId(anyString())).thenReturn(Optional.empty());
 
         Exception exception = assertThrows(FarmDataNotFoundException.class, () -> farmService.deleteFarmById(farmId));
 
         assertEquals("No farm record found with id: " + farmId, exception.getMessage());
 
-        verify(farmRepository, times(1)).existsFarmByFarmId(farmId);
+        verify(farmRepository, times(1)).findFarmByFarmId(farmId);
         verify(farmRepository, times(0)).deleteFarmByFarmId(farmId);
     }
 
