@@ -84,15 +84,15 @@ public class CropController {
         return new ResponseEntity<>(averageYield, HttpStatus.OK);
     }
 
-    @GetMapping("/with-farm-location")
-    public ResponseEntity<List<Object[]>> getCropsWithFarmLocationByCropType(@RequestParam String cropType) {
-        List<Object[]> cropsWithFarmLocation = cropService.findCropsWithFarmLocationByCropType(cropType);
-        return new ResponseEntity<>(cropsWithFarmLocation, HttpStatus.OK);
-    }
-
-    @GetMapping("/with-farm-season")
-    public ResponseEntity<List<Object[]>> getCropsByFarmNameAndSeason(@RequestParam String farmName, @RequestParam Season season) {
-        List<Object[]> cropsWithFarmNameAndSeason = cropService.findCropsByFarmNameAndSeason(farmName, season);
-        return new ResponseEntity<>(cropsWithFarmNameAndSeason,HttpStatus.OK);
-    }
+//    @GetMapping("/with-farm-location")
+//    public ResponseEntity<List<Object[]>> getCropsWithFarmLocationByCropType(@RequestParam String cropType) {
+//        List<Object[]> cropsWithFarmLocation = cropService.findCropsWithFarmLocationByCropType(cropType);
+//        return new ResponseEntity<>(cropsWithFarmLocation, HttpStatus.OK);
+//    }
+//
+//    @GetMapping("/with-farm-season")
+//    public ResponseEntity<List<Object[]>> getCropsByFarmNameAndSeason(@RequestParam String farmName, @RequestParam Season season) {
+//        List<Object[]> cropsWithFarmNameAndSeason = cropService.findCropsByFarmNameAndSeason(farmName, season);
+//        return new ResponseEntity<>(cropsWithFarmNameAndSeason,HttpStatus.OK);
+//    }
 }

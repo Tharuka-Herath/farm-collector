@@ -21,7 +21,7 @@ public interface CropService {
 
     Double findAverageYieldBySeasonAndYear(Season season, Integer year);
 
-    List<Object[]> findCropsWithFarmLocationByCropType(String cropType);
-
-    List<Object[]> findCropsByFarmNameAndSeason(String farmName, Season season);
+//    List<Object[]> findCropsWithFarmLocationByCropType(String cropType);
+//
+//    List<Object[]> findCropsByFarmNameAndSeason(String farmName, Season season);
 }

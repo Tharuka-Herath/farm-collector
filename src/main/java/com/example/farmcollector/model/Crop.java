@@ -1,7 +1,6 @@
 package com.example.farmcollector.model;
 
 import com.example.farmcollector.enums.Season;
-import com.example.farmcollector.util.IdGenerator;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -50,10 +49,10 @@ public class Crop {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Farmer farmer;
+    @Column(name = "farmer_id")
+    private Long farmerId;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Farm farm;
+    @Column(name = "farm_id")
+    private Long farmId;
 
 }

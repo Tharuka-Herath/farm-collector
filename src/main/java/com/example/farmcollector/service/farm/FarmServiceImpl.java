@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -51,15 +50,11 @@ public class FarmServiceImpl implements FarmService {
      */
     @Override
     public FarmDTO updateFarm(String farmId, FarmDTO farmDTO) {
-        Optional<Farm> optionalFarm = farmRepository.findFarmByFarmId(farmId);
-
-        if (optionalFarm.isEmpty()) {
-            throw new FarmDataNotFoundException("No record with " + farmId + "to update");
-        }
+        Farm farm = farmRepository.findFarmByFarmId(farmId).orElseThrow(()-> new FarmDataNotFoundException("No record with " + farmId + "to update"));
 
         // Convert DTO to entity and set the ID to ensure the correct entity is updated
         Farm newFarmDataEntity = farmMapper.convertFarmDtoToEntity(farmDTO);
-        newFarmDataEntity.setId(optionalFarm.get().getId());
+        newFarmDataEntity.setId(farm.getId());
         newFarmDataEntity.setFarmId(farmId);
 
         // Save the updated entity
@@ -89,15 +84,8 @@ public class FarmServiceImpl implements FarmService {
      */
     @Override
     public FarmDTO getFarmById(String farmId) {
-        Optional<Farm> optionalFarm = farmRepository.findFarmByFarmId(farmId);
-
-        if (optionalFarm.isPresent()) {
-            Farm farm = optionalFarm.get();
-            return farmMapper.convertFarmEntityToDto(farm);
-        } else {
-            // Handle the case when the farm with the farm ID is not found
-            throw new FarmDataNotFoundException("Farm not found with id: " + farmId);
-        }
+        Farm farm = farmRepository.findFarmByFarmId(farmId).orElseThrow(() -> new FarmDataNotFoundException("Farm not found with id: " + farmId));
+        return farmMapper.convertFarmEntityToDto(farm);
     }
 
     /**

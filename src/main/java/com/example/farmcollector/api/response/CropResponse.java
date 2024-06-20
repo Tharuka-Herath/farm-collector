@@ -1,8 +1,6 @@
 package com.example.farmcollector.api.response;
 
 import com.example.farmcollector.enums.Season;
-import com.example.farmcollector.model.Farm;
-import com.example.farmcollector.model.Farmer;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +17,7 @@ public class CropResponse {
     private Integer yieldYear;
     private Double expectedAmount;
     private Double actualAmount;
-    private Farm farm;
-    private Farmer farmer;
+    private String farmId;
+    private String farmerId;
 }
 

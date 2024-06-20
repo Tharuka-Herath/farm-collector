@@ -1,8 +1,6 @@
 package com.example.farmcollector.api.request;
 
 import com.example.farmcollector.enums.Season;
-import com.example.farmcollector.model.Farm;
-import com.example.farmcollector.model.Farmer;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,6 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CropRequest {
+
     @NotNull
     private String cropType;
     @NotNull
@@ -26,7 +25,8 @@ public class CropRequest {
     @NotNull
     private Double actualAmount;
     @NotNull
-    private Farm farm;
+    private String farmId;
     @NotNull
-    private Farmer farmer;
+    private String farmerId;
+
 }

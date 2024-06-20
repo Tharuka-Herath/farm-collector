@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -47,18 +46,14 @@ public class FarmerServiceImpl implements FarmerService {
      */
     @Override
     public FarmerDTO updateFarmerById(String farmerId, FarmerDTO farmerDTO) {
-        Optional<Farmer> optionalFarmer = farmerRepository.findFarmerByFarmerId(farmerId);
+        Farmer farmer = farmerRepository.findFarmerByFarmerId(farmerId).orElseThrow(() -> new FarmDataNotFoundException("No farmer with id " + farmerId + " found."));
 
-        if (optionalFarmer.isEmpty()) {
-            throw new FarmDataNotFoundException("No farmer with id " + farmerId + " found.");
-        }
+        Farmer newFarmerEntity = farmerMapper.convertFarmerDtoToEntity(farmerDTO);
+        newFarmerEntity.setId(farmer.getId());
+        newFarmerEntity.setFarmerId(farmerId);
+        newFarmerEntity.setFarm(farmer.getFarm());
 
-        Farmer farmer = farmerMapper.convertFarmerDtoToEntity(farmerDTO);
-        farmer.setFarmerId(farmerId);
-        farmer.setId(optionalFarmer.get().getId());
-        farmer.setFarm(optionalFarmer.get().getFarm());
-
-        return farmerMapper.convertFarmerEntityToDto(farmerRepository.save(farmer));
+        return farmerMapper.convertFarmerEntityToDto(farmerRepository.save(newFarmerEntity));
     }
 
     /**
@@ -81,8 +76,8 @@ public class FarmerServiceImpl implements FarmerService {
      */
     @Override
     public FarmerDTO getFarmerById(String farmerId) {
-        Optional<Farmer> getFarmer = farmerRepository.findFarmerByFarmerId(farmerId);
-        return farmerMapper.convertFarmerEntityToDto(getFarmer.orElseThrow(() -> new FarmDataNotFoundException("Farmer was not found with id " + farmerId)));
+        Farmer getFarmer = farmerRepository.findFarmerByFarmerId(farmerId).orElseThrow(() -> new FarmDataNotFoundException("Farmer was not found with id " + farmerId));
+        return farmerMapper.convertFarmerEntityToDto(getFarmer);
     }
 
     /**

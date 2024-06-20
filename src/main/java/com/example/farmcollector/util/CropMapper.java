@@ -3,7 +3,13 @@ package com.example.farmcollector.util;
 import com.example.farmcollector.api.request.CropRequest;
 import com.example.farmcollector.api.response.CropResponse;
 import com.example.farmcollector.dto.CropDTO;
+import com.example.farmcollector.exception.FarmDataNotFoundException;
 import com.example.farmcollector.model.Crop;
+import com.example.farmcollector.model.Farm;
+import com.example.farmcollector.model.Farmer;
+import com.example.farmcollector.repository.FarmRepository;
+import com.example.farmcollector.repository.FarmerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,6 +19,36 @@ import java.util.List;
  */
 @Component
 public class CropMapper {
+
+    private final FarmRepository farmRepository;
+    private final FarmerRepository farmerRepository;
+
+    @Autowired
+    public CropMapper(FarmRepository farmRepository, FarmerRepository farmerRepository) {
+        this.farmRepository = farmRepository;
+        this.farmerRepository = farmerRepository;
+    }
+
+    public Long convertFarmIdToDatabaseId(String farmId) {
+        Farm farm = farmRepository.findFarmByFarmId(farmId).orElseThrow(() -> new FarmDataNotFoundException("No record with " + farmId + "to update"));
+        return farm.getId();
+    }
+
+    public Long convertFarmerIdToDatabaseId(String farmerId) {
+        Farmer farmer = farmerRepository.findFarmerByFarmerId(farmerId).orElseThrow(() -> new FarmDataNotFoundException("No farmer with id " + farmerId + " found."));
+        return farmer.getId();
+    }
+
+    public String convertDatabaseIdToFarmId(long id) {
+        Farm farm = farmRepository.findById(id).orElseThrow(() -> new FarmDataNotFoundException("No record with " + id + "to update"));
+        return farm.getFarmId();
+    }
+
+    public String convertDatabaseIdToFarmerId(long id) {
+        Farmer farmer = farmerRepository.findById(id).orElseThrow(() -> new FarmDataNotFoundException("No farmer with id " + id + " found."));
+        return farmer.getFarmerId();
+    }
+
     /**
      * Converts a CropRequest to a CropDTO.
      *
@@ -26,8 +62,8 @@ public class CropMapper {
         dto.setYieldYear(request.getYieldYear());
         dto.setExpectedAmount(request.getExpectedAmount());
         dto.setActualAmount(request.getActualAmount());
-        dto.setFarm(request.getFarm());
-        dto.setFarmer(request.getFarmer());
+        dto.setFarmId(convertFarmIdToDatabaseId(request.getFarmId()));
+        dto.setFarmerId(convertFarmerIdToDatabaseId(request.getFarmerId()));
         return dto;
     }
 
@@ -46,8 +82,8 @@ public class CropMapper {
         entity.setYieldYear(dto.getYieldYear());
         entity.setExpectedAmount(dto.getExpectedAmount());
         entity.setActualAmount(dto.getActualAmount());
-        entity.setFarm(dto.getFarm());
-        entity.setFarmer(dto.getFarmer());
+        entity.setFarmId(dto.getFarmId());
+        entity.setFarmerId(dto.getFarmerId());
         return entity;
     }
 
@@ -65,12 +101,10 @@ public class CropMapper {
         dto.setYieldYear(entity.getYieldYear());
         dto.setExpectedAmount(entity.getExpectedAmount());
         dto.setActualAmount(entity.getActualAmount());
-        dto.setFarm(entity.getFarm());
-        dto.setFarmer(entity.getFarmer());
+        dto.setFarmId(entity.getFarmId());
+        dto.setFarmerId(entity.getFarmerId());
         return dto;
     }
-
-
 
 
     /**
@@ -87,8 +121,8 @@ public class CropMapper {
         response.setYieldYear(dto.getYieldYear());
         response.setExpectedAmount(dto.getExpectedAmount());
         response.setActualAmount(dto.getActualAmount());
-        response.setFarm(dto.getFarm());
-        response.setFarmer(dto.getFarmer());
+        response.setFarmId(convertDatabaseIdToFarmId(dto.getFarmId()));
+        response.setFarmerId(convertDatabaseIdToFarmerId(dto.getFarmerId()));
         return response;
     }
 
@@ -103,8 +137,6 @@ public class CropMapper {
     }
 
     public List<CropDTO> convertCropEntityListToDtoList(List<Crop> entities) {
-        return entities.stream()
-                .map(this::convertCropEntityToDto)
-                .toList();
+        return entities.stream().map(this::convertCropEntityToDto).toList();
     }
 }
