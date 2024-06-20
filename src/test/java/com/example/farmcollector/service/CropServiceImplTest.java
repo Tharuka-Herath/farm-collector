@@ -158,7 +158,7 @@ public class CropServiceImplTest {
             cropService.updateCropById("C-0001", cropDTO);
         });
 
-        assertEquals("No crop with ID C-0001 found.", exception.getMessage());
+        assertEquals("No crop record with " + cropId + " to update", exception.getMessage());
 
         verify(cropRepository, times(1)).findCropByCropId(cropId);
         verify(cropRepository, times(0)).save(any(Crop.class));
@@ -182,7 +182,7 @@ public class CropServiceImplTest {
             cropService.deleteCropByCropId(cropId);
         });
 
-        assertEquals("Crop not found for the given ID", exception.getMessage());
+        assertEquals("No crop record found with id: " + cropId, exception.getMessage());
 
         verify(cropRepository, times(1)).findCropByCropId(cropId);
         verify(cropRepository, times(0)).deleteCropByCropId(cropId);

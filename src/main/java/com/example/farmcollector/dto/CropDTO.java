@@ -11,6 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CropDTO {
+
     private String cropId;
     private String cropType;
     private Season season;

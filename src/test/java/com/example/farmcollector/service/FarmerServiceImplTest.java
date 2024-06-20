@@ -88,11 +88,9 @@ public class FarmerServiceImplTest {
     void updateFarmerById_notFound() {
         when(farmerRepository.findFarmerByFarmerId(farmerId)).thenReturn(Optional.empty());
 
-        FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> {
-            farmerService.updateFarmerById(farmerId, farmerDTO);
-        });
+        FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> farmerService.updateFarmerById(farmerId, farmerDTO));
 
-        assertEquals("No farmer with id F-0001 found.", exception.getMessage());
+        assertEquals("No farmer record with " + farmerId + " to update", exception.getMessage());
 
         verify(farmerRepository, times(1)).findFarmerByFarmerId(farmerId);
         verify(farmerRepository, times(0)).save(any(Farmer.class));
@@ -126,11 +124,9 @@ public class FarmerServiceImplTest {
     void getFarmerById_notFound() {
         when(farmerRepository.findFarmerByFarmerId(farmerId)).thenReturn(Optional.empty());
 
-        FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> {
-            farmerService.getFarmerById(farmerId);
-        });
+        FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> farmerService.getFarmerById(farmerId));
 
-        assertEquals("Farmer was not found with id F-0001", exception.getMessage());
+        assertEquals("No farmer record found with id: " + farmerId, exception.getMessage());
 
         verify(farmerRepository, times(1)).findFarmerByFarmerId(farmerId);
     }
@@ -149,11 +145,9 @@ public class FarmerServiceImplTest {
     void deleteFarmer_ById_notFound() {
         when(farmerRepository.existsFarmerByFarmerId(farmerId)).thenReturn(false);
 
-        FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> {
-            farmerService.deleteFarmerById(farmerId);
-        });
+        FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> farmerService.deleteFarmerById(farmerId));
 
-        assertEquals("No farmer with id F-0001 found.", exception.getMessage());
+        assertEquals("No farmer record found with id: " + farmerId, exception.getMessage());
 
         verify(farmerRepository, times(1)).existsFarmerByFarmerId(farmerId);
         verify(farmerRepository, times(0)).deleteFarmerByFarmerId(farmerId);

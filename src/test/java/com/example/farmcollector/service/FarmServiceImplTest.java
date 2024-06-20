@@ -98,7 +98,7 @@ public class FarmServiceImplTest {
 
         FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> farmService.updateFarm(farmId, farmDTO));
 
-        assertEquals("No record with " + farmId + "to update", exception.getMessage());
+        assertEquals("No farm record with " + farmId + " to update", exception.getMessage());
         verify(farmRepository, times(1)).findFarmByFarmId(farmId);
         verify(farmRepository, never()).save(any(Farm.class));
     }
@@ -133,7 +133,7 @@ public class FarmServiceImplTest {
 
         Exception exception = assertThrows(FarmDataNotFoundException.class, () -> farmService.getFarmById(farmId));
 
-        assertEquals("Farm not found with id: " + farmId, exception.getMessage());
+        assertEquals("No farm record found with id: " + farmId, exception.getMessage());
 
         verify(farmRepository, times(1)).findFarmByFarmId(farmId);
     }
@@ -154,7 +154,7 @@ public class FarmServiceImplTest {
 
         Exception exception = assertThrows(FarmDataNotFoundException.class, () -> farmService.deleteFarmById(farmId));
 
-        assertEquals("No farm with id " + farmId + "found", exception.getMessage());
+        assertEquals("No farm record found with id: " + farmId, exception.getMessage());
 
         verify(farmRepository, times(1)).existsFarmByFarmId(farmId);
         verify(farmRepository, times(0)).deleteFarmByFarmId(farmId);
@@ -185,7 +185,7 @@ public class FarmServiceImplTest {
 
         FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> farmService.addFarmerToFarm(farmId, farmerId));
 
-        assertEquals("No farm with id " + farmId + "found", exception.getMessage());
+        assertEquals("No farm record found with id: " + farmId, exception.getMessage());
 
         verify(farmRepository, times(1)).findFarmByFarmId(farmId);
         verify(farmerRepository, times(0)).findFarmerByFarmerId(farmerId);
@@ -199,7 +199,7 @@ public class FarmServiceImplTest {
 
         FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> farmService.addFarmerToFarm(farmId, farmerId));
 
-        assertEquals("No farmer with id " + farmerId + "found", exception.getMessage());
+        assertEquals("No farmer record found with id: " + farmerId, exception.getMessage());
 
         verify(farmRepository, times(1)).findFarmByFarmId(farmId);
         verify(farmerRepository, times(1)).findFarmerByFarmerId(farmerId);

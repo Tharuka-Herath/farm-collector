@@ -66,7 +66,7 @@ public class CropServiceImpl implements CropService {
      */
     @Override
     public CropDTO updateCropById(String cropId, CropDTO cropDTO) {
-        Crop crop = cropRepository.findCropByCropId(cropId).orElseThrow(() -> new FarmDataNotFoundException("No crop with ID " + cropId + " found."));
+        Crop crop = cropRepository.findCropByCropId(cropId).orElseThrow(() -> new FarmDataNotFoundException("No crop record with " + cropId + " to update"));
 
         Long cropIdLong = crop.getId();
         Long farmId = cropDTO.getFarmId();
@@ -95,7 +95,7 @@ public class CropServiceImpl implements CropService {
             Crop cropByIdEntity = cropById.get();
             return cropMapper.convertCropEntityToDto(cropByIdEntity);
         } else {
-            throw new FarmDataNotFoundException("Crop not found for the given ID");
+            throw new FarmDataNotFoundException("No crop record found with id: " + cropId);
         }
     }
 
@@ -124,7 +124,7 @@ public class CropServiceImpl implements CropService {
         if (crop.isPresent()) {
             cropRepository.deleteCropByCropId(cropId);
         } else {
-            throw new FarmDataNotFoundException("Crop not found for the given ID");
+            throw new FarmDataNotFoundException("No crop record found with id: " + cropId);
         }
     }
 

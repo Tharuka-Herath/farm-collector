@@ -46,7 +46,7 @@ public class FarmerServiceImpl implements FarmerService {
      */
     @Override
     public FarmerDTO updateFarmerById(String farmerId, FarmerDTO farmerDTO) {
-        Farmer farmer = farmerRepository.findFarmerByFarmerId(farmerId).orElseThrow(() -> new FarmDataNotFoundException("No farmer with id " + farmerId + " found."));
+        Farmer farmer = farmerRepository.findFarmerByFarmerId(farmerId).orElseThrow(() -> new FarmDataNotFoundException("No farmer record with " + farmerId + " to update"));
 
         Farmer newFarmerEntity = farmerMapper.convertFarmerDtoToEntity(farmerDTO);
         newFarmerEntity.setId(farmer.getId());
@@ -76,7 +76,7 @@ public class FarmerServiceImpl implements FarmerService {
      */
     @Override
     public FarmerDTO getFarmerById(String farmerId) {
-        Farmer getFarmer = farmerRepository.findFarmerByFarmerId(farmerId).orElseThrow(() -> new FarmDataNotFoundException("Farmer was not found with id " + farmerId));
+        Farmer getFarmer = farmerRepository.findFarmerByFarmerId(farmerId).orElseThrow(() -> new FarmDataNotFoundException("No farmer record found with id: " + farmerId));
         return farmerMapper.convertFarmerEntityToDto(getFarmer);
     }
 
@@ -91,7 +91,7 @@ public class FarmerServiceImpl implements FarmerService {
         if (farmerRepository.existsFarmerByFarmerId(farmerId)) {
             farmerRepository.deleteFarmerByFarmerId(farmerId);
         } else {
-            throw new FarmDataNotFoundException("No farmer with id " + farmerId + " found.");
+            throw new FarmDataNotFoundException("No farmer record found with id: " + farmerId);
         }
     }
 
