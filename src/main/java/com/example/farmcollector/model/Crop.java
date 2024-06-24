@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Crop {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "crop_id")
