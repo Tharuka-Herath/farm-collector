@@ -54,10 +54,12 @@ public class CropServiceImplTest {
     @BeforeEach
     void setUp() {
         farm = new Farm();
+        farm.setId(1L);
         farm.setFarmId(farmId);
         farm.setFarmName("Test Farm");
 
         farmer = new Farmer();
+        farmer.setId(1L);
         farmer.setFarmerId(farmerId);
         farmer.setFarmerName("Darshana");
 
@@ -68,8 +70,8 @@ public class CropServiceImplTest {
         crop.setYieldYear(2023);
         crop.setExpectedAmount(100.0);
         crop.setActualAmount(90.0);
-        crop.setFarmer(farmer);
-        crop.setFarm(farm);
+        crop.setFarmId(1L);
+        crop.setFarmerId(1L);
 
         cropDTO = new CropDTO();
         cropDTO.setCropType("Wheat");
@@ -77,14 +79,17 @@ public class CropServiceImplTest {
         cropDTO.setYieldYear(2023);
         cropDTO.setExpectedAmount(100.0);
         cropDTO.setActualAmount(90.0);
-        cropDTO.setFarmer(farmer);
-        cropDTO.setFarm(farm);
+        cropDTO.setFarmId(1L);
+        cropDTO.setFarmerId(1L);
     }
+
 
     @Test
     void saveCrop_success() {
-        when(cropRepository.existsByCropTypeAndSeasonAndYieldYearAndFarmIdAndFarmerId("Wheat", Season.YALA, 2023, 100.0, 90.0, ))
+        when(cropRepository.existsByCropTypeAndSeasonAndYieldYearAndFarmIdAndFarmerId("Wheat", Season.YALA, 2023, 1L, 1L)).thenReturn(false);
         when(cropMapper.convertCropDtoToEntity(any(CropDTO.class))).thenReturn(crop);
+        when(farmRepository.findById(1L)).thenReturn(Optional.of(farm));
+        when(farmerRepository.findById(1L)).thenReturn(Optional.of(farmer));
         when(cropRepository.save(any(Crop.class))).thenReturn(crop);
         when(cropMapper.convertCropEntityToDto(any(Crop.class))).thenReturn(cropDTO);
 
@@ -126,11 +131,9 @@ public class CropServiceImplTest {
     void getCropById_notFound() {
         when(cropRepository.findCropByCropId(cropId)).thenReturn(Optional.empty());
 
-        FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> {
-            cropService.getCropById(cropId);
-        });
+        FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> cropService.getCropById(cropId));
 
-        assertEquals("Crop not found for the given ID", exception.getMessage());
+        assertEquals("No crop record found with id: C-0001", exception.getMessage());
 
         verify(cropRepository, times(1)).findCropByCropId(cropId);
     }
@@ -155,9 +158,7 @@ public class CropServiceImplTest {
     void updateCropById_notFound() {
         when(cropRepository.findCropByCropId(cropId)).thenReturn(Optional.empty());
 
-        FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> {
-            cropService.updateCropById("C-0001", cropDTO);
-        });
+        FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> cropService.updateCropById("C-0001", cropDTO));
 
         assertEquals("No crop record with " + cropId + " to update", exception.getMessage());
 
@@ -179,9 +180,7 @@ public class CropServiceImplTest {
     void deleteCrop_notFound() {
         when(cropRepository.findCropByCropId(cropId)).thenReturn(Optional.empty());
 
-        FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> {
-            cropService.deleteCropByCropId(cropId);
-        });
+        FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> cropService.deleteCropByCropId(cropId));
 
         assertEquals("No crop record found with id: " + cropId, exception.getMessage());
 
