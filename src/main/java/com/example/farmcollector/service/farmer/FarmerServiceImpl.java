@@ -28,7 +28,7 @@ public class FarmerServiceImpl implements FarmerService {
      */
     @Override
     public FarmerDTO saveFarmer(FarmerDTO farmerDTO) {
-        farmerDTO.setFarmerId(IdGenerator.generateFarmerId());
+        farmerDTO.setFarmerId(IdGenerator.generateId("F-"));
 
         Farmer farmer = farmerMapper.convertFarmerDtoToEntity(farmerDTO);
         Farmer savedFarmer = farmerRepository.save(farmer);

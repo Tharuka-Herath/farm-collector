@@ -44,7 +44,7 @@ public class CropServiceImpl implements CropService {
         if(exists) {
             throw new DuplicateDataException("Duplicated record");
         }
-        cropDTO.setCropId(IdGenerator.generateCropId());
+        cropDTO.setCropId(IdGenerator.generateId("C-"));
 
         Farm farm = farmRepository.findById(cropDTO.getFarmId()).orElseThrow(() -> new FarmDataNotFoundException("No farm selected"));
         Farmer farmer = farmerRepository.findById(cropDTO.getFarmId()).orElseThrow(() -> new FarmDataNotFoundException("No farmer selected"));

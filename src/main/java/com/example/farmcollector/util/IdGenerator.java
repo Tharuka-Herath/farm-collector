@@ -1,39 +1,18 @@
 package com.example.farmcollector.util;
 
-/**
- * Utility class for generating unique IDs for crops, farms, and farmers.
- */
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.concurrent.atomic.AtomicLong;
+
 public class IdGenerator {
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS").withZone(ZoneId.systemDefault());
+    // To generate a unique counter in a thread-safe manner
+    private static final AtomicLong counter = new AtomicLong(0);
 
-    private static int cropIdCounter = 1;
-    private static int farmIdCounter = 1;
-    private static int farmerIdCounter = 1;
-
-
-    /**
-     * Generates a unique ID for a crop.
-     *
-     * @return A string representing the generated crop ID.
-     */
-    public static String generateCropId() {
-        return String.format("C-%04d", cropIdCounter++);
-    }
-
-    /**
-     * Generates a unique ID for a farm.
-     *
-     * @return A string representing the generated farm ID.
-     */
-    public static String generateFarmId() {
-        return String.format("L-%04d", farmIdCounter++);
-    }
-
-    /**
-     * Generates a unique ID for a farmer.
-     *
-     * @return A string representing the generated farmer ID.
-     */
-    public static String generateFarmerId() {
-        return String.format("F-%04d", farmerIdCounter++);
+    public static String generateId(String entityCode) {
+        String timestamp = formatter.format(Instant.now());
+        long uniqueId = counter.incrementAndGet();
+        return entityCode + timestamp + uniqueId;
     }
 }
