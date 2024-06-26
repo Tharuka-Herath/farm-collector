@@ -47,9 +47,9 @@ public class CropServiceImplTest {
     private CropDTO cropDTO;
     private Farmer farmer;
     private Farm farm;
-    private final String farmId="L-0001";
-    private final String cropId="C-0001";
-    private final String farmerId="F-0001";
+    private final String farmId="L-8vTpJRjSCu";
+    private final String cropId="C-8vTqsWZaHV";
+    private final String farmerId="L-8vTpJRjSCu";
 
     @BeforeEach
     void setUp() {
@@ -133,7 +133,7 @@ public class CropServiceImplTest {
 
         FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> cropService.getCropById(cropId));
 
-        assertEquals("No crop record found with id: C-0001", exception.getMessage());
+        assertEquals("No crop record found with id: C-8vTqsWZaHV", exception.getMessage());
 
         verify(cropRepository, times(1)).findCropByCropId(cropId);
     }
@@ -158,7 +158,7 @@ public class CropServiceImplTest {
     void updateCropById_notFound() {
         when(cropRepository.findCropByCropId(cropId)).thenReturn(Optional.empty());
 
-        FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> cropService.updateCropById("C-0001", cropDTO));
+        FarmDataNotFoundException exception = assertThrows(FarmDataNotFoundException.class, () -> cropService.updateCropById("C-8vTqsWZaHV", cropDTO));
 
         assertEquals("No crop record with " + cropId + " to update", exception.getMessage());
 

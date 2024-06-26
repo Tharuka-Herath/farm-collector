@@ -1,8 +1,6 @@
 package com.example.farmcollector.util;
 
 import java.time.Instant;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.concurrent.atomic.AtomicLong;
 
 public class IdGenerator {
