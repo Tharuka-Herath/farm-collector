@@ -39,33 +39,24 @@ public class FarmerController {
 
     @GetMapping("/{farmerId}")
     public ResponseEntity<FarmerResponse> getFarmerById(@PathVariable String farmerId) {
-        try {
+
             FarmerDTO getFarmer = farmerService.getFarmerById(farmerId);
             return ResponseEntity.ok(farmerMapper.convertFarmerDtoToResponse(getFarmer));
-        } catch (FarmDataNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
     }
 
     @PutMapping("/{farmerId}")
     public ResponseEntity<FarmerResponse> updateFarmerById(@PathVariable String farmerId, @RequestBody FarmerRequest request) {
-        try {
+
             FarmerDTO farmerUpdate = farmerMapper.convertFarmerRequestToDto(request);
             FarmerDTO updatedFarmer = farmerService.updateFarmerById(farmerId, farmerUpdate);
             FarmerResponse response = farmerMapper.convertFarmerDtoToResponse(updatedFarmer);
             return ResponseEntity.status(HttpStatus.OK).body(response);
-        } catch (FarmDataNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
     }
 
     @DeleteMapping("/{farmerId}")
     public ResponseEntity<Void> deleteFarmer(@PathVariable String farmerId) {
-        try {
+
             farmerService.deleteFarmerById(farmerId);
             return ResponseEntity.noContent().build();
-        } catch (FarmDataNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
     }
 }
