@@ -3,7 +3,6 @@ package com.example.farmcollector.api;
 import com.example.farmcollector.api.request.FarmerRequest;
 import com.example.farmcollector.api.response.FarmerResponse;
 import com.example.farmcollector.dto.FarmerDTO;
-import com.example.farmcollector.exception.FarmDataNotFoundException;
 import com.example.farmcollector.service.farmer.FarmerService;
 import com.example.farmcollector.util.FarmerMapper;
 import lombok.RequiredArgsConstructor;

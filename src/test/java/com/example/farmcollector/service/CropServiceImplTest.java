@@ -66,7 +66,7 @@ public class CropServiceImplTest {
         crop = new Crop();
         crop.setCropId(cropId);
         crop.setCropType("Wheat");
-        crop.setSeason(Season.YALA);
+        crop.setSeason(Season.SPRING);
         crop.setYieldYear(2023);
         crop.setExpectedAmount(100.0);
         crop.setActualAmount(90.0);
@@ -75,7 +75,7 @@ public class CropServiceImplTest {
 
         cropDTO = new CropDTO();
         cropDTO.setCropType("Wheat");
-        cropDTO.setSeason(Season.YALA);
+        cropDTO.setSeason(Season.SPRING);
         cropDTO.setYieldYear(2023);
         cropDTO.setExpectedAmount(100.0);
         cropDTO.setActualAmount(90.0);
@@ -86,7 +86,7 @@ public class CropServiceImplTest {
 
     @Test
     void saveCrop_success() {
-        when(cropRepository.existsByCropTypeAndSeasonAndYieldYearAndFarmIdAndFarmerId("Wheat", Season.YALA, 2023, 1L, 1L)).thenReturn(false);
+        when(cropRepository.existsByCropTypeAndSeasonAndYieldYearAndFarmIdAndFarmerId("Wheat", Season.SPRING, 2023, 1L, 1L)).thenReturn(false);
         when(cropMapper.convertCropDtoToEntity(any(CropDTO.class))).thenReturn(crop);
         when(farmRepository.findById(1L)).thenReturn(Optional.of(farm));
         when(farmerRepository.findById(1L)).thenReturn(Optional.of(farmer));
@@ -207,14 +207,14 @@ public class CropServiceImplTest {
 
     @Test
     void findAverageYieldBySeasonAndYear_success() {
-        when(cropRepository.findAverageYieldBySeasonAndYear(Season.YALA, 2023)).thenReturn(90.0);
+        when(cropRepository.findAverageYieldBySeasonAndYear(Season.SPRING, 2023)).thenReturn(90.0);
 
-        Double result = cropService.findAverageYieldBySeasonAndYear(Season.YALA, 2023);
+        Double result = cropService.findAverageYieldBySeasonAndYear(Season.SPRING, 2023);
 
         assertNotNull(result);
         assertEquals(90.0, result);
 
-        verify(cropRepository, times(1)).findAverageYieldBySeasonAndYear(Season.YALA, 2023);
+        verify(cropRepository, times(1)).findAverageYieldBySeasonAndYear(Season.SPRING, 2023);
     }
 
 
@@ -252,31 +252,31 @@ public class CropServiceImplTest {
     @Test
     void findCropsByFarmNameAndSeason_success() {
         List<Object[]> mockResult = List.of(
-                new Object[]{"Crop1", "YALA"},
-                new Object[]{"Crop2", "YALA"}
+                new Object[]{"Crop1", "SPRING"},
+                new Object[]{"Crop2", "SPRING"}
         );
 
-        when(cropRepository.findCropsByFarmNameAndSeason("Test Farm", Season.YALA)).thenReturn(mockResult);
+        when(cropRepository.findCropsByFarmNameAndSeason("Test Farm", Season.SPRING)).thenReturn(mockResult);
 
-        List<Object[]> result = cropService.findCropsByFarmNameAndSeason("Test Farm", Season.YALA);
+        List<Object[]> result = cropService.findCropsByFarmNameAndSeason("Test Farm", Season.SPRING);
 
         assertNotNull(result);
         assertEquals(2, result.size());
         assertEquals("Crop1", result.get(0)[0]);
-        assertEquals("YALA", result.get(0)[1]);
+        assertEquals("SPRING", result.get(0)[1]);
 
-        verify(cropRepository, times(1)).findCropsByFarmNameAndSeason("Test Farm", Season.YALA);
+        verify(cropRepository, times(1)).findCropsByFarmNameAndSeason("Test Farm", Season.SPRING);
     }
 
     @Test
     void findCropsByFarmNameAndSeason_emptyResult() {
-        when(cropRepository.findCropsByFarmNameAndSeason("Test Farm", Season.YALA)).thenReturn(List.of());
+        when(cropRepository.findCropsByFarmNameAndSeason("Test Farm", Season.SPRING)).thenReturn(List.of());
 
-        List<Object[]> result = cropService.findCropsByFarmNameAndSeason("Test Farm", Season.YALA);
+        List<Object[]> result = cropService.findCropsByFarmNameAndSeason("Test Farm", Season.SPRING);
 
         assertNotNull(result);
         assertTrue(result.isEmpty());
 
-        verify(cropRepository, times(1)).findCropsByFarmNameAndSeason("Test Farm", Season.YALA);
+        verify(cropRepository, times(1)).findCropsByFarmNameAndSeason("Test Farm", Season.SPRING);
     }
 }
