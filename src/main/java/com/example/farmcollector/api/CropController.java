@@ -4,8 +4,6 @@ import com.example.farmcollector.api.request.CropRequest;
 import com.example.farmcollector.api.response.CropResponse;
 import com.example.farmcollector.dto.CropDTO;
 import com.example.farmcollector.enums.Season;
-import com.example.farmcollector.exception.DuplicateDataException;
-import com.example.farmcollector.exception.FarmDataNotFoundException;
 import com.example.farmcollector.service.crop.CropService;
 import com.example.farmcollector.util.CropMapper;
 import lombok.RequiredArgsConstructor;
@@ -24,14 +22,10 @@ public class CropController {
 
 
     @PostMapping
-    public ResponseEntity<Object> createCrop(@RequestBody CropRequest cropRequest) {
-        try {
+    public ResponseEntity<CropResponse> createCrop(@RequestBody CropRequest cropRequest) {
             CropDTO cropDTO = cropMapper.convertCropRequestToDto(cropRequest);
             CropResponse response = cropMapper.convertDtoToResponse(cropService.saveCrop(cropDTO));
             return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (FarmDataNotFoundException | DuplicateDataException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
     }
 
     @GetMapping
@@ -43,34 +37,24 @@ public class CropController {
 
     @GetMapping("/crop-by-Id")
     public ResponseEntity<CropResponse> getCropById(@RequestParam("cropId") String cropId) {
-        try {
             CropDTO cropDTO = cropService.getCropById(cropId);
             CropResponse response = cropMapper.convertDtoToResponse(cropDTO);
             return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (FarmDataNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
     }
 
     @PutMapping("/{cropId}")
     public ResponseEntity<CropResponse> updateCropById(@PathVariable String cropId, @RequestBody CropRequest request) {
-        try {
             CropDTO cropDTO = cropMapper.convertCropRequestToDto(request);
             CropResponse cropResponse = cropMapper.convertDtoToResponse(cropService.updateCropById(cropId, cropDTO));
             return new ResponseEntity<>(cropResponse, HttpStatus.OK);
-        } catch (FarmDataNotFoundException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+
     }
 
     @DeleteMapping()
     public ResponseEntity<Void> deleteCropById(@RequestParam("cropId") String cropId) {
-        try {
             cropService.deleteCropByCropId(cropId);
             return ResponseEntity.ok().build();
-        } catch (FarmDataNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        }
+
     }
 
 
