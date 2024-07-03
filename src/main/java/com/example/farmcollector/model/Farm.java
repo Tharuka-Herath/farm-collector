@@ -52,4 +52,6 @@ public class Farm {
     @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL)
     List<Farmer> farmers = new ArrayList<>();
 
+    @Transient
+    private WeatherData weatherData;
 }
