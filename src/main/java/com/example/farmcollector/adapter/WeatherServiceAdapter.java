@@ -1,7 +1,7 @@
 package com.example.farmcollector.adapter;
 
 import com.example.farmcollector.config.WeatherApiConfig;
-import com.example.farmcollector.exception.WeatherDataNotFoundException;
+import com.example.farmcollector.exception.WeatherException;
 import com.example.farmcollector.model.WeatherData;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,13 +26,13 @@ public class WeatherServiceAdapter {
             try {
                 return parseWeatherData(response.getResponseBody());
             } catch (IOException e) {
-                throw new WeatherDataNotFoundException("Weather service is unavailable");
+                throw new WeatherException("Weather service is unavailable");
             }
         }).whenComplete((result, exception) -> {
             try {
                 client.close();
             } catch (IOException e) {
-                throw new WeatherDataNotFoundException("Weather service is unavailable");            }
+                throw new WeatherException("Weather service is unavailable");            }
         });
     }
 
@@ -56,7 +56,7 @@ public class WeatherServiceAdapter {
 
             return weatherData;
         } catch (NullPointerException e) {
-            throw new WeatherDataNotFoundException("Weather data not found");
+            throw new WeatherException("Weather data not found");
         }
     }
 }

@@ -2,7 +2,7 @@ package com.example.farmcollector.config;
 
 import com.example.farmcollector.exception.DuplicateDataException;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
-import com.example.farmcollector.exception.WeatherDataNotFoundException;
+import com.example.farmcollector.exception.WeatherException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -20,8 +20,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 
-    @ExceptionHandler(WeatherDataNotFoundException.class)
-    public ResponseEntity<Object> handleIOException(WeatherDataNotFoundException e) {
+    @ExceptionHandler(WeatherException.class)
+    public ResponseEntity<Object> handleIOException(WeatherException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 }

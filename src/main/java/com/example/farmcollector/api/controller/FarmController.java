@@ -1,4 +1,4 @@
-package com.example.farmcollector.api;
+package com.example.farmcollector.api.controller;
 
 import com.example.farmcollector.api.request.FarmRequest;
 import com.example.farmcollector.api.response.FarmResponse;

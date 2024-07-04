@@ -1,4 +1,4 @@
-package com.example.farmcollector.api;
+package com.example.farmcollector.api.controller;
 
 import com.example.farmcollector.adapter.WeatherServiceAdapter;
 import com.example.farmcollector.model.WeatherData;
