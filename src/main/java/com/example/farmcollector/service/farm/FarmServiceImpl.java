@@ -1,5 +1,6 @@
 package com.example.farmcollector.service.farm;
 
+import com.example.farmcollector.adapter.WeatherServiceAdapter;
 import com.example.farmcollector.dto.FarmDTO;
 import com.example.farmcollector.exception.DuplicateDataException;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
@@ -7,7 +8,7 @@ import com.example.farmcollector.model.Farm;
 import com.example.farmcollector.model.Farmer;
 import com.example.farmcollector.repository.FarmRepository;
 import com.example.farmcollector.repository.FarmerRepository;
-import com.example.farmcollector.util.FarmMapper;
+import com.example.farmcollector.util.mapper.FarmMapper;
 import com.example.farmcollector.util.IdGenerator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,9 @@ public class FarmServiceImpl implements FarmService {
     private final FarmRepository farmRepository;
     private final FarmerRepository farmerRepository;
     private final FarmMapper farmMapper;
+    private final WeatherServiceAdapter weatherServiceAdapter;
+
+    private static final String EXCEPTION_MESSAGE = "No farm record found with id: ";
 
     /**
      * Saves a new farm in the database.
@@ -91,7 +95,8 @@ public class FarmServiceImpl implements FarmService {
      */
     @Override
     public FarmDTO getFarmById(String farmId) {
-        Farm farm = farmRepository.findFarmByFarmId(farmId).orElseThrow(() -> new FarmDataNotFoundException("No farm record found with id: " + farmId));
+        Farm farm = farmRepository.findFarmByFarmId(farmId).orElseThrow(() -> new FarmDataNotFoundException(EXCEPTION_MESSAGE + farmId));
+        farm.setWeatherData(weatherServiceAdapter.fetchWeatherData(farm.getLocation()));
         return farmMapper.convertFarmEntityToDto(farm);
     }
 
@@ -102,7 +107,7 @@ public class FarmServiceImpl implements FarmService {
      */
     @Override
     public void deleteFarmById(String farmId) {
-        farmRepository.findFarmByFarmId(farmId).orElseThrow(() -> new FarmDataNotFoundException("No farm record found with id: " + farmId));
+        farmRepository.findFarmByFarmId(farmId).orElseThrow(() -> new FarmDataNotFoundException(EXCEPTION_MESSAGE + farmId));
 
         farmRepository.deleteFarmByFarmId(farmId);
     }
@@ -117,7 +122,7 @@ public class FarmServiceImpl implements FarmService {
      */
     @Override
     public FarmDTO addFarmerToFarm(String farmId, String farmerId) {
-        Farm farm = farmRepository.findFarmByFarmId(farmId).orElseThrow(() -> new FarmDataNotFoundException("No farm record found with id: " + farmId));
+        Farm farm = farmRepository.findFarmByFarmId(farmId).orElseThrow(() -> new FarmDataNotFoundException(EXCEPTION_MESSAGE + farmId));
         Farmer farmer = farmerRepository.findFarmerByFarmerId(farmerId).orElseThrow(() -> new FarmDataNotFoundException("No farmer record found with id: " + farmerId));
 
         List<Farmer> farmerList = farm.getFarmers();

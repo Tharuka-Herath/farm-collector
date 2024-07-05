@@ -1,4 +1,4 @@
-package com.example.farmcollector.util;
+package com.example.farmcollector.util.mapper;
 
 import com.example.farmcollector.api.request.FarmRequest;
 import com.example.farmcollector.api.response.FarmResponse;
@@ -43,6 +43,7 @@ public class FarmMapper {
         entity.setFarmName(dto.getFarmName());
         entity.setLocation(dto.getLocation());
         entity.setFarmArea(dto.getFarmArea());
+        entity.setWeatherData(dto.getWeatherData());
         return entity;
     }
 
@@ -60,6 +61,7 @@ public class FarmMapper {
         dto.setFarmName(entity.getFarmName());
         dto.setLocation(entity.getLocation());
         dto.setFarmArea(entity.getFarmArea());
+        dto.setWeatherData(entity.getWeatherData());
         return dto;
     }
 
@@ -76,6 +78,7 @@ public class FarmMapper {
         response.setFarmName(dto.getFarmName());
         response.setLocation(dto.getLocation());
         response.setFarmArea(dto.getFarmArea());
+        response.setWeatherData(dto.getWeatherData());
         return response;
     }
 

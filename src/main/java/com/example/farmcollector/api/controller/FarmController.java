@@ -4,7 +4,7 @@ import com.example.farmcollector.api.request.FarmRequest;
 import com.example.farmcollector.api.response.FarmResponse;
 import com.example.farmcollector.dto.FarmDTO;
 import com.example.farmcollector.service.farm.FarmService;
-import com.example.farmcollector.util.FarmMapper;
+import com.example.farmcollector.util.mapper.FarmMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,7 +49,7 @@ public class FarmController {
     }
 
     @DeleteMapping("/{farmId}")
-    public ResponseEntity<Void> deleteFarm(@PathVariable String farmId) {
+    public ResponseEntity<FarmResponse> deleteFarm(@PathVariable String farmId) {
 
         farmService.deleteFarmById(farmId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

@@ -6,7 +6,7 @@ import com.example.farmcollector.model.Farm;
 import com.example.farmcollector.model.Farmer;
 import com.example.farmcollector.repository.FarmerRepository;
 import com.example.farmcollector.service.farmer.FarmerServiceImpl;
-import com.example.farmcollector.util.FarmerMapper;
+import com.example.farmcollector.util.mapper.FarmerMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

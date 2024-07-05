@@ -4,7 +4,7 @@ import com.example.farmcollector.dto.FarmerDTO;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
 import com.example.farmcollector.model.Farmer;
 import com.example.farmcollector.repository.FarmerRepository;
-import com.example.farmcollector.util.FarmerMapper;
+import com.example.farmcollector.util.mapper.FarmerMapper;
 import com.example.farmcollector.util.IdGenerator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

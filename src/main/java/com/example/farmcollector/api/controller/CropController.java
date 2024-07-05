@@ -5,7 +5,7 @@ import com.example.farmcollector.api.response.CropResponse;
 import com.example.farmcollector.dto.CropDTO;
 import com.example.farmcollector.enums.Season;
 import com.example.farmcollector.service.crop.CropService;
-import com.example.farmcollector.util.CropMapper;
+import com.example.farmcollector.util.mapper.CropMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

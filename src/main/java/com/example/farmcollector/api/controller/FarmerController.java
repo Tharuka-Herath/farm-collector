@@ -4,7 +4,7 @@ import com.example.farmcollector.api.request.FarmerRequest;
 import com.example.farmcollector.api.response.FarmerResponse;
 import com.example.farmcollector.dto.FarmerDTO;
 import com.example.farmcollector.service.farmer.FarmerService;
-import com.example.farmcollector.util.FarmerMapper;
+import com.example.farmcollector.util.mapper.FarmerMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

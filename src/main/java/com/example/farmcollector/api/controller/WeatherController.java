@@ -17,7 +17,7 @@ public class WeatherController {
     }
 
     @GetMapping("/weather")
-    public CompletableFuture<WeatherData> getWeather(@RequestParam String city) {
+    public WeatherData getWeather(@RequestParam String city) {
         return weatherServiceAdapter.fetchWeatherData(city);
     }
 }

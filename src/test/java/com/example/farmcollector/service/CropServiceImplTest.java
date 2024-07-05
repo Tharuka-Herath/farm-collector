@@ -10,7 +10,7 @@ import com.example.farmcollector.repository.CropRepository;
 import com.example.farmcollector.repository.FarmRepository;
 import com.example.farmcollector.repository.FarmerRepository;
 import com.example.farmcollector.service.crop.CropServiceImpl;
-import com.example.farmcollector.util.CropMapper;
+import com.example.farmcollector.util.mapper.CropMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

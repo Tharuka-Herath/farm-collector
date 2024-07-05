@@ -1,5 +1,6 @@
 package com.example.farmcollector.api.response;
 
+import com.example.farmcollector.model.WeatherData;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,5 +16,7 @@ public class FarmResponse {
     private String farmName;
     private String location;
     private Double farmArea;
+    private WeatherData weatherData;
+
 }
 

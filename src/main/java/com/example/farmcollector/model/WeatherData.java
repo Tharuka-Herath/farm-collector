@@ -9,8 +9,8 @@ import lombok.*;
 @NoArgsConstructor
 public class WeatherData {
     private String name;
-    private double tempMin;
-    private double tempMax;
+    private String tempMin;
+    private String tempMax;
     private int pressure;
     private int humidity;
     private String main;

@@ -10,7 +10,7 @@ import com.example.farmcollector.model.Farmer;
 import com.example.farmcollector.repository.CropRepository;
 import com.example.farmcollector.repository.FarmRepository;
 import com.example.farmcollector.repository.FarmerRepository;
-import com.example.farmcollector.util.CropMapper;
+import com.example.farmcollector.util.mapper.CropMapper;
 import com.example.farmcollector.util.IdGenerator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
