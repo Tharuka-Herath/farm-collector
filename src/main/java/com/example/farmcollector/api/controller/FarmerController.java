@@ -5,6 +5,7 @@ import com.example.farmcollector.api.response.FarmerResponse;
 import com.example.farmcollector.dto.FarmerDTO;
 import com.example.farmcollector.service.farmer.FarmerService;
 import com.example.farmcollector.util.mapper.FarmerMapper;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class FarmerController {
     private final FarmerMapper farmerMapper;
 
     @PostMapping
-    public ResponseEntity<FarmerResponse> saveFarmer(@RequestBody FarmerRequest request) {
+    public ResponseEntity<FarmerResponse> saveFarmer(@Valid @RequestBody FarmerRequest request) {
         FarmerDTO farmerDTO = farmerMapper.convertFarmerRequestToDto(request);
         FarmerResponse farmerResponse = farmerMapper.convertFarmerDtoToResponse(farmerService.saveFarmer(farmerDTO));
 
@@ -44,7 +45,7 @@ public class FarmerController {
     }
 
     @PutMapping("/{farmerId}")
-    public ResponseEntity<FarmerResponse> updateFarmerById(@PathVariable String farmerId, @RequestBody FarmerRequest request) {
+    public ResponseEntity<FarmerResponse> updateFarmerById(@Valid @PathVariable String farmerId, @RequestBody FarmerRequest request) {
 
             FarmerDTO farmerUpdate = farmerMapper.convertFarmerRequestToDto(request);
             FarmerDTO updatedFarmer = farmerService.updateFarmerById(farmerId, farmerUpdate);

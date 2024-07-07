@@ -1,6 +1,7 @@
 package com.example.farmcollector.dto;
 
 import com.example.farmcollector.enums.Season;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,6 +19,10 @@ public class CropDTO {
     private Integer yieldYear;
     private Double expectedAmount;
     private Double actualAmount;
+
+    @NotNull(message = "Farmer ID is required")
     private Long farmerId;
+
+    @NotNull(message = "Farm ID is required")
     private Long farmId;
 }

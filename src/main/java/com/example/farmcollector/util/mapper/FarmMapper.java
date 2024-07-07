@@ -56,7 +56,6 @@ public class FarmMapper {
     public FarmDTO convertFarmEntityToDto(Farm entity) {
         FarmDTO dto = new FarmDTO();
 
-        dto.setId(entity.getId());
         dto.setFarmId(entity.getFarmId());
         dto.setFarmName(entity.getFarmName());
         dto.setLocation(entity.getLocation());

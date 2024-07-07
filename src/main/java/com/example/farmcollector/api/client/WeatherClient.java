@@ -1,8 +1,13 @@
 package com.example.farmcollector.api.client;
 
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient
+@FeignClient(name = "weatherClient", url = "${weather.api.url}")
 public interface WeatherClient {
 
+    @GetMapping("/weather")
+    String getWeatherByCityName(@RequestParam("city_name") String city, @RequestHeader("X-RapidAPI-Key") String apiKey);
 }

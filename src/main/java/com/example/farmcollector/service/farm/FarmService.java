@@ -2,6 +2,7 @@ package com.example.farmcollector.service.farm;
 
 import com.example.farmcollector.dto.FarmDTO;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface FarmService {
@@ -11,7 +12,7 @@ public interface FarmService {
 
     List<FarmDTO> getAllFarms();
 
-    FarmDTO getFarmById(String farmId);
+    FarmDTO getFarmById(String farmId) throws IOException;
 
     void deleteFarmById(String farmId);
 

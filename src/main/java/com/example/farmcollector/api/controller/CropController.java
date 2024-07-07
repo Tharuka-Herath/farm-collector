@@ -6,6 +6,7 @@ import com.example.farmcollector.dto.CropDTO;
 import com.example.farmcollector.enums.Season;
 import com.example.farmcollector.service.crop.CropService;
 import com.example.farmcollector.util.mapper.CropMapper;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class CropController {
 
 
     @PostMapping
-    public ResponseEntity<CropResponse> createCrop(@RequestBody CropRequest cropRequest) {
+    public ResponseEntity<CropResponse> createCrop(@Valid @RequestBody CropRequest cropRequest) {
             CropDTO cropDTO = cropMapper.convertCropRequestToDto(cropRequest);
             CropResponse response = cropMapper.convertDtoToResponse(cropService.saveCrop(cropDTO));
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -43,7 +44,7 @@ public class CropController {
     }
 
     @PutMapping("/{cropId}")
-    public ResponseEntity<CropResponse> updateCropById(@PathVariable String cropId, @RequestBody CropRequest request) {
+    public ResponseEntity<CropResponse> updateCropById(@Valid @PathVariable String cropId, @RequestBody CropRequest request) {
             CropDTO cropDTO = cropMapper.convertCropRequestToDto(request);
             CropResponse cropResponse = cropMapper.convertDtoToResponse(cropService.updateCropById(cropId, cropDTO));
             return new ResponseEntity<>(cropResponse, HttpStatus.OK);

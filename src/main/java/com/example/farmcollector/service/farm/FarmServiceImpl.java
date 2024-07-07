@@ -1,6 +1,6 @@
 package com.example.farmcollector.service.farm;
 
-import com.example.farmcollector.adapter.WeatherServiceAdapter;
+import com.example.farmcollector.service.weather.WeatherAdapter;
 import com.example.farmcollector.dto.FarmDTO;
 import com.example.farmcollector.exception.DuplicateDataException;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
@@ -8,12 +8,13 @@ import com.example.farmcollector.model.Farm;
 import com.example.farmcollector.model.Farmer;
 import com.example.farmcollector.repository.FarmRepository;
 import com.example.farmcollector.repository.FarmerRepository;
-import com.example.farmcollector.util.mapper.FarmMapper;
 import com.example.farmcollector.util.IdGenerator;
+import com.example.farmcollector.util.mapper.FarmMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -24,7 +25,9 @@ public class FarmServiceImpl implements FarmService {
     private final FarmRepository farmRepository;
     private final FarmerRepository farmerRepository;
     private final FarmMapper farmMapper;
-    private final WeatherServiceAdapter weatherServiceAdapter;
+ private final WeatherAdapter weatherAdapter;
+
+
 
     private static final String EXCEPTION_MESSAGE = "No farm record found with id: ";
 
@@ -94,9 +97,9 @@ public class FarmServiceImpl implements FarmService {
      * @throws FarmDataNotFoundException If no farm is found with the generated farm ID.
      */
     @Override
-    public FarmDTO getFarmById(String farmId) {
+    public FarmDTO getFarmById(String farmId) throws IOException {
         Farm farm = farmRepository.findFarmByFarmId(farmId).orElseThrow(() -> new FarmDataNotFoundException(EXCEPTION_MESSAGE + farmId));
-        farm.setWeatherData(weatherServiceAdapter.fetchWeatherData(farm.getLocation()));
+        farm.setWeatherData(weatherAdapter.getWeather(farm.getLocation()));
         return farmMapper.convertFarmEntityToDto(farm);
     }
 

@@ -1,22 +1,22 @@
-/*
 package com.example.farmcollector.api.controller;
 
-import com.example.farmcollector.adapter.WeatherServiceAdapter;
+import com.example.farmcollector.model.WeatherData;
+import com.example.farmcollector.service.weather.WeatherAdapter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-public class WeatherController {
-    private final WeatherServiceAdapter weatherServiceAdapter;
+import java.io.IOException;
 
-    public WeatherController(WeatherServiceAdapter weatherServiceAdapter) {
-        this.weatherServiceAdapter = weatherServiceAdapter;
-    }
+@RestController
+@RequiredArgsConstructor
+public class WeatherController {
+  private final WeatherAdapter weatherAdapter;
+
 
     @GetMapping("/weather")
-    public WeatherData getWeather(@RequestParam String city) {
-        return weatherServiceAdapter.fetchWeatherData(city);
+    public WeatherData getWeather(@RequestParam String cityName) throws IOException {
+        return weatherAdapter.getWeather(cityName);
     }
 }
-*/

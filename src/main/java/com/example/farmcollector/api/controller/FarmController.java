@@ -5,11 +5,13 @@ import com.example.farmcollector.api.response.FarmResponse;
 import com.example.farmcollector.dto.FarmDTO;
 import com.example.farmcollector.service.farm.FarmService;
 import com.example.farmcollector.util.mapper.FarmMapper;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @ControllerAdvice
@@ -22,13 +24,13 @@ public class FarmController {
     private final FarmMapper farmMapper;
 
     @PostMapping
-    public ResponseEntity<Object> saveFarm(@RequestBody FarmRequest farmRequest) {
+    public ResponseEntity<Object> saveFarm(@Valid @RequestBody FarmRequest farmRequest) {
         FarmDTO farmDTO = farmService.saveFarm(farmMapper.convertFarmRequestToDto(farmRequest));
         return ResponseEntity.status(HttpStatus.CREATED).body(farmMapper.convertDtoToResponse(farmDTO));
     }
 
     @PutMapping("/{farmId}")
-    public ResponseEntity<FarmResponse> updateFarm(@PathVariable String farmId, @RequestBody FarmRequest farmRequest) {
+    public ResponseEntity<FarmResponse> updateFarm(@Valid @PathVariable String farmId, @RequestBody FarmRequest farmRequest) {
         FarmDTO farmDTO = farmMapper.convertFarmRequestToDto(farmRequest);
 
         FarmDTO updatedFarm = farmService.updateFarm(farmId, farmDTO);
@@ -43,7 +45,7 @@ public class FarmController {
     }
 
     @GetMapping("/{farmId}")
-    public ResponseEntity<Object> getFarmById(@PathVariable String farmId) {
+    public ResponseEntity<Object> getFarmById(@PathVariable String farmId) throws IOException {
         FarmResponse farmResponse = farmMapper.convertDtoToResponse(farmService.getFarmById(farmId));
         return ResponseEntity.status(HttpStatus.OK).body(farmResponse);
     }

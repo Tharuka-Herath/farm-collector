@@ -1,5 +1,6 @@
 package com.example.farmcollector.dto;
 
+import com.example.farmcollector.model.WeatherData;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
