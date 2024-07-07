@@ -1,9 +1,6 @@
 package com.example.farmcollector.api.request;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,6 +21,7 @@ public class FarmRequest {
     private String location;
 
     @NotNull(message = "Farm Area is required")
+    @Digits(message = "Farm Area must be a positive value with maximum of 4 decimal places", integer = 10, fraction = 4)
     @Positive(message = "Farm Area must be a positive number")
     private Double farmArea;
 }

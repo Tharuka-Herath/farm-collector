@@ -47,7 +47,7 @@ public class CropServiceImpl implements CropService {
         cropDTO.setCropId(IdGenerator.generateId("C-"));
 
         Farm farm = farmRepository.findById(cropDTO.getFarmId()).orElseThrow(() -> new FarmDataNotFoundException("No farm selected"));
-        Farmer farmer = farmerRepository.findById(cropDTO.getFarmId()).orElseThrow(() -> new FarmDataNotFoundException("No farmer selected"));
+        Farmer farmer = farmerRepository.findById(cropDTO.getFarmerId()).orElseThrow(() -> new FarmDataNotFoundException("No farmer selected"));
 
         farm.getFarmers().add(farmer);
         farmer.setFarm(farm);
