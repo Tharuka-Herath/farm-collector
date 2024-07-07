@@ -14,11 +14,11 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CropRequest {
 
-    @NotNull(message = "Crop Type is required")
+    @NotBlank(message = "Crop Type is required")
     @Size(min = 2, max = 50, message = "Crop Type must be between 2 and 50 characters")
     private String cropType;
 
-    @NotNull(message = "Season is required")
+    @NotBlank(message = "Season is required")
     private Season season;
 
     @NotNull(message = "Yield Year is required")
@@ -34,10 +34,10 @@ public class CropRequest {
     @PositiveOrZero(message = "Actual Amount must be a positive number or zero")
     private Double actualAmount;
 
-    @NotNull(message = "Farm ID is required")
+    @NotBlank(message = "Farm ID is required")
     private String farmId;
 
-    @NotNull(message = "Farmer ID is required")
+    @NotBlank(message = "Farmer ID is required")
     private String farmerId;
 
 }

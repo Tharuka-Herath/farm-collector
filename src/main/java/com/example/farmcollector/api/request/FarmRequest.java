@@ -1,5 +1,6 @@
 package com.example.farmcollector.api.request;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
@@ -14,11 +15,11 @@ import lombok.Setter;
 @NoArgsConstructor
 public class FarmRequest {
 
-    @NotNull(message = "Farm Name is required")
+    @NotBlank(message = "Farm Name is required")
     @Size(min = 2, max = 50, message = "Farm Name must be between 2 and 50 characters")
     private String farmName;
 
-    @NotNull(message = "Location is required")
+    @NotBlank(message = "Location is required")
     @Size(min = 2, max = 100, message = "Location must be between 2 and 100 characters")
     private String location;
 
