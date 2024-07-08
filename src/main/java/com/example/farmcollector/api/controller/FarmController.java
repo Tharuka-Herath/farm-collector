@@ -2,6 +2,7 @@ package com.example.farmcollector.api.controller;
 
 import com.example.farmcollector.api.request.FarmRequest;
 import com.example.farmcollector.api.response.FarmResponse;
+import com.example.farmcollector.api.response.FarmResponseWeatherData;
 import com.example.farmcollector.dto.FarmDTO;
 import com.example.farmcollector.service.farm.FarmService;
 import com.example.farmcollector.util.mapper.FarmMapper;
@@ -46,8 +47,8 @@ public class FarmController {
 
     @GetMapping("/{farmId}")
     public ResponseEntity<Object> getFarmById(@PathVariable String farmId) throws IOException {
-        FarmResponse farmResponse = farmMapper.convertDtoToResponse(farmService.getFarmById(farmId));
-        return ResponseEntity.status(HttpStatus.OK).body(farmResponse);
+        FarmResponseWeatherData farmResponseWeatherData = farmMapper.convertDtoToResponseWithWeatherData(farmService.getFarmById(farmId));
+        return ResponseEntity.status(HttpStatus.OK).body(farmResponseWeatherData);
     }
 
     @DeleteMapping("/{farmId}")

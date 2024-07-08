@@ -10,12 +10,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class FarmResponse {
+public class FarmResponseWeatherData {
 
     private String farmId;
     private String farmName;
     private String location;
     private Double farmArea;
-
+    private WeatherData weatherData;
 }
-

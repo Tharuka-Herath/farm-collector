@@ -2,6 +2,7 @@ package com.example.farmcollector.util.mapper;
 
 import com.example.farmcollector.api.request.FarmRequest;
 import com.example.farmcollector.api.response.FarmResponse;
+import com.example.farmcollector.api.response.FarmResponseWeatherData;
 import com.example.farmcollector.dto.FarmDTO;
 import com.example.farmcollector.model.Farm;
 import org.springframework.stereotype.Component;
@@ -72,6 +73,16 @@ public class FarmMapper {
      */
     public FarmResponse convertDtoToResponse(FarmDTO dto) {
         FarmResponse response = new FarmResponse();
+
+        response.setFarmId(dto.getFarmId());
+        response.setFarmName(dto.getFarmName());
+        response.setLocation(dto.getLocation());
+        response.setFarmArea(dto.getFarmArea());
+        return response;
+    }
+
+    public FarmResponseWeatherData convertDtoToResponseWithWeatherData(FarmDTO dto) {
+        FarmResponseWeatherData response = new FarmResponseWeatherData();
 
         response.setFarmId(dto.getFarmId());
         response.setFarmName(dto.getFarmName());
