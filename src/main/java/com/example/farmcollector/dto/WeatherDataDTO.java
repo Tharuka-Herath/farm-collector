@@ -1,4 +1,4 @@
-package com.example.farmcollector.model;
+package com.example.farmcollector.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,11 +9,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class WeatherData {
+public class WeatherDataDTO {
 
-    private String name;
-    private String tempMin;
-    private String tempMax;
+    private String cityName;
+    private String temp;
     private String tempFeelsLike;
     private String pressure;
     private String humidity;

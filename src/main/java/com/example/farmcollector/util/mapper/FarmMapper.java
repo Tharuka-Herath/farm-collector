@@ -1,9 +1,11 @@
 package com.example.farmcollector.util.mapper;
 
+import com.example.farmcollector.adapter.WeatherApiResponse;
 import com.example.farmcollector.api.request.FarmRequest;
 import com.example.farmcollector.api.response.FarmResponse;
 import com.example.farmcollector.api.response.FarmResponseWeatherData;
 import com.example.farmcollector.dto.FarmDTO;
+import com.example.farmcollector.dto.WeatherDataDTO;
 import com.example.farmcollector.model.Farm;
 import org.springframework.stereotype.Component;
 
@@ -78,10 +80,17 @@ public class FarmMapper {
         response.setFarmName(dto.getFarmName());
         response.setLocation(dto.getLocation());
         response.setFarmArea(dto.getFarmArea());
+
         return response;
     }
 
-    public FarmResponseWeatherData convertDtoToResponseWithWeatherData(FarmDTO dto) {
+    /**
+     * Converts a FarmDTO to a FarmResponse with weather data.
+     *
+     * @param dto the FarmDTO to convert.
+     * @return the converted FarmResponse.
+     */
+    public FarmResponseWeatherData convertDtoToResponseWeatherData(FarmDTO dto) {
         FarmResponseWeatherData response = new FarmResponseWeatherData();
 
         response.setFarmId(dto.getFarmId());
@@ -90,6 +99,19 @@ public class FarmMapper {
         response.setFarmArea(dto.getFarmArea());
         response.setWeatherData(dto.getWeatherData());
         return response;
+    }
+
+    public WeatherDataDTO convertWeatherApiResponseToDto(WeatherApiResponse response) {
+        WeatherDataDTO weatherDataDTO = new WeatherDataDTO();
+        weatherDataDTO.setCityName(response.getName());
+        weatherDataDTO.setTemp(String.format("%.2f", response.getMain().getTemp() - 273.15) + " °C");
+        weatherDataDTO.setTempFeelsLike(String.format("%.2f", response.getMain().getFeels_like() - 273.15) + " °C");
+        weatherDataDTO.setPressure((response.getMain().getPressure()) + " hPa");
+        weatherDataDTO.setHumidity((response.getMain().getHumidity()) + " %");
+        weatherDataDTO.setWindSpeed((response.getWind().getSpeed()) + " mph");
+        weatherDataDTO.setDescription(response.getWeather().get(0).getDescription());
+
+        return weatherDataDTO;
     }
 
     /**

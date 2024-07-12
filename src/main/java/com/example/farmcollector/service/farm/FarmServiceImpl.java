@@ -1,6 +1,6 @@
 package com.example.farmcollector.service.farm;
 
-import com.example.farmcollector.service.weather.WeatherAdapter;
+import com.example.farmcollector.adapter.WeatherAdapter;
 import com.example.farmcollector.dto.FarmDTO;
 import com.example.farmcollector.exception.DuplicateDataException;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
@@ -99,7 +99,9 @@ public class FarmServiceImpl implements FarmService {
     @Override
     public FarmDTO getFarmById(String farmId) throws IOException {
         Farm farm = farmRepository.findFarmByFarmId(farmId).orElseThrow(() -> new FarmDataNotFoundException(EXCEPTION_MESSAGE + farmId));
-        farm.setWeatherData(weatherAdapter.getWeather(farm.getLocation()));
+
+
+        farm.setWeatherData(farmMapper.convertWeatherApiResponseToDto(weatherAdapter.getWeather(farm.getLocation())));
         return farmMapper.convertFarmEntityToDto(farm);
     }
 

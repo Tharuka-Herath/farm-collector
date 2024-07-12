@@ -1,5 +1,6 @@
-package com.example.farmcollector.api.client;
+package com.example.farmcollector.adapter;
 
+import com.example.farmcollector.dto.WeatherDataDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.FeignClientProperties;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,5 +11,5 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface WeatherClient {
 
     @GetMapping("/weather")
-    String getWeatherByCityName(@RequestParam("city_name") String city, @RequestHeader("X-RapidAPI-Key") String apiKey);
+    WeatherApiResponse getWeatherByCityName(@RequestParam("city_name") String city, @RequestHeader("X-RapidAPI-Key") String apiKey);
 }

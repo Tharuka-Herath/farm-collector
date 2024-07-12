@@ -47,7 +47,7 @@ public class FarmController {
 
     @GetMapping("/{farmId}")
     public ResponseEntity<Object> getFarmById(@PathVariable String farmId) throws IOException {
-        FarmResponseWeatherData farmResponseWeatherData = farmMapper.convertDtoToResponseWithWeatherData(farmService.getFarmById(farmId));
+        FarmResponseWeatherData farmResponseWeatherData = farmMapper.convertDtoToResponseWeatherData(farmService.getFarmById(farmId));
         return ResponseEntity.status(HttpStatus.OK).body(farmResponseWeatherData);
     }
 

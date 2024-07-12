@@ -1,5 +1,6 @@
 package com.example.farmcollector.model;
 
+import com.example.farmcollector.dto.WeatherDataDTO;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -53,5 +54,5 @@ public class Farm {
     List<Farmer> farmers = new ArrayList<>();
 
     @Transient
-    private WeatherData weatherData;
+    private WeatherDataDTO weatherData;
 }

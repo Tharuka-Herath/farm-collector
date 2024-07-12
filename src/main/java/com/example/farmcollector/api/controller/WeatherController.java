@@ -1,7 +1,8 @@
 package com.example.farmcollector.api.controller;
 
-import com.example.farmcollector.model.WeatherData;
-import com.example.farmcollector.service.weather.WeatherAdapter;
+import com.example.farmcollector.adapter.WeatherApiResponse;
+import com.example.farmcollector.dto.WeatherDataDTO;
+import com.example.farmcollector.adapter.WeatherAdapter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,7 +17,7 @@ public class WeatherController {
 
 
     @GetMapping("/weather")
-    public WeatherData getWeather(@RequestParam String cityName) throws IOException {
+    public WeatherApiResponse getWeather(@RequestParam String cityName) throws IOException {
         return weatherAdapter.getWeather(cityName);
     }
 }
