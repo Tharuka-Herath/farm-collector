@@ -13,6 +13,7 @@ public class WeatherApiResponse {
     private Main main;
     private List<Weather> weather;
     private Wind wind;
+    private int cod;
 
     @Getter
     @Setter

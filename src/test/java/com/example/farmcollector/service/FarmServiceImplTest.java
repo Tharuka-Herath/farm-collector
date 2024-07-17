@@ -16,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,7 +46,7 @@ public class FarmServiceImplTest {
     void setUp() {
         // Inject farmMapper to the farmServiceImpl
         FarmMapper farmMapper = new FarmMapper();
-        farmService = new FarmServiceImpl(farmRepository, farmerRepository, farmMapper);
+//        farmService = new FarmServiceImpl(farmRepository, farmerRepository, farmMapper);
 
         farm = new Farm();
         farm.setFarmId(farmId);
@@ -127,7 +128,7 @@ public class FarmServiceImplTest {
     }
 
     @Test
-    void getFarmById_success() {
+    void getFarmById_success() throws IOException {
         when(farmRepository.findFarmByFarmId(farmId)).thenReturn(Optional.of(farm));
 
         FarmDTO result = farmService.getFarmById(farmId);
