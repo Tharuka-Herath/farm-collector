@@ -2,6 +2,7 @@ package com.example.farmcollector.service.crop;
 
 import com.example.farmcollector.dto.CropDTO;
 import com.example.farmcollector.enums.Season;
+import com.example.farmcollector.exception.CropValidationException;
 import com.example.farmcollector.exception.DuplicateDataException;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
 import com.example.farmcollector.model.Crop;
@@ -16,6 +17,10 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Array;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,6 +34,8 @@ public class CropServiceImpl implements CropService {
     private final CropMapper cropMapper;
     private final FarmerRepository farmerRepository;
     private final FarmRepository farmRepository;
+
+    public static final List<String> ALLOWED_CROP_TYPES= Arrays.asList("paddy","wheat","carrot","cabbage","tomato");
 
 
     /**
@@ -44,6 +51,9 @@ public class CropServiceImpl implements CropService {
         if(exists) {
             throw new DuplicateDataException("Duplicated record");
         }
+
+        validateCropDTO(cropDTO);
+
         cropDTO.setCropId(IdGenerator.generateId("C-"));
 
         Farm farm = farmRepository.findById(cropDTO.getFarmId()).orElseThrow(() -> new FarmDataNotFoundException("No farm selected"));
@@ -56,6 +66,64 @@ public class CropServiceImpl implements CropService {
 
         return cropMapper.convertCropEntityToDto(cropRepository.save(cropToSave));
     }
+
+
+    private void validateCropDTO(CropDTO cropDTO){
+        validateCropType(cropDTO.getCropType());
+        validateSeason(cropDTO.getSeason());
+        validateYieldYear(cropDTO.getYieldYear());
+        validateAmount(cropDTO.getExpectedAmount());
+        validateAmount(cropDTO.getActualAmount());
+    }
+
+
+    public void validateCropType(String cropType){
+        if (cropType == null||cropType.isEmpty()) {
+            throw new CropValidationException("crop type cannot be Empty");
+        }
+
+        if (!ALLOWED_CROP_TYPES.contains(cropType)){
+            throw new CropValidationException("Invalid crop type: " + cropType + ". Allowed crop types are: " + ALLOWED_CROP_TYPES);
+        }
+    }
+
+    public void validateYieldYear(Integer yieldYear){
+        if(yieldYear==null||yieldYear<2015||yieldYear> (LocalDateTime.now().getYear()+1)){
+            throw new CropValidationException("Yield year must be between 2015 and one year higher than current year");
+        }
+    }
+
+    public void validateAmount(Double expectedOrActualAmount){
+        if (expectedOrActualAmount==null||expectedOrActualAmount<0||expectedOrActualAmount.isNaN()){
+            throw new CropValidationException("Enter a valid amount");
+        }
+    }
+
+    public void validateSeason(Season season){
+        if (season==null){
+            throw new CropValidationException("Season cannot be empty");
+        }
+        Boolean isValid=false;
+        for(Season s:season.values()){
+            if(s==season){
+                isValid=true;
+                break;
+            }
+        }
+
+        if(!isValid){
+            throw new CropValidationException("Invalid season"+season);
+        }
+    }
+
+
+
+
+
+
+
+
+
 
     /**
      * Updates a crop by its ID.

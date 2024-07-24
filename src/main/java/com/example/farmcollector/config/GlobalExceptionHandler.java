@@ -87,6 +87,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
-
+   @ExceptionHandler(CropValidationException.class)
+    public ResponseEntity<Object> handleCropValidationException(CropValidationException e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+   }
 
 }
