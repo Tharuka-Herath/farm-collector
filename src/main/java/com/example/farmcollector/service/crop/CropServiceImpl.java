@@ -35,8 +35,11 @@ public class CropServiceImpl implements CropService {
     private final FarmerRepository farmerRepository;
     private final FarmRepository farmRepository;
 
-    public static final List<String> ALLOWED_CROP_TYPES= Arrays.asList("paddy","wheat","carrot","cabbage","tomato");
-
+    public static final List<String> ALLOWED_CROP_TYPES = Arrays.asList(
+            "paddy", "wheat", "carrot", "cabbage", "tomato",
+            "corn", "soybean", "barley", "lettuce", "potato",
+            "onion", "pepper", "cucumber", "tea", "rubber", "coconut"
+    );
 
     /**
      * Saves a crop.
@@ -82,7 +85,7 @@ public class CropServiceImpl implements CropService {
             throw new CropValidationException("crop type cannot be Empty");
         }
 
-        if (!ALLOWED_CROP_TYPES.contains(cropType)){
+        if (!ALLOWED_CROP_TYPES.contains(cropType.toLowerCase())){
             throw new CropValidationException("Invalid crop type: " + cropType + ". Allowed crop types are: " + ALLOWED_CROP_TYPES);
         }
     }

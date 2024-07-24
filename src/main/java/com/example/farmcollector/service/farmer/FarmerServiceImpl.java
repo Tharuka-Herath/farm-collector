@@ -2,10 +2,11 @@ package com.example.farmcollector.service.farmer;
 
 import com.example.farmcollector.dto.FarmerDTO;
 import com.example.farmcollector.exception.FarmDataNotFoundException;
+import com.example.farmcollector.exception.FarmerValidationException;
 import com.example.farmcollector.model.Farmer;
 import com.example.farmcollector.repository.FarmerRepository;
-import com.example.farmcollector.util.mapper.FarmerMapper;
 import com.example.farmcollector.util.IdGenerator;
+import com.example.farmcollector.util.mapper.FarmerMapper;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,9 @@ public class FarmerServiceImpl implements FarmerService {
      */
     @Override
     public FarmerDTO saveFarmer(FarmerDTO farmerDTO) {
+        // Validation
+        validateFarmer(farmerDTO);
+
         farmerDTO.setFarmerId(IdGenerator.generateId("F-"));
 
         Farmer farmer = farmerMapper.convertFarmerDtoToEntity(farmerDTO);
@@ -46,6 +50,8 @@ public class FarmerServiceImpl implements FarmerService {
      */
     @Override
     public FarmerDTO updateFarmerById(String farmerId, FarmerDTO farmerDTO) {
+        // Validation
+        validateFarmer(farmerDTO);
         Farmer farmer = farmerRepository.findFarmerByFarmerId(farmerId).orElseThrow(() -> new FarmDataNotFoundException("No farmer record with " + farmerId + " to update"));
 
         Farmer newFarmerEntity = farmerMapper.convertFarmerDtoToEntity(farmerDTO);
@@ -90,6 +96,16 @@ public class FarmerServiceImpl implements FarmerService {
     public void deleteFarmerById(String farmerId) {
         farmerRepository.findFarmerByFarmerId(farmerId).orElseThrow(() -> new FarmDataNotFoundException("No farmer record found with id: " + farmerId));
         farmerRepository.deleteFarmerByFarmerId(farmerId);
+    }
+
+    public void validateFarmer(FarmerDTO farmerDTO) {
+        validateFarmerName(farmerDTO.getFarmerName());
+    }
+
+    public void validateFarmerName(String farmerName) {
+        if (farmerName == null || !farmerName.matches("^[a-zA-Z\\s]+$")) {
+            throw new FarmerValidationException("Invalid farmer name");
+        }
     }
 
 }

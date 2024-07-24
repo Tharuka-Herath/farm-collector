@@ -13,8 +13,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class FarmerRequest {
 
-    @NotBlank(message = "Farmer Name is required")
-    @Size(min = 2, max = 50, message = "Farmer Name must be between 2 and 50 characters")
     private String farmerName;
 }
 
