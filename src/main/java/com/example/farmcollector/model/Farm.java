@@ -31,7 +31,7 @@ public class Farm {
     @Column(name = "farm_id")
     private String farmId;
 
-    @Column(name = "farm_name", unique = true)
+    @Column(name = "farm_name")
     private String farmName;
 
     @Column(name = "location")

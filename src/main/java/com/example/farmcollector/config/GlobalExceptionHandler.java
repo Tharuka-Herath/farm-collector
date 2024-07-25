@@ -52,17 +52,14 @@ public class GlobalExceptionHandler {
 //
 //    // To catch & display custom message instead of long debug messages
 //
-//    @ExceptionHandler(HttpMessageNotReadableException.class)
-//    public ResponseEntity<Map<String, String>> handleTypeMismatchException(HttpMessageNotReadableException e) {
-//        Map<String, String> errors = new HashMap<>();
-//        errors.put("details", e.getMessage());
-//        errors.put("message", "Invalid input type");
-//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
-//    }
-//    @ExceptionHandler(FeignException.class)
-//    public  ResponseEntity<String> handleFeignClientException(FeignException e){
-//        return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
-//    }
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<Map<String, String>> handleTypeMismatchException(HttpMessageNotReadableException e) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("details", e.getMessage());
+        errors.put("message", "Invalid input type");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+    }
+
 
     @ExceptionHandler(WeatherException.class)
     public ResponseEntity<Object> handleIOException(WeatherException e) {
@@ -100,6 +97,11 @@ public class GlobalExceptionHandler {
    @ExceptionHandler(FarmerValidationException.class)
     public ResponseEntity<Object> handleFarmerValidationException(FarmerValidationException e){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+   }
+
+   @ExceptionHandler(Exception.class)
+    public ResponseEntity<Object> handleUnknownException(Exception e){
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
    }
 
 }
